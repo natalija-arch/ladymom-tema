@@ -14,7 +14,7 @@ Prilagođeni kod je u `inc/`. Učitava ga `functions.php`, ali samo kad je opcij
 
 ## Objava na sajt
 
-cPanel → Git Version Control → `ladymom-tema` → *Pull or Deploy*: prvo **Update from Remote**, pa **Deploy HEAD Commit**. Fajl `.cpanel.yml` kopira temu u `dev` instalaciju. Za `ladymom.me` se na dan prelaska mijenja putanja u `.cpanel.yml`.
+Automatski: cron na serveru svakih 5 minuta povuče `main` i, ako ima novih izmjena, pokrene objavu (`.cpanel.yml` kopira temu u `dev` instalaciju). Ručno: cPanel → Git Version Control → `ladymom-tema` → *Pull or Deploy* → **Update from Remote**, pa **Deploy HEAD Commit**. GitHub Actions samo provjerava PHP sintaksu. Za `ladymom.me` se na dan prelaska mijenja putanja u `.cpanel.yml`.
 
 ## Pravila održavanja
 
