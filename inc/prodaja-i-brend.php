@@ -218,6 +218,16 @@ add_action( 'wp_head', function () {
 	echo '<link rel="preload" as="image" href="' . esc_url( $up . 'lm-slajd1-prodavnica-desktop-v4.webp' ) . '" media="(min-width: 769px)" fetchpriority="high">' . "\n";
 	echo '<link rel="preload" as="image" href="' . esc_url( $up . 'lm-slajd1-prodavnica-mobilni-v4.webp' ) . '" media="(max-width: 768px)" fetchpriority="high">' . "\n";
 }, 1 );
+// 11b) Početna: najveći element je pozadina slajdera (preload iznad), a ne slika.
+// WordPress bi prvoj slici u sadržaju (pločica kategorije ispod slajdera) dao fetchpriority="high"
+// bez lazy učitavanja, pa bi se skidala u punoj veličini i otimala protok slajderu.
+add_filter( 'wp_get_loading_optimization_attributes', function ( $attrs, $tag ) {
+	if ( 'img' === $tag && ! is_admin() && is_front_page() && isset( $attrs['fetchpriority'] ) && 'high' === $attrs['fetchpriority'] ) {
+		unset( $attrs['fetchpriority'] );
+		$attrs['loading'] = 'lazy';
+	}
+	return $attrs;
+}, 10, 2 );
 
 // 13) Mobilna brzina: desktop stilovi teme se ne blokiraju na telefonu.
 add_filter( 'style_loader_tag', function ( $tag, $handle ) {
@@ -270,7 +280,8 @@ add_action( 'wp_head', function () {
 define( 'LM_BREND_CSS', ':root{--lm-krem:#fdf2ec;--lm-blijedo:#f6ded4;--lm-roze:#db9e99;--lm-roze-tamna:#a06f68;--lm-tirkiz:#659699;--lm-mint:#d6ede9;--lm-smedja:#6d4e39;--lm-smedja-tamna:#553c2c;--lm-tekst:#7a6250;--lm-linija:#e7d7cc}h1,h2,h3,h4,h5,h6,.title,.wd-entities-title,.wd-post-title,.section-title,.woocommerce-loop-product__title,.product_title,.wd-el-title,.widget-title,.widgettitle{font-family:"Clash Display","Raleway",system-ui,sans-serif!important;font-weight:600!important;color:var(--lm-smedja);letter-spacing:-.01em}h1,.product_title,.page-title{line-height:1.12!important}h2{line-height:1.18!important}h3{line-height:1.25!important}h4{line-height:1.3!important}h5{line-height:1.35!important}h6{line-height:1.4!important}.wd-entities-title,.woocommerce-loop-product__title{font-size:16px!important;line-height:1.35!important;font-weight:500!important}.widget-title,.widgettitle{font-size:14px!important;letter-spacing:.08em}body,p,li,td,input,select,textarea,.wd-product-cats,.woocommerce-breadcrumb{font-family:"Raleway",system-ui,sans-serif}p{font-size:16px;line-height:1.7}.wd-product-cats,.woocommerce-breadcrumb,.posted_in,.wd-post-meta,small,.wd-entry-meta{font-size:14px}.title-subtitle,.lm-nl-eyebrow,.wd-el-subtitle,.lm-eyebrow{font-family:"Raleway",system-ui,sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:.16em!important;text-transform:uppercase!important;line-height:1.4!important;margin-bottom:10px!important}.price,.amount,.woocommerce-Price-amount{font-family:"Raleway",system-ui,sans-serif;font-size:17px;font-weight:700}.price del,del .amount{font-weight:400}.price ins,ins .amount{text-decoration:none}.btn,.button,button,input[type=submit],.wd-buy-now-btn,.single_add_to_cart_button,.checkout-button,.elementor-button,.wp-element-button,.wd-btn{font-family:"Raleway",system-ui,sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:.06em!important;text-transform:uppercase!important;border-radius:6px!important}.btn-style-bordered,.button.alt-bordered{border:1px solid var(--lm-smedja)!important}.btn-style-link,.wd-more-link,.lm-cp-vise a{background:none!important;padding-left:0!important;padding-right:0!important}.btn-style-link:hover,.wd-more-link:hover{text-decoration:underline!important}.product-label,.onsale,.wd-product-label,.lm-badge-top,.lm-flag-top{background-color:var(--lm-roze)!important;color:var(--lm-smedja)!important;font-family:"Raleway",sans-serif!important;font-weight:700!important;letter-spacing:.06em!important;text-transform:uppercase!important}.product-label.out-of-stock,.wd-product-label.out-of-stock{background-color:#d8cfc8!important;color:#6b5b50!important}a{color:var(--lm-smedja)}a:hover{color:var(--lm-smedja-tamna)}.wd-nav-main>li>a,.whb-header a{color:var(--lm-smedja)}.lm-trust{background:var(--lm-blijedo)!important}.lm-nudge h2{color:var(--lm-smedja)}.wd-search-dropdown .wd-search-requests ul a{background:var(--lm-blijedo)!important;color:var(--lm-smedja)!important}.whb-header .wd-search-dropdown .searchform input[type=text]{background:var(--lm-krem)!important} @media (max-width:768px){p{font-size:15px}.title-subtitle,.lm-nl-eyebrow,.wd-el-subtitle,.lm-eyebrow{font-size:12px!important}}' );
 // 15) Brend: Clash Display + Raleway, paleta i hijerarhija dugmadi.
 add_action( 'wp_head', function () {
-	echo '<link rel="preconnect" href="https://api.fontshare.com" crossorigin>' . "\n";
+	// Fontovi stižu sa cdn.fontshare.com; LiteSpeed sam ugradi CSS sa api.fontshare.com u svoj CSS fajl.
+	echo '<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>' . "\n";
 	echo '<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap">' . "\n";
 	echo '<style id="lm-brend">' . LM_BREND_CSS . '</style>' . "\n";
 }, 26 );
