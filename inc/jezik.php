@@ -147,6 +147,7 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'Accept'               => 'Prihvatam',
 			'Items'                => 'Proizvodi',
 			'items'                => 'proizvoda',
+			'item'                 => 'proizvod',
 			'Yes'                  => 'Da',
 			'No'                   => 'Ne',
 			'Brand'                => 'Brend',
