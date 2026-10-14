@@ -37,23 +37,30 @@ jobs:
         run: |
           for f in functions.php inc/*.php woocommerce/emails/*.php; do php -l "$f"; done
 
-      - name: Povuci izmjene na server (Update from Remote)
+      - name: Pripremi adresu cPanela
         env:
           CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+        run: |
+          h=$(printf '%s' "$CPANEL_HOST" | tr -d '[:space:]' | sed -E 's#^https?://##; s#/.*$##')
+          test -n "$h" || { echo "CPANEL_HOST tajna je prazna"; exit 1; }
+          echo "CP_HOST=$h" >> "$GITHUB_ENV"
+          echo "Dužina adrese: ${#h}"
+
+      - name: Povuci izmjene na server (Update from Remote)
+        env:
           CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
         run: |
-          r=$(curl -sS --fail-with-body -H "Authorization: cpanel ${CPANEL_USER}:${CPANEL_TOKEN}" \
-            "https://${CPANEL_HOST}/execute/VersionControl/update?repository_root=${REPO_ROOT}&branch=main")
+          r=$(curl -sS --fail-with-body -H "Authorization: cpanel ${CPANEL_USER}:$(printf %s "$CPANEL_TOKEN" | tr -d "[:space:]")" \
+            "https://${CP_HOST}/execute/VersionControl/update?repository_root=${REPO_ROOT}&branch=main")
           echo "$r" | jq '{status, errors, messages}'
           test "$(echo "$r" | jq -r .status)" = "1"
 
       - name: Objavi (Deploy HEAD Commit)
         env:
-          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
           CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
         run: |
-          r=$(curl -sS --fail-with-body -H "Authorization: cpanel ${CPANEL_USER}:${CPANEL_TOKEN}" \
-            "https://${CPANEL_HOST}/execute/VersionControlDeployment/create?repository_root=${REPO_ROOT}")
+          r=$(curl -sS --fail-with-body -H "Authorization: cpanel ${CPANEL_USER}:$(printf %s "$CPANEL_TOKEN" | tr -d "[:space:]")" \
+            "https://${CP_HOST}/execute/VersionControlDeployment/create?repository_root=${REPO_ROOT}")
           echo "$r" | jq '{status, errors, messages}'
           test "$(echo "$r" | jq -r .status)" = "1"
 
