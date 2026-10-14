@@ -6,11 +6,15 @@ Repozitorijum za sajt **ladymom.me** (razvoj na `dev.ladymom.me`). Tema je WoodM
 
 | Folder | Šta je | Gdje živi na sajtu |
 |---|---|---|
-| `/` (`style.css`, `functions.php`, `woocommerce/`) | child tema | `wp-content/themes/woodmart-child/` |
+| `/` (`style.css`, `functions.php`, `inc/`, `woocommerce/`) | child tema | `wp-content/themes/woodmart-child/` |
 | `snippets/` | izvoz dodatka Code Snippets: kopija za istoriju i pregled | baza sajta (Snippets) |
 | `theme-options/` | WoodMart → Theme Settings → Custom CSS i Custom JS | baza sajta (podešavanja teme) |
 
-Dok se kod iz `snippets/` ne prebaci u child temu, izvor istine za njega je baza sajta. Poslije svake izmjene snippeta pravi se novi izvoz i commit, da istorija bude potpuna.
+Prilagođeni kod je u `inc/`. Učitava ga `functions.php`, ali samo kad je opcija `lm_tema_kod` = 1. Dok su odgovarajući snippeti aktivni, opcija je 0, da se kod ne izvrši dva puta. Folder `snippets/` je arhiva stanja iz dodatka Code Snippets.
+
+## Objava na sajt
+
+cPanel → Git Version Control → `ladymom-tema` → *Pull or Deploy*: prvo **Update from Remote**, pa **Deploy HEAD Commit**. Fajl `.cpanel.yml` kopira temu u `dev` instalaciju. Za `ladymom.me` se na dan prelaska mijenja putanja u `.cpanel.yml`.
 
 ## Pravila održavanja
 
