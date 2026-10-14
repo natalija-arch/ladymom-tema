@@ -205,27 +205,7 @@ body:has(.mfp-wrap .wd-promo-popup) .mfp-bg{opacity:.3!important}
 }, 31 );
 
 
-// 7) Povrat robe: forma priprema email zahtjev (mailto), bez zavisnosti od SMTP-a.
-add_action( 'wp_footer', function () {
-	if ( ! is_page( 'povrat-robe-i-sredstava' ) ) {
-		return;
-	}
-	?>
-<script id="lm-povrat-js">
-(function(){
-	var f=document.querySelector('.lm-povrat-forma:not(.lm-pf-server)'); if(!f) return;
-	f.addEventListener('submit',function(e){
-		e.preventDefault();
-		var ime=f.ime.value.trim(), broj=f.broj.value.trim().replace(/^#/,''), vrsta=(f.querySelector('input[name="vrsta"]:checked')||{}).value||'zamjenu', por=f.poruka.value.trim();
-		if(!ime){ f.ime.focus(); f.ime.setAttribute('aria-invalid','true'); return; }
-		var subj='Zahtjev za '+vrsta+(broj?' – porudžbina #'+broj:'');
-		var body='Ime i prezime: '+ime+'\n'+(broj?'Broj porudžbine: '+broj+'\n':'')+'Želim: '+vrsta+'\n\n'+(por?'Artikal i razlog: '+por+'\n':'');
-		window.location.href='mailto:natalija@ladymom.me?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
-	});
-})();
-</script>
-	<?php
-}, 99 );
+// 7) Povrat robe: stilovi forme (formu crta snippet 29).
 add_action( 'wp_head', function () {
 	if ( ! is_page( 'povrat-robe-i-sredstava' ) ) {
 		return;

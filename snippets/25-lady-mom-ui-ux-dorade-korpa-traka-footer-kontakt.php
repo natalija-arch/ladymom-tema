@@ -7,14 +7,6 @@
 
 // Lady Mom – UI/UX dorade (9.10.2026). Meniji se ne diraju do uvoza iz ERP-a.
 
-// 1) "Return to shop" na crnogorskom (prazna korpa i mini korpa).
-add_filter( 'gettext', function ( $t, $text ) {
-	if ( 'Return to shop' === $text || 'Return To Shop' === $text ) {
-		return 'Nazad u prodavnicu';
-	}
-	return $t;
-}, 20, 2 );
-
 // 2) Prazna korpa: dugme, prečice na police i najprodavanije (kad stignu proizvodi).
 function lm_pk_kategorije() {
 	return array(

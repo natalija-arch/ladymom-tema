@@ -8,27 +8,6 @@
 // Lady Mom – prodaja: rate, pitanje za velicinu, predlozi u korpi, oznake, zastita marze.
 
 // ---------------------------------------------------------------------------
-// 1) Rata pored cijene: "ili 12 x 17,50 EUR NLB karticom".
-// ---------------------------------------------------------------------------
-function lm_rate_min_amount() {
-	return 120; // od kog iznosa ima smisla prikazati ratu
-}
-function lm_rate_html( $product ) {
-	if ( ! $product || ! $product->is_purchasable() ) {
-		return '';
-	}
-	$price = (float) wc_get_price_to_display( $product );
-	if ( $price < lm_rate_min_amount() ) {
-		return '';
-	}
-	$months = 12;
-	$per    = $price / $months;
-	return '<p class="lm-instal">ili <strong>' . $months . ' × ' . wc_price( $per ) . '</strong> NLB platnom karticom</p>';
-}
-// Prikaz rate pored cijene je isključen na zahtjev.
-// add_action( 'woocommerce_single_product_summary', function () { global $product; echo lm_rate_html( $product ); }, 11 );
-
-// ---------------------------------------------------------------------------
 // 2) "Pitaj za velicinu" preko WhatsApp-a.
 // ---------------------------------------------------------------------------
 add_action( 'woocommerce_after_add_to_cart_form', function () {
@@ -156,28 +135,6 @@ add_action( 'woocommerce_single_product_summary', function () {
 }, 4 );
 
 // ---------------------------------------------------------------------------
-// 5) Zastita marze: kuponi ne vaze na artikle koji su vec na akciji.
-// ---------------------------------------------------------------------------
-add_filter( 'woocommerce_coupon_is_valid_for_product', function ( $valid, $product, $coupon ) {
-	// Kupon koji je izricito napravljen za akcijske artikle (u opisu ima "AKCIJA OK") ostaje da vazi.
-	$desc = $coupon instanceof WC_Coupon ? (string) $coupon->get_description() : '';
-	if ( false !== stripos( $desc, 'akcija ok' ) ) {
-		return $valid;
-	}
-	if ( $product && $product->is_on_sale() ) {
-		return false;
-	}
-	return $valid;
-}, 10, 3 );
-// Ako u korpi nema ni jednog artikla na koji kupon moze, jasna poruka.
-add_filter( 'woocommerce_coupon_error', function ( $err, $code, $coupon ) {
-	if ( WC_Coupon::E_WC_COUPON_NOT_APPLICABLE === $code ) {
-		return 'Ovaj kod ne važi na artikle koji su već na akciji.';
-	}
-	return $err;
-}, 10, 3 );
-
-// ---------------------------------------------------------------------------
 // 6) Stil za sve gore.
 // ---------------------------------------------------------------------------
 add_action( 'wp_head', function () {
@@ -213,7 +170,6 @@ function lm_wl_map() {
 		'Your wishlists'        => 'Vaše liste želja',
 		'Create wishlist'       => 'Napravi listu',
 		'Edit name'             => 'Preimenuj',
-		'My wishlist'           => 'Moja lista',
 		'Wishlist name'         => 'Naziv liste',
 		'Save'                  => 'Sačuvaj',
 		'Cancel'                => 'Odustani',
@@ -237,22 +193,6 @@ add_filter( 'gettext_with_context', function ( $t, $text, $ctx, $domain ) {
 add_action( 'wp_head', function () {
 	echo '<style id="lm-registry-css">.lm-registry{width:100%;max-width:none;margin:40px 0 0}.wd-my-account-wrapper>.lm-registry{grid-column:1/-1}.lm-registry h2{font-size:24px;margin:26px 0 10px}.lm-registry p{margin:0 0 12px}.lm-registry ul{margin:0 0 14px;padding-left:20px}.lm-registry li{margin-bottom:6px}.lm-reg-lead{color:#75666C}</style>';
 }, 21 );
-
-// 8) Meta opis za blog tekstove kad nije rucno upisan (koristi se sazetak).
-add_filter( 'wpseo_metadesc', function ( $desc ) {
-	if ( ! empty( $desc ) || ! is_singular( 'post' ) ) {
-		return $desc;
-	}
-	$ex = get_post_field( 'post_excerpt', get_queried_object_id() );
-	return $ex ? wp_strip_all_tags( $ex ) : $desc;
-}, 9 );
-// 9) Meta opis i za stranicu Dostava.
-add_filter( 'wpseo_metadesc', function ( $desc ) {
-	if ( empty( $desc ) && is_page( 'dostava' ) ) {
-		return 'Dostava po Crnoj Gori 4,50 € sa PDV-om, besplatno od 100 €. Rok 1–3 radna dana, ili besplatno preuzimanje u butiku u Podgorici.';
-	}
-	return $desc;
-}, 9 );
 
 // 10) Zatamnjenje iza panela pretrage i poruke o obaveznim poljima na crnogorskom.
 add_action( 'wp_footer', function () {
@@ -278,34 +218,11 @@ add_action( 'wp_head', function () {
 	echo '<link rel="preload" as="image" href="' . esc_url( $up . 'lm-slajd1-prodavnica-mobilni-v4.webp' ) . '" media="(max-width: 768px)" fetchpriority="high">' . "\n";
 }, 1 );
 
-// 12) Brzina: bez jQuery Migrate, ranije ucitavanje fontova.
-add_action( 'lm_iskljuceno_wp_default_scripts', function ( $scripts ) {
-	if ( is_admin() ) { return; }
-	if ( ! empty( $scripts->registered['jquery'] ) ) {
-		$scripts->registered['jquery']->deps = array_diff( $scripts->registered['jquery']->deps, array( 'jquery-migrate' ) );
-	}
-} );
-add_action( 'wp_head', function () {
-	$tema = get_template_directory_uri();
-	echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
-	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-	echo '<link rel="preload" as="font" type="font/woff2" crossorigin href="' . esc_url( $tema . '/fonts/woodmart-font-1-400.woff2?v=8.6.0' ) . '">' . "\n";
-}, 2 );
-
-// 13) Mobilna brzina: stilovi koji ne trebaju za prvi prikaz ucitavaju se bez blokiranja.
-function lm_odlozeni_stilovi() {
-	return array();
-}
-add_filter( 'style_loader_tag', function ( $tag, $handle, $href, $media ) {
-	if ( is_admin() || is_customize_preview() ) { return $tag; }
-	if ( 'base-desktop' === $handle ) {
-		return str_replace( "media='all'", "media='(min-width: 769px)'", str_replace( 'media="all"', 'media="(min-width: 769px)"', $tag ) );
-	}
-	if ( ! in_array( $handle, lm_odlozeni_stilovi(), true ) ) { return $tag; }
-	$link = "<link rel='stylesheet' id='" . esc_attr( $handle ) . "-css' href='" . esc_url( $href ) . "' media='print' onload=\"this.media='" . esc_attr( $media ) . "';this.onload=null;\" />";
-	$nos  = "<noscript><link rel='stylesheet' href='" . esc_url( $href ) . "' media='" . esc_attr( $media ) . "' /></noscript>";
-	return $link . "\n" . $nos . "\n";
-}, 10, 4 );
+// 13) Mobilna brzina: desktop stilovi teme se ne blokiraju na telefonu.
+add_filter( 'style_loader_tag', function ( $tag, $handle ) {
+	if ( is_admin() || is_customize_preview() || 'base-desktop' !== $handle ) { return $tag; }
+	return str_replace( "media='all'", "media='(min-width: 769px)'", str_replace( 'media="all"', 'media="(min-width: 769px)"', $tag ) );
+}, 10, 2 );
 
 // 14) Proizvodi iz teksta na kraju svakog clanka.
 function lm_proizvodi_za_clanak( $slug ) {
@@ -461,9 +378,6 @@ add_filter( 'ngettext', function ( $t, $single, $plural, $number, $domain ) {
 	if ( '%s has been added to your cart.' === $single ) return 'U korpu je dodato: %s.';
 	return $t;
 }, 30, 5 );
-add_filter( 'woocommerce_get_terms_and_conditions_checkbox_text', function () {
-	return 'Pročitao/la sam i prihvatam [terms].';
-} );
 add_filter( 'gettext_with_context', function ( $t, $text, $context, $domain ) {
 	if ( 'Billing %s' === $text ) return '%s';
 	return $t;

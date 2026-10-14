@@ -1,0 +1,28 @@
+# Podešavanja umjesto koda
+
+Spisak opcija koje su postavljene u adminu, a koje su prije radile kroz snippete. Ako se kod ponovo dodaje, prvo provjeriti ovdje.
+
+## 14.10.2026
+
+**Yoast SEO**
+- Separator naslova: `–`
+- Šabloni naslova:
+  - proizvod: `%%title%% | Lady Mom Podgorica`
+  - kategorija: `%%term_title%% – kupite online | Lady Mom`
+  - brend: `%%term_title%% u Crnoj Gori – Lady Mom`
+- Šabloni meta opisa: proizvod (`%%excerpt%%` + rečenica o dostavi), kategorija, brend, blog članak (`%%excerpt%%`)
+- noindex (pa ni u sitemap-u): oznake, oznake proizvoda, HTML blokovi, slajderi, slajdovi, WoodMart layouti, arhive autora
+- Podrazumijevana slika za dijeljenje: `lady-mom-butik-podgorica.jpg` (ID 35771)
+- Po stranicama:
+  - meta opis za Korpa, Plaćanje, Moj nalog, Lista želja, Načini plaćanja, Dostava i Blog (Blog ima i naslov);
+  - noindex za Korpa, Plaćanje, Moj nalog, Lista želja, Poređenje, Stranica nije pronađena.
+
+**WooCommerce**
+- Prilagodi → WooCommerce → Plaćanje: firma i adresa 2 sakrivene, telefon obavezan
+- Tekst kvačice za uslove: „Pročitao/la sam i prihvatam [terms].“
+- Kuponi `readymom10` i `dobrodosla10`: „Isključi artikle na akciji“.
+  - Novi kupon mora imati istu kvačicu.
+  - Kupon koji treba da važi i na akciju je jednostavno nema.
+
+**WoodMart**
+- Fonts → Preload woodmart-font.woff2: uključeno

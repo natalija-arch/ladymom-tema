@@ -24,7 +24,7 @@ add_action( 'woocommerce_single_product_summary', function () {
 
 // 2) Checkout: samo potrebna polja (ime, prezime, ulica i broj, grad, telefon, email).
 add_filter( 'woocommerce_default_address_fields', function ( $f ) {
-	unset( $f['company'], $f['address_2'], $f['postcode'], $f['state'] );
+	unset( $f['postcode'], $f['state'] ); // firma i adresa 2: Prilagodi → WooCommerce → Plaćanje (sakriveno)
 	if ( isset( $f['address_1'] ) ) {
 		$f['address_1']['label']       = 'Ulica i broj';
 		$f['address_1']['placeholder'] = 'npr. Branka Deletića 12, stan 5';
@@ -34,18 +34,16 @@ add_filter( 'woocommerce_default_address_fields', function ( $f ) {
 	}
 	return $f;
 }, 1000 );
-add_filter( 'pre_option_woocommerce_checkout_phone_field', function () { return 'required'; } );
 add_filter( 'woocommerce_billing_fields', function ( $f ) {
-	unset( $f['billing_company'], $f['billing_address_2'], $f['billing_postcode'], $f['billing_state'] );
+	unset( $f['billing_postcode'], $f['billing_state'] );
 	if ( isset( $f['billing_phone'] ) ) {
-		$f['billing_phone']['required']    = true;
 		$f['billing_phone']['description'] = 'Kurir će vas pozvati prije isporuke.';
 		$f['billing_phone']['priority']    = 25;
 	}
 	return $f;
 }, 1000 );
 add_filter( 'woocommerce_shipping_fields', function ( $f ) {
-	unset( $f['shipping_company'], $f['shipping_address_2'], $f['shipping_postcode'], $f['shipping_state'], $f['shipping_phone'] );
+	unset( $f['shipping_postcode'], $f['shipping_state'], $f['shipping_phone'] );
 	return $f;
 }, 1000 );
 add_filter( 'woocommerce_get_country_locale', function ( $locale ) {
@@ -62,32 +60,6 @@ add_action( 'wp_head', function () {
 // 3) Napomena o sigurnom plaćanju iznad dugmeta za poručivanje.
 add_action( 'woocommerce_review_order_before_submit', function () {
 	echo '<p class="lm-secure-pay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10V7a6 6 0 0 1 12 0v3M5 10h14v11H5z"/></svg> Plaćanje karticom je zaštićeno (3D Secure) – prihvatamo <strong>Visa</strong> i <strong>Mastercard</strong>.</p><p class="lm-rate"><span class="lm-rate-badge">NLB</span> Plaćanje NLB platnim karticama moguće je na <strong>do 12 rata</strong>.</p>';
-} );
-
-// 4) Meta opisi za stranice koje ih nemaju (Yoast).
-add_filter( 'wpseo_metadesc', function ( $desc ) {
-	if ( ! empty( $desc ) ) {
-		return $desc;
-	}
-	$map = array(
-		'cart'                   => 'Vaša korpa u Lady Mom online prodavnici. Besplatna dostava po Crnoj Gori za porudžbine od 100 €.',
-		'checkout'               => 'Završite porudžbinu u Lady Mom prodavnici – plaćanje pouzećem ili karticom, dostava 1–3 dana po Crnoj Gori.',
-		'my-account'             => 'Prijavite se ili napravite nalog u Lady Mom prodavnici i pratite svoje porudžbine.',
-		'nacini-placanja'        => 'Načini plaćanja u Lady Mom prodavnici: Visa i Mastercard karticom ili pouzećem. Sigurno plaćanje uz 3D Secure.',
-		'povratrobe-i-sredstava' => 'Uslovi povrata i zamjene robe u Lady Mom prodavnici i butiku u Podgorici.',
-		'privacy-policy'         => 'Politika privatnosti Lady Mom prodavnice – kako prikupljamo i čuvamo vaše lične podatke.',
-		'wishlist'               => 'Vaša lista želja u Lady Mom prodavnici – sačuvajte proizvode za trudnoću, dojenje i bebe.',
-	);
-	if ( is_home() ) {
-		return 'Savjeti za trudnice i mame: trudnička garderoba, dojenje, pumpice za izdajanje, škola za trudnice i prvi dani sa bebom.';
-	}
-	if ( is_page() ) {
-		$slug = get_post_field( 'post_name', get_queried_object_id() );
-		if ( isset( $map[ $slug ] ) ) {
-			return $map[ $slug ];
-		}
-	}
-	return $desc;
 } );
 
 // 5) Preuzimanje u butiku: bez ulice i grada, podaci butika u korpi, na potvrdi i u emailu kupcu.

@@ -20,7 +20,6 @@ function lm_prevodi2() {
 		'Archive by Tag "%s"'                  => 'Oznaka: %s',
 		'Posts by %s'                          => 'Članci autora %s',
 		'Search Results for: %s'               => 'Rezultati pretrage za: %s',
-		'Search results for: %s'               => 'Rezultati pretrage za: %s',
 		'Search Results for: '                 => 'Rezultati pretrage za: ',
 		'Search results for: '                 => 'Rezultati pretrage za: ',
 		'Search Results for:'                  => 'Rezultati pretrage za:',

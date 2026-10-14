@@ -28,6 +28,9 @@ add_action( 'template_redirect', function () {
 		'/privacy-policy/'         => '/politika-privatnosti/',
 		'/povratrobe-i-sredstava/' => '/povrat-robe-i-sredstava/',
 		'/home-lingerie/'          => '/',
+		'/about-us-3/'             => '/o-nama/',
+		'/about-us/'               => '/o-nama/',
+		'/contact-us/'             => '/kontakt/',
 	);
 	if ( isset( $fiksno[ $put ] ) ) {
 		wp_safe_redirect( home_url( $fiksno[ $put ] ) . $upit, 301 );

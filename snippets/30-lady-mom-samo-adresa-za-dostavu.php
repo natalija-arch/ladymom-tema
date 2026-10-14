@@ -42,10 +42,7 @@ add_filter( 'gettext', function ( $t, $text, $domain ) {
 	return $t;
 }, 30, 3 );
 
-// 2) „Moj nalog → Adrese“: jedna adresa, sa jasnim nazivom.
-add_filter( 'woocommerce_my_account_get_addresses', function ( $a ) {
-	return array( 'billing' => 'Adresa za dostavu' );
-}, 30 );
+// 2) „Moj nalog → Adrese“: jedna adresa (WooCommerce to radi sam kad je dostava samo na adresu za naplatu).
 add_filter( 'woocommerce_endpoint_edit-address_title', function () {
 	return 'Adresa za dostavu';
 } );
