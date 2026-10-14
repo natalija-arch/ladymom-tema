@@ -1,0 +1,87 @@
+/* Lady Mom: chat dugme (WhatsApp i Viber) */
+.lm-chat{position:fixed;left:20px;bottom:20px;z-index:390;display:flex;flex-direction:column-reverse;align-items:center;gap:10px}
+.lm-chat-btn{width:54px;height:54px;border-radius:50%;border:0;padding:0;background:#C01157;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.2);cursor:pointer;transition:transform .15s}
+.lm-chat-btn:hover{transform:scale(1.06);background:#9E0F48}
+.lm-chat-btn svg{width:26px;height:26px;fill:#fff}
+.lm-chat-btn .lm-x{display:none}
+.lm-chat.lm-open .lm-chat-btn .lm-bubble{display:none}
+.lm-chat.lm-open .lm-chat-btn .lm-x{display:block}
+.lm-chat-opts{display:flex;flex-direction:column;gap:10px;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .2s,transform .2s,visibility .2s}
+.lm-chat.lm-open .lm-chat-opts{opacity:1;visibility:visible;transform:none}
+.lm-chat-opts a{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.lm-chat-opts a svg{width:24px;height:24px;fill:#fff}
+.lm-chat .lm-wa{background:#25D366}
+.lm-chat .lm-vb{background:#7360F2}
+@media (max-width:1024px){.lm-chat{left:auto;right:12px;bottom:72px}.lm-chat-btn{width:46px;height:46px}.lm-chat-btn svg{width:22px;height:22px}.lm-chat-opts a{width:42px;height:42px}}
+body.woocommerce-cart .lm-chat,body.woocommerce-checkout .lm-chat{display:none}
+/* Lady Mom: newsletter popup */
+.lm-nl-eyebrow{font-family:'Dancing Script',cursive;color:#C01157;font-size:22px;margin-bottom:0}
+.lm-nl-form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.lm-nl-form .wpcf7-form-control-wrap{flex:1 1 220px}
+.lm-nl-form input[type=submit]{flex:0 0 auto}
+.wpcf7-acceptance{font-size:12px}
+/* Lady Mom: traka sa prednostima iznad footera */
+.wd-prefooter{padding-bottom:0!important}
+.wd-prefooter .wp-block-wd-paragraph{color:#2A2226;font-size:17px;line-height:1.5;margin-bottom:0}
+@media (max-width:767px){.wd-prefooter .wp-block-wd-column + .wp-block-wd-column{margin-top:22px}}
+/* Lady Mom: slider preko cijele sirine */
+@media (min-width:769px){
+.wd-slider.wd-section-stretch .wd-slide{aspect-ratio:auto!important;height:min(700px,calc(100vw*7/12))!important;min-height:0!important}
+.wd-slider.wd-section-stretch .wd-slide-bg{background-size:contain!important;background-position:center center!important;background-repeat:no-repeat!important}
+.wd-slider.wd-section-stretch .wd-slide-container{max-width:min(1200px,100vw)!important;padding:calc(min(1200px,100vw)*.435) 0 0 calc(min(1200px,100vw)*.08)!important}
+}
+#slide-3240 .wd-slide-bg{background-color:#F7ECE9!important}
+#slide-3267 .wd-slide-bg{background-color:#F5EFEA!important}
+#slide-3282 .wd-slide-bg{background-color:#F7F3EF!important}
+#slide-35678 .wd-slide-bg{background-color:#C01057!important}
+/* Lady Mom: pretraga (dodatni sadrzaj) */
+.wd-search-area .blog-design-small .wd-post-thumb{flex:0 0 72px;max-width:72px;width:72px}
+.wd-search-area .blog-design-small .wd-post-thumb img{aspect-ratio:1;object-fit:cover;border-radius:6px}
+.wd-search-area .wd-blog-holder{--wd-row-gap:14px;margin-bottom:28px}
+.wd-search-area .wp-block-wd-title{margin-top:0;margin-bottom:16px}
+/* Lady Mom: pretraga na telefonu – lupa prije korpe */
+.whb-mobile-right .wd-header-search-mobile{order:-1}
+/* Lady Mom: mega meni Prodavnica */
+.wd-dropdown-menu .wp-block-wd-title{margin-bottom:12px}
+.wd-dropdown-menu .wp-block-wd-paragraph{line-height:1.8;margin-bottom:10px}
+/* Lady Mom: traka povjerenja na stranici proizvoda */
+.lm-trust{list-style:none;margin:22px 0 18px;padding:16px 18px;background:#FBF3F1;border-radius:10px;display:grid;gap:10px}
+.lm-trust li{display:flex;align-items:center;gap:12px;margin:0;font-size:14px;color:#2A2226;line-height:1.4}
+.lm-trust svg{flex:0 0 22px;width:22px;height:22px;fill:none;stroke:#C01157;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.lm-secure-pay{display:flex;align-items:center;gap:8px;font-size:13px;color:#5E5157;margin:0 0 14px}
+.lm-secure-pay svg{flex:0 0 18px;width:18px;height:18px;fill:none;stroke:#2A2226;stroke-width:1.8}
+/* Lady Mom: pretraga kao panel ispod headera (desktop), otvara se klikom */
+@media (min-width:1025px){
+.whb-header .wd-header-search.wd-display-dropdown:not(.lm-open) .wd-search-dropdown{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.whb-header .wd-header-search.wd-display-dropdown.lm-open .wd-search-dropdown{opacity:1!important;visibility:visible!important;pointer-events:visible!important;transform:none!important}
+.whb-header .wd-header-search.lm-open > a{color:#C01157}
+.whb-header .wd-header-search .wd-search-dropdown{width:900px;max-width:calc(100vw - 40px);left:auto!important;right:-120px;margin-left:0!important;padding:18px 24px 22px;border-radius:14px;box-shadow:0 18px 50px rgba(42,34,38,.16)}
+.whb-header .wd-header-search .wd-search-dropdown:after{display:block;content:"";position:absolute;left:0;right:0;bottom:100%;top:auto;height:44px;background:transparent}
+.whb-header .wd-search-dropdown .searchform input[type=text]{height:48px;border-radius:999px;padding-left:22px;background:#FBF3F1;border-color:transparent}
+.whb-header .wd-search-dropdown .wd-search-results-wrapper{position:static}
+.whb-header .wd-search-dropdown .wd-dropdown-results{position:static!important;width:auto!important;max-height:min(70vh,640px);margin-top:22px!important;box-shadow:none;border:0;padding:0;transform:none!important;left:auto!important;right:auto!important}
+.whb-header .wd-search-dropdown .wd-dropdown-results:not(.wd-opened){display:none}
+.whb-header .wd-search-dropdown .wd-search-history{padding:0 0 14px;border:0}
+.whb-header .wd-search-dropdown .wd-search-requests{padding:0 0 20px!important;margin-bottom:20px;border:0;border-bottom:1px solid rgba(42,34,38,.08)!important}
+.whb-header .wd-search-dropdown .wd-search-requests .wd-search-title,.whb-header .wd-search-dropdown .wd-search-history .wd-search-title{display:block;margin:0 0 12px;padding:0;line-height:1.3}
+.whb-header .wd-search-dropdown .wd-search-requests ul{gap:8px}
+.whb-header .wd-search-dropdown .wd-search-requests ul a{background:#FBF3F1;color:#2A2226;border-radius:999px;padding:9px 14px;font-size:11px;letter-spacing:.04em}
+.whb-header .wd-search-dropdown .wd-search-requests ul a:hover{background:#C01157;color:#fff}
+.whb-header .wd-search-dropdown .wd-search-area{padding:0;border:0!important}
+.whb-header .wd-search-dropdown .wd-search-title{border:0;padding:0 0 12px;font-size:18px;text-transform:none;font-family:var(--wd-title-font)}
+.whb-header .wd-search-dropdown .wd-search-suggestions{display:grid;grid-template-columns:230px 1fr;column-gap:32px;align-items:start}
+.whb-header .wd-search-dropdown .wd-search-suggestions>*{grid-column:2}
+.whb-header .wd-search-dropdown .wd-search-suggestions>.wd-search-title:has(+.wd-type-post),.whb-header .wd-search-dropdown .wd-search-suggestions>.wd-type-post{grid-column:1}
+.whb-header .wd-search-dropdown .wd-search-suggestions>.wd-search-title:has(+.wd-type-post){grid-row:1}
+.whb-header .wd-search-dropdown .wd-search-suggestions>.wd-type-post{grid-row:2 / span 20}
+.whb-header .wd-search-dropdown .wd-search-suggestions:not(:has(.wd-type-post)){grid-template-columns:1fr}
+.whb-header .wd-search-dropdown .wd-type-product{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 18px;padding-bottom:10px}
+.whb-header .wd-search-dropdown .wd-search-suggestions:not(:has(.wd-type-post)) .wd-type-product{grid-template-columns:repeat(4,1fr)}
+.whb-header .wd-search-dropdown .wd-type-product .wd-suggestion{flex-direction:column;align-items:stretch;padding:0;border:0;gap:10px}
+.whb-header .wd-search-dropdown .wd-type-product .wd-suggestion-thumb{width:100%;max-width:none;flex:none;margin:0}
+.whb-header .wd-search-dropdown .wd-type-product .wd-suggestion-thumb img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:8px}
+.whb-header .wd-search-dropdown .wd-type-product .wd-not-found{grid-column:1 / -1}
+.whb-header .wd-search-dropdown .wd-type-post .wd-suggestion{padding:0 0 14px;border:0;gap:12px}
+.whb-header .wd-search-dropdown .wd-type-post .wd-suggestion-thumb{flex:0 0 64px!important;width:64px!important;max-width:64px!important;margin:0!important}
+.whb-header .wd-search-dropdown .wd-type-post .wd-suggestion-thumb img{aspect-ratio:1;object-fit:cover;border-radius:6px}
+}

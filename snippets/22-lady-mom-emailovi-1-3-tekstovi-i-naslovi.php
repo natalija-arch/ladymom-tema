@@ -1,0 +1,119 @@
+<?php
+/**
+ * Snippet #22: Lady Mom – emailovi (1/3) tekstovi i naslovi
+ * Aktivan: da | scope: global | prioritet: 10
+ * (Izvezeno iz dodatka Code Snippets – izvor je baza sajta.)
+ */
+
+// Lady Mom – emailovi kupcima (1/3): podaci, tekstovi, naslovi. Dizajn 9.10.2026.
+// Šabloni u woodmart-child/woocommerce/emails/ zovu lm_em_* funkcije; bez ovih snippeta padaju na WooCommerce šablone.
+
+function lm_em_ids() {
+	return array( 'customer_processing_order', 'customer_on_hold_order', 'customer_completed_order', 'customer_failed_order', 'customer_cancelled_order', 'customer_refunded_order', 'customer_partially_refunded_order', 'customer_note', 'customer_invoice', 'customer_new_account', 'customer_reset_password' );
+}
+function lm_em_handles( $email ) {
+	return $email && is_object( $email ) && isset( $email->id ) && in_array( $email->id, lm_em_ids(), true ) && function_exists( 'lm_em_body' );
+}
+function lm_em_media( $k ) {
+	$m = get_option( 'lm_email_media', array() );
+	return isset( $m[ $k ] ) ? (int) $m[ $k ] : 0;
+}
+function lm_em_font() {
+	return "font-family:Raleway,'Helvetica Neue',Helvetica,Arial,sans-serif;";
+}
+function lm_em_order( $email ) {
+	return ( $email && isset( $email->object ) && is_a( $email->object, 'WC_Order' ) ) ? $email->object : null;
+}
+function lm_em_pickup( $order ) {
+	if ( ! $order ) return false;
+	foreach ( $order->get_shipping_methods() as $s ) {
+		if ( 0 === strpos( $s->get_method_id(), 'local_pickup' ) ) return true;
+	}
+	return false;
+}
+function lm_em_card( $order ) {
+	return $order && 0 === strpos( (string) $order->get_payment_method(), 'bankart' );
+}
+function lm_em_ime( $email ) {
+	$o = lm_em_order( $email );
+	if ( $o ) return trim( $o->get_billing_first_name() );
+	if ( $email && ! empty( $email->user_login ) ) {
+		$u = get_user_by( 'login', $email->user_login );
+		if ( $u && $u->first_name ) return $u->first_name;
+	}
+	return '';
+}
+function lm_em_copy( $email ) {
+	$id = $email && isset( $email->id ) ? $email->id : '';
+	$o  = lm_em_order( $email );
+	$p  = lm_em_pickup( $o );
+	$k  = lm_em_card( $o );
+	$i  = lm_em_ime( $email );
+	$iz = $i ? ', ' . $i : '';
+	$n  = $o ? $o->get_order_number() : '';
+	$c  = array( 's' => '', 'h' => '', 'pre' => '', 'txt' => '' );
+	switch ( $id ) {
+		case 'customer_processing_order':
+			$c = array( 's' => 'Hvala' . $iz . '! Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.',
+				'pre' => $p ? 'Pripremamo je u butiku. Ovdje je pregled porudžbine.' : 'Pripremamo je za slanje. Ovdje je pregled porudžbine.',
+				'txt' => $p ? 'Pripremamo je u butiku. Kad bude spremna za preuzimanje, stiže vam još jedan email.' : 'Pripremamo je za slanje. Kad paket predamo kuriru, stiže vam još jedan email.' );
+			break;
+		case 'customer_on_hold_order':
+			$c = array( 's' => 'Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.', 'pre' => 'Javićemo vam čim je potvrdimo.', 'txt' => 'Porudžbina čeka potvrdu. Javićemo vam čim je potvrdimo.' );
+			break;
+		case 'customer_completed_order':
+			$c = $p
+				? array( 's' => 'Porudžbina #' . $n . ' je spremna za preuzimanje', 'h' => 'Porudžbina je spremna' . $iz . '.', 'pre' => 'Čeka vas u butiku, Branka Deletića bb.', 'txt' => 'Čeka vas u butiku Lady Mom, Branka Deletića bb, Podgorica.' )
+				: array( 's' => 'Paket #' . $n . ' je na putu', 'h' => 'Paket je na putu' . $iz . '.', 'pre' => 'Kurir The Vault, dostava 1–3 radna dana.', 'txt' => 'Predali smo ga kurirskoj službi The Vault. Dostava traje 1–3 radna dana.' );
+			break;
+		case 'customer_failed_order':
+			$c = array( 's' => 'Plaćanje za porudžbinu #' . $n . ' nije prošlo', 'h' => 'Plaćanje nije prošlo.', 'pre' => 'Porudžbina je sačuvana i možete pokušati ponovo.', 'txt' => 'Banka nije odobrila plaćanje karticom. Porudžbina je sačuvana i možete pokušati ponovo, istom ili drugom karticom.' );
+			break;
+		case 'customer_cancelled_order':
+			$c = array( 's' => 'Porudžbina #' . $n . ' je otkazana', 'h' => 'Porudžbina je otkazana.',
+				'pre' => $k ? 'Ako je iznos bio rezervisan na kartici, rezervacija se poništava.' : 'Ako imate pitanja, pišite nam.',
+				'txt' => 'Porudžbina #' . $n . ' je otkazana.' . ( $k ? ' Ako je iznos bio rezervisan na kartici, rezervacija se poništava; rok zavisi od vaše banke.' : '' ) );
+			break;
+		case 'customer_refunded_order':
+		case 'customer_partially_refunded_order':
+			$dio = ! empty( $email->partial_refund );
+			$c = array( 's' => ( $dio ? 'Vratili smo dio iznosa za porudžbinu #' : 'Vratili smo novac za porudžbinu #' ) . $n, 'h' => $dio ? 'Vratili smo dio iznosa.' : 'Vratili smo novac.',
+				'pre' => $k ? 'Rok knjiženja na kartici zavisi od banke.' : 'Pregled povrata je u nastavku.',
+				'txt' => 'Povrat za porudžbinu #' . $n . ' je evidentiran.' . ( $k ? ' Rok knjiženja na kartici zavisi od banke.' : '' ) );
+			break;
+		case 'customer_note':
+			$nt = isset( $email->customer_note ) ? wp_strip_all_tags( $email->customer_note ) : '';
+			$c = array( 's' => 'Nova poruka o porudžbini #' . $n, 'h' => 'Imamo poruku za vas.', 'pre' => mb_substr( $nt, 0, 90 ), 'txt' => 'Dodali smo napomenu uz porudžbinu #' . $n . ':' );
+			break;
+		case 'customer_invoice':
+			$c = array( 's' => 'Detalji porudžbine #' . $n, 'h' => 'Detalji porudžbine #' . $n, 'pre' => 'Pregled porudžbine i način plaćanja.',
+				'txt' => ( $o && $o->needs_payment() ) ? 'Porudžbinu možete platiti putem dugmeta ispod.' : 'Ovdje je pregled vaše porudžbine.' );
+			break;
+		case 'customer_new_account':
+			$c = array( 's' => 'Dobro došli u Lady Mom' . $iz, 'h' => 'Dobro došli u Lady Mom' . $iz . '.', 'pre' => 'Nalog je napravljen. Ovdje je šta vam donosi.',
+				'txt' => 'Nalog je napravljen.' . ( ! empty( $email->user_email ) ? ' Prijavljujete se adresom ' . $email->user_email . '.' : '' ) );
+			break;
+		case 'customer_reset_password':
+			$c = array( 's' => 'Postavite novu lozinku za Lady Mom', 'h' => 'Nova lozinka', 'pre' => 'Link važi 24 sata.',
+				'txt' => 'Zatražena je nova lozinka za nalog ' . ( isset( $email->user_login ) ? $email->user_login : '' ) . '. Ako ste to bili vi, kliknite na dugme ispod. Link važi 24 sata.' );
+			break;
+	}
+	return $c;
+}
+
+foreach ( lm_em_ids() as $lm_em_id ) {
+	add_filter( 'woocommerce_email_subject_' . $lm_em_id, function ( $s, $obj = null, $email = null ) {
+		if ( $email && function_exists( 'lm_em_body' ) ) { $c = lm_em_copy( $email ); if ( $c['s'] ) return $c['s']; }
+		return $s;
+	}, 20, 3 );
+	add_filter( 'woocommerce_email_heading_' . $lm_em_id, function ( $h, $obj = null, $email = null ) {
+		if ( $email && function_exists( 'lm_em_body' ) ) { $c = lm_em_copy( $email ); if ( $c['h'] ) return $c['h']; }
+		return $h;
+	}, 20, 3 );
+}
+
+// Naši emailovi nose stil u samom kodu – WooCommerce CSS (npr. margin na slikama) se ne primjenjuje na njih.
+add_filter( 'woocommerce_email_styles', function ( $css, $email = null ) {
+	if ( $email && lm_em_handles( $email ) ) return 'img{border:0;outline:none;text-decoration:none}a{color:#a05c57}';
+	return $css;
+}, 99, 2 );
