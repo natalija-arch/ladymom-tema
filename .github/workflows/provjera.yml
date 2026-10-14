@@ -1,0 +1,17 @@
+# Provjera PHP sintakse prije nego što server povuče izmjene.
+# Objavu na dev radi cron na serveru (vidi README), jer zaštita hostinga ne pušta GitHub do cPanel API-ja.
+name: Provjera koda
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PHP provjera sintakse
+        run: |
+          for f in functions.php inc/*.php woocommerce/emails/*.php; do php -l "$f"; done
