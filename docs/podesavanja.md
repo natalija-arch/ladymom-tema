@@ -46,12 +46,23 @@ Spisak opcija koje su postavljene u adminu, a koje su prije radile kroz snippete
 - CSS: Minify i Combine uključeni (na početnoj ostaje jedan CSS fajl)
 - HTML Minify i Remove WordPress Emoji uključeni
 - JS: Minify i Load JS Deferred uključeni
-  - Izuzeci za defer: `jquery.js`, `jquery.min.js`, `gtm.js`, `analytics.js`
+  - Izuzeci za defer: `gtm.js`, `analytics.js`
+  - jQuery se od 14.10. uveče takođe učitava odloženo. Korpa, plaćanje i nalog se ne optimizuju (LiteSpeed ih ne kešira), pa se tamo ništa ne mijenja.
 - Provjereno poslije izmjena:
   - dodavanje u korpu, plaćanje, slajder, pretraga i chat dugme rade
   - nema JS grešaka
   - nema vidljivih razlika u stilovima
-- Povratak, ako nešto zapne: isključiti `Load JS Deferred`, pa `Purge All`.
-- Sljedeće:
-  - manje slike u pločicama kategorija
-  - QUIC.cloud za WebP i kritični CSS (nalog pravi Marko)
+- Povratak, ako nešto zapne: isključiti `Load JS Deferred`, pa `Purge All`. Ako zapne samo zbog jQuery-ja, vratiti `jquery.js` i `jquery.min.js` u izuzetke.
+
+**Slike (jednokratno, bez koda na sajtu)**
+- 44 slike iz biblioteke (uglavnom Instagram slike iz 2021) imale su samo jednu umanjenu verziju, pa je telefon skidao original (do 145 KB po slici).
+- Napravljene su im sve veličine koje WordPress inače pravi pri uploadu. Pokrenuto je zvanično `wp_update_image_subsizes()`, a originali nisu dirani. Sad sve slike u biblioteci imaju komplet veličina.
+
+**Kod u child temi (`inc/prodaja-i-brend.php`)**
+- 11b: na početnoj se slikama ne daje `fetchpriority="high"`. Najveći element je pozadina slajdera, pa bi prva pločica kategorije inače otimala protok i skidala se u punoj veličini. Za ovo nema podešavanja ni u WordPress-u, ni u Elementoru, ni u WoodMart-u.
+- Preconnect ide na `cdn.fontshare.com` (odatle stižu fontovi), a ne na `api.fontshare.com` (taj CSS LiteSpeed ugradi u svoj fajl).
+
+**Sljedeće**
+- QUIC.cloud za WebP i kritični CSS (nalog pravi Marko).
+- Clash Display lokalno, umjesto sa fontshare-a.
+- Keš zaglavlja (CSS, JS, slike) je 7 dana iako je u LiteSpeed-u godinu dana. Vjerovatno ga postavlja hosting ili Cloudflare.
