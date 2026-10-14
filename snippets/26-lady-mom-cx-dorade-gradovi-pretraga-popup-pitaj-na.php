@@ -113,16 +113,7 @@ add_action( 'woocommerce_no_products_found', function () {
 	echo '<script>(function(){var s=document.currentScript,n=s&&s.previousElementSibling,b=document.querySelector(".wd-blog-search-results");if(n&&b&&n.classList.contains("lm-nema")){b.parentNode.insertBefore(n,b);}})();</script>';
 }, 20 );
 
-// 4) Newsletter popup se ne prikazuje na korpi, plaćanju, nalogu i proizvodu.
-add_filter( 'woodmart_option', function ( $v, $slug ) {
-	if ( 'promo_popup' !== $slug || is_admin() || ! did_action( 'wp' ) ) {
-		return $v;
-	}
-	if ( ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() || is_account_page() ) ) || ( function_exists( 'is_product' ) && is_product() ) ) {
-		return '0';
-	}
-	return $v;
-}, 10, 2 );
+// 4) Newsletter popup se ne prikazuje na korpi, plaćanju, nalogu i proizvodu: WoodMart preset 152 (Theme settings → Presets).
 
 // 5) „Pitaj nas“ u donjoj traci (WoodMart Button [1], link #lm-pitaj) otvara izbor WhatsApp / Viber / poziv.
 add_action( 'wp_footer', function () {
