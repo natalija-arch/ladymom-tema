@@ -36,3 +36,22 @@ Spisak opcija koje su postavljene u adminu, a koje su prije radile kroz snippete
 - Opcija `lm_tema_kod` = 1: tema učitava `inc/`.
 - Snippeti 5–11, 21–26 i 28–32 su isključeni i ostaju kao rezerva par dana. Brišu se kad se potvrdi da sve radi.
 - Povratak na staro, ako zatreba: `lm_tema_kod` = 0, pa ponovo uključiti te snippete.
+
+## 14.10.2026 – brzina (PageSpeed mobilni prije: 71, LCP 5,5 s)
+
+**WoodMart**
+- Performance → Remove jQuery Migrate: uključeno
+
+**LiteSpeed Cache → Page Optimization**
+- CSS: Minify i Combine uključeni (na početnoj ostaje jedan CSS fajl)
+- HTML Minify i Remove WordPress Emoji uključeni
+- JS: Minify i Load JS Deferred uključeni
+  - Izuzeci za defer: `jquery.js`, `jquery.min.js`, `gtm.js`, `analytics.js`
+- Provjereno poslije izmjena:
+  - dodavanje u korpu, plaćanje, slajder, pretraga i chat dugme rade
+  - nema JS grešaka
+  - nema vidljivih razlika u stilovima
+- Povratak, ako nešto zapne: isključiti `Load JS Deferred`, pa `Purge All`.
+- Sljedeće:
+  - manje slike u pločicama kategorija
+  - QUIC.cloud za WebP i kritični CSS (nalog pravi Marko)
