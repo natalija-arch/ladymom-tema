@@ -50,9 +50,9 @@ jobs:
         env:
           CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
         run: |
-          r=$(curl -sS --fail-with-body -H "Authorization: cpanel ${CPANEL_USER}:$(printf %s "$CPANEL_TOKEN" | tr -d "[:space:]")" \
+          r=$(curl -sS -w "\nHTTP %{http_code}" -H "Authorization: cpanel ${CPANEL_USER}:$(printf %s "$CPANEL_TOKEN" | tr -d "[:space:]")" \
             "https://${CP_HOST}/execute/VersionControl/update?repository_root=${REPO_ROOT}&branch=main")
-          if ! echo "$r" | jq -e . >/dev/null 2>&1; then echo "cPanel nije vratio JSON. Početak odgovora:"; echo "$r" | head -c 400 | tr -d '\r'; echo; exit 1; fi
+          if ! echo "$r" | jq -e . >/dev/null 2>&1; then echo "::error::cPanel nije vratio JSON: $(echo "$r" | head -c 300 | tr -d '\r\n')"; exit 1; fi
           echo "$r" | jq '{status, errors, messages}'
           test "$(echo "$r" | jq -r .status)" = "1"
 
@@ -60,9 +60,9 @@ jobs:
         env:
           CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
         run: |
-          r=$(curl -sS --fail-with-body -H "Authorization: cpanel ${CPANEL_USER}:$(printf %s "$CPANEL_TOKEN" | tr -d "[:space:]")" \
+          r=$(curl -sS -w "\nHTTP %{http_code}" -H "Authorization: cpanel ${CPANEL_USER}:$(printf %s "$CPANEL_TOKEN" | tr -d "[:space:]")" \
             "https://${CP_HOST}/execute/VersionControlDeployment/create?repository_root=${REPO_ROOT}")
-          if ! echo "$r" | jq -e . >/dev/null 2>&1; then echo "cPanel nije vratio JSON. Početak odgovora:"; echo "$r" | head -c 400 | tr -d '\r'; echo; exit 1; fi
+          if ! echo "$r" | jq -e . >/dev/null 2>&1; then echo "::error::cPanel nije vratio JSON: $(echo "$r" | head -c 300 | tr -d '\r\n')"; exit 1; fi
           echo "$r" | jq '{status, errors, messages}'
           test "$(echo "$r" | jq -r .status)" = "1"
 
