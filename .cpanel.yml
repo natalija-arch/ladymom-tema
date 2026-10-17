@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/ladymomm/public_html/dev/wp-content/themes/woodmart-child/
+    - export DEPLOYPATH=/home/ladymomm/public_html/wp-content/themes/woodmart-child/
     - /bin/mkdir -p $DEPLOYPATH/inc $DEPLOYPATH/woocommerce/emails
     - /bin/cp style.css functions.php $DEPLOYPATH
     - /bin/cp inc/*.php $DEPLOYPATH/inc/
