@@ -82,3 +82,39 @@ add_action( 'woocommerce_after_product_object_save', function ( $product ) {
 		lm_brend_dodijeli( $product->get_id() );
 	}
 }, 20 );
+
+/**
+ * Pretraga po nazivu brenda („Baby Boo“, „koala“) vodi pravo na stranicu brenda.
+ * Inače WordPress traži riječi u cijelom opisu, pa za „Baby Boo“ izlaze i
+ * „Hug Baby jastuk“ ili „Baby Doll“.
+ */
+add_action( 'template_redirect', function () {
+	if ( ! is_search() || ! taxonomy_exists( 'product_brand' ) ) {
+		return;
+	}
+	$q = mb_strtoupper( trim( (string) get_search_query( false ) ), 'UTF-8' );
+	if ( '' === $q ) {
+		return;
+	}
+	$q = preg_replace( '/\s+/u', ' ', $q );
+	$term = null;
+	foreach ( get_terms( array( 'taxonomy' => 'product_brand', 'hide_empty' => true ) ) as $t ) {
+		if ( mb_strtoupper( $t->name, 'UTF-8' ) === $q ) {
+			$term = $t;
+			break;
+		}
+	}
+	if ( ! $term ) {
+		$mapa = lm_brend_mapa();
+		if ( isset( $mapa[ $q ] ) ) {
+			$term = get_term_by( 'slug', $mapa[ $q ][0], 'product_brand' );
+		}
+	}
+	if ( $term && ! is_wp_error( $term ) ) {
+		$link = get_term_link( $term );
+		if ( ! is_wp_error( $link ) ) {
+			wp_safe_redirect( $link, 302 );
+			exit;
+		}
+	}
+} );
