@@ -32,6 +32,20 @@ add_action( 'template_redirect', function () {
 		'/about-us-3/'             => '/o-nama/',
 		'/about-us/'               => '/o-nama/',
 		'/contact-us/'             => '/kontakt/',
+		// Stranice sa starog ladymom.me (do 18.10.2026).
+		'/shop-2/'                 => '/prodavnica/',
+		'/checkout-2/'             => '/placanje/',
+		'/home/'                   => '/',
+		'/thank-you-page/'         => '/',
+		'/isporuka/'               => '/dostava/',
+		'/cesta-pitanja/'          => '/dostava/',
+		'/zamjena-artikla/'        => '/povrat-robe-i-sredstava/',
+		'/zasto-kupovati-kod-nas/' => '/o-nama/',
+		'/about/'                  => '/o-nama/',
+		'/kontaktirajte-nas/'      => '/kontakt/',
+		'/contact/'                => '/kontakt/',
+		'/customer-support/'       => '/kontakt/',
+		'/legal-privacy/'          => '/politika-privatnosti/',
 	);
 	if ( isset( $fiksno[ $put ] ) ) {
 		wp_safe_redirect( home_url( $fiksno[ $put ] ) . $upit, 301 );
@@ -44,6 +58,9 @@ add_action( 'template_redirect', function () {
 		'/product/'          => '/proizvod/',
 		'/product-category/' => '/kategorija/',
 		'/product-tag/'      => '/oznaka/',
+		// Baze sa starog ladymom.me.
+		'/kategorija-proizvoda/' => '/kategorija/',
+		'/proizvod-tag/'         => '/oznaka/',
 	);
 	foreach ( $baze as $stara => $nova ) {
 		if ( 0 === strpos( $put, $stara ) ) {
@@ -53,3 +70,32 @@ add_action( 'template_redirect', function () {
 		}
 	}
 }, 1 );
+
+/**
+ * Porudžbine sa starog sajta su prenesene pod novim brojevima (stari broj je u
+ * meta polju `_lm_stari_broj`). Link „Pogledaj porudžbinu“ iz starih emailova
+ * (/moj-nalog/view-order/STARI/) vodi na istu porudžbinu pod novim brojem.
+ */
+add_action( 'template_redirect', function () {
+	if ( ! function_exists( 'is_wc_endpoint_url' ) || ! is_wc_endpoint_url( 'view-order' ) ) {
+		return;
+	}
+	$broj = absint( get_query_var( 'view-order' ) );
+	if ( ! $broj || $broj > 48099 ) {
+		return;
+	}
+	$postoji = wc_get_order( $broj );
+	if ( $postoji && 'trash' !== $postoji->get_status() ) {
+		return;
+	}
+	$nadjene = wc_get_orders( array(
+		'limit'      => 1,
+		'return'     => 'ids',
+		'meta_key'   => '_lm_stari_broj', // phpcs:ignore WordPress.DB.SlowDBQuery
+		'meta_value' => $broj, // phpcs:ignore WordPress.DB.SlowDBQuery
+	) );
+	if ( $nadjene ) {
+		wp_safe_redirect( wc_get_endpoint_url( 'view-order', $nadjene[0], wc_get_page_permalink( 'myaccount' ) ), 301 );
+		exit;
+	}
+}, 5 );
