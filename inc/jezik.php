@@ -19,6 +19,32 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 
 	function lm_cg_prevodi() {
 		return array(
+			// Emailovi prodavnici (WooCommerce 11 – novi tekstovi, nema ih u hrvatskom prevodu).
+			'You’ve received the following order from %s:' => 'Stigla je porudžbina od kupca %s:',
+			'You’ve received a new order from %s:' => 'Stigla je nova porudžbina od kupca %s:',
+			'Notification to let you know &mdash; order #%1$s belonging to %2$s has been cancelled:' => 'Obavještenje: porudžbina #%1$s, kupac %2$s, je otkazana:',
+			'We’re getting in touch to let you know that order #%1$s from %2$s has been cancelled.' => 'Porudžbina #%1$s, kupac %2$s, je otkazana.',
+			'Payment for order #%1$s from %2$s has failed. The order was as follows:' => 'Plaćanje za porudžbinu #%1$s, kupac %2$s, nije prošlo. Porudžbina:',
+			'Unfortunately, the payment for order #%1$s from %2$s has failed. The order was as follows:' => 'Plaćanje za porudžbinu #%1$s, kupac %2$s, nije prošlo. Porudžbina:',
+			'Order summary' => 'Pregled porudžbine',
+			'[Order #%s]' => '[Porudžbina #%s]',
+			'Order #%s' => 'Porudžbina #%s',
+			'Product' => 'Proizvod',
+			'Quantity' => 'Količina',
+			'Price' => 'Cijena',
+			'Free!' => 'Besplatno!',
+			'Note:' => 'Napomena:',
+			'Customer note' => 'Napomena kupca',
+			'Billing address' => 'Adresa za naplatu',
+			'Shipping address' => 'Adresa za dostavu',
+			'Customer details' => 'Podaci o kupcu',
+			'Shipping:' => 'Dostava:',
+			'Total:' => 'Ukupno:',
+			'Payment method:' => 'Način plaćanja:',
+			'Discount:' => 'Popust:',
+			'Refund:' => 'Povrat:',
+			'Congratulations on the sale.' => 'Čestitamo na prodaji.',
+			'Thanks for reading.' => 'Hvala.',
 			'Skip to navigation'   => 'Preskoči na navigaciju',
 			'Skip to main content' => 'Preskoči na glavni sadržaj',
 			'Home'                 => 'Početna',
@@ -331,6 +357,10 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 	}, 5 );
 
 	function lm_cg_aktivno() {
+		// Emailovi (i kupcu i prodavnici) uvijek na crnogorskom, i kad se šalju iz administracije.
+		if ( ! empty( $GLOBALS['lm_em_salje'] ) ) {
+			return true;
+		}
 		if ( is_admin() && ! wp_doing_ajax() ) {
 			return false;
 		}
@@ -388,21 +418,20 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 		5
 	);
 
-	// Datumi: hrvatski nazivi mjeseci → crnogorski.
-	add_filter(
-		'date_i18n',
-		function ( $date ) {
-			return lm_cg_aktivno() ? lm_cg_zamijeni( $date ) : $date;
-		},
-		20
-	);
-	add_filter(
-		'wp_date',
-		function ( $date ) {
-			return lm_cg_aktivno() ? lm_cg_zamijeni( $date ) : $date;
-		},
-		20
-	);
+	// Datumi: hrvatski (i engleski) nazivi mjeseci → crnogorski.
+	function lm_cg_datum( $date ) {
+		if ( ! lm_cg_aktivno() || ! is_string( $date ) ) {
+			return $date;
+		}
+		$date = lm_cg_zamijeni( $date );
+		return str_replace(
+			array( 'January', 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ),
+			array( 'januar', 'februar', 'mart', 'april', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar' ),
+			$date
+		);
+	}
+	add_filter( 'date_i18n', 'lm_cg_datum', 20 );
+	add_filter( 'wp_date', 'lm_cg_datum', 20 );
 
 	// Naslovi widgeta i stavke menija koji su ostali na engleskom.
 	add_filter(

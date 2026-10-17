@@ -118,3 +118,61 @@ add_filter( 'woocommerce_email_styles', function ( $css, $email = null ) {
 	if ( $email && lm_em_handles( $email ) ) return 'img{border:0;outline:none;text-decoration:none}a{color:#a05c57}';
 	return $css;
 }, 99, 2 );
+
+/**
+ * Jezik emailova kad se šalju iz administracije (npr. otkazivanje porudžbine).
+ * WooCommerce emailove prodavnici šalje na jeziku profila admina (engleski), a kod
+ * emailova kupcu prevod mjeseci i riječi nije bio uključen u administraciji („listopad“).
+ * Od trenutka kad WooCommerce traži primaoca do slanja: jezik sajta + crnogorski prevod.
+ */
+function lm_em_pocni( $recipient, $object = null, $email = null ) {
+	if ( $recipient && is_object( $object ) && empty( $GLOBALS['lm_em_salje'] ) ) {
+		$GLOBALS['lm_em_salje'] = ( determine_locale() !== get_locale() && switch_to_locale( get_locale() ) ) ? 2 : 1;
+	}
+	return $recipient;
+}
+add_action( 'woocommerce_email', function ( $mailer ) {
+	foreach ( (array) $mailer->emails as $e ) {
+		if ( isset( $e->id ) ) {
+			add_filter( 'woocommerce_email_recipient_' . $e->id, 'lm_em_pocni', 1, 3 );
+		}
+	}
+} );
+add_action( 'woocommerce_email_sent', function () {
+	if ( ! empty( $GLOBALS['lm_em_salje'] ) ) {
+		if ( 2 === $GLOBALS['lm_em_salje'] ) {
+			restore_previous_locale();
+		}
+		$GLOBALS['lm_em_salje'] = 0;
+	}
+}, 99 );
+
+// Emailovi prodavnici: naslovi na crnogorskom.
+function lm_em_admin_copy( $id, $o ) {
+	if ( ! $o || ! is_a( $o, 'WC_Order' ) ) {
+		return null;
+	}
+	$n    = $o->get_order_number();
+	$kupac = trim( $o->get_billing_first_name() . ' ' . $o->get_billing_last_name() );
+	$iznos = html_entity_decode( wp_strip_all_tags( wc_price( $o->get_total(), array( 'currency' => $o->get_currency() ) ) ), ENT_QUOTES, 'UTF-8' );
+	switch ( $id ) {
+		case 'new_order':
+			return array( 's' => 'Nova porudžbina #' . $n . ( $kupac ? ' – ' . $kupac : '' ) . ' (' . $iznos . ')', 'h' => 'Nova porudžbina #' . $n );
+		case 'cancelled_order':
+			return array( 's' => 'Porudžbina #' . $n . ' je otkazana' . ( $kupac ? ' – ' . $kupac : '' ), 'h' => 'Porudžbina #' . $n . ' je otkazana' );
+		case 'failed_order':
+			return array( 's' => 'Neuspjela porudžbina #' . $n . ( $kupac ? ' – ' . $kupac : '' ), 'h' => 'Plaćanje za porudžbinu #' . $n . ' nije prošlo' );
+	}
+	return null;
+}
+foreach ( array( 'new_order', 'cancelled_order', 'failed_order' ) as $lm_em_aid ) {
+	add_filter( 'woocommerce_email_subject_' . $lm_em_aid, function ( $s, $obj = null, $email = null ) {
+		$c = $email ? lm_em_admin_copy( $email->id, $obj ) : null;
+		return $c ? $c['s'] : $s;
+	}, 20, 3 );
+	add_filter( 'woocommerce_email_heading_' . $lm_em_aid, function ( $h, $obj = null, $email = null ) {
+		$c = $email ? lm_em_admin_copy( $email->id, $obj ) : null;
+		return $c ? $c['h'] : $h;
+	}, 20, 3 );
+}
+unset( $lm_em_aid );
