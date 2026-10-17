@@ -224,3 +224,12 @@ html body a.btn.btn-style-link::after,html body a.btn.btn-style-link::before{con
 </style>
 	<?php
 }, 30 );
+
+// Kartice proizvoda: bez korijenske ERP kategorije „Prodavnica ERP“ (slug prodavnica).
+// Samo za prikaz posjetiocima; admin, REST (ERP) i cron vide sve kategorije.
+add_filter( 'get_the_terms', function ( $terms, $post_id, $taxonomy ) {
+	if ( 'product_cat' !== $taxonomy || ! is_array( $terms ) || is_admin() || wp_doing_cron() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return $terms;
+	}
+	return array_values( array_filter( $terms, function ( $t ) { return 'prodavnica' !== $t->slug; } ) );
+}, 10, 3 );
