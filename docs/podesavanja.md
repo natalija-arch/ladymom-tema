@@ -66,3 +66,9 @@ Spisak opcija koje su postavljene u adminu, a koje su prije radile kroz snippete
 - QUIC.cloud za WebP i kritični CSS (nalog pravi Marko).
 - Clash Display lokalno, umjesto sa fontshare-a.
 - Keš zaglavlja (CSS, JS, slike) je 7 dana iako je u LiteSpeed-u godinu dana. Vjerovatno ga postavlja hosting ili Cloudflare.
+
+## 18.10.2026 – slike proizvoda
+
+**WooCommerce → Izgled → Prilagodi → WooCommerce → Slike proizvoda**
+- Isijecanje sličica: Prilagođeno, 3:4 (430 × 573). Ranije: „Bez isijecanja“, pa su kartice imale različitu visinu.
+- WooCommerce sam pravi nove sličice u pozadini; one koje još nisu napravljene prave se pri prvom prikazu.
