@@ -29,7 +29,7 @@ function lm_brend_mapa() {
 		'SPECTRA'        => array( 'spectra', 'Spectra' ),
 		'BUBBI'          => array( 'bubbi', 'Bubbi' ),
 		'ZIPSTER'        => array( 'zipster', 'Zipster' ),
-		'MAYMOM'         => array( 'maymom', 'Maymom' ),
+		'MAYMOM'         => array( 'spectra', 'Spectra' ), // Maymom dijelovi se prodaju uz Spectra pumpice (odluka 18.10.).
 	);
 }
 
