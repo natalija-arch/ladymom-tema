@@ -94,3 +94,15 @@ LiteSpeed crawler: uključen, sitemap `https://ladymom.me/sitemap_index.xml`. Sa
 ## Slike u WebP formatu (18.10.2026)
 
 `inc/slike-webp.php`: WordPress kopije slika (sličice, slika proizvoda, srednje, velike) pravi kao WebP umjesto JPG (filter `image_editor_output_format`). Original iz ERP-a ostaje JPG i ne mijenja se. Emailovi koriste original, jer Outlook na računaru ne prikazuje WebP. Postojeće slike su jednom ponovo obrađene 18.10.; stare JPG kopije su ostale na disku (ne smetaju, mogu se kasnije očistiti).
+
+## Telefon, Google i Newsletter (18.10.2026 uveče)
+
+- WoodMart podešavanja (rezerva u opciji `lm_rezerva_woodmart_opcije_1810b`): `categories_under_title` isključeno (bez kategorija ispod naziva na karticama), `attr_after_short_desc` isključeno (tabela osobina se ne ponavlja iznad izbora boje), `shop_filters` isključeno (nema drugog panela „Filteri“). U bočni panel filtera dodat widget „Sortiraj“ (`woodmart-woocommerce-sort-by-2`) na vrh.
+- `inc/telefon-i-seo.php`:
+  - kategorija 104 „Prodavnica ERP“ se kupcu prikazuje kao „Prodavnica“ (filter `get_term` samo van admina i REST-a, plus putanje WooCommerce i Yoast); u bazi i za ERP naziv ostaje isti;
+  - telefon: na stranici proizvoda skrivena putanja i strelice iznad naziva, logo brenda 26 px; u korpi polje za kupon sklopljeno u link „Imate kupon?“;
+  - meta opis proizvoda bez kratkog opisa: „Brend – naziv. Kategorija u Lady Mom butiku…“; ručni Yoast opis ima prednost;
+  - GTIN iz barkoda (SKU) u podacima o proizvodu; kod varijabilnih artikala svaka varijanta je posebna ponuda sa barkodom, cijenom i dostupnošću;
+  - prijava iz popupa (CF7 forma 35763, kod DOBRODOSLA10) upisuje adresu u dodatak Newsletter kao potvrđenu.
+- Dodatak Newsletter 9.4.7: pošiljalac natalija@ladymom.me, odgovor na natalija@ladymom.me, 100 emailova na sat, šalje preko WP Mail SMTP (Gmail). Mailchimp for WP isključen.
+- Yoast: tekst početne stranice u putanji „Početna“.
