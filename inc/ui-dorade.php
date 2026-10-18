@@ -221,6 +221,12 @@ html body a.btn.btn-style-link::after,html body a.btn.btn-style-link::before{con
 .whb-header .wd-nav-main>li.current-menu-item>a .nav-link-text,.whb-header .wd-nav-main>li.current-menu-item>a{color:var(--lm-roze-jaka,#a05c57)!important}
 .whb-header .wd-nav-main>li>a::after,.whb-header .wd-nav-main>li>a .nav-link-text::after{display:none!important}
 .whb-header .wd-nav-main>li.current-menu-item>a{text-decoration:none!important;box-shadow:none!important;border-bottom:0!important}
+
+/* slike artikala svuda 3:4 (18.10.2026): liste i karuseli režu kao WooCommerce kopija; galerija proizvoda bez rezanja */
+.wd-product .product-element-top img,.wd-product .wd-product-thumb img,.product-grid-item .product-element-top img{aspect-ratio:3/4;object-fit:cover;width:100%;height:auto}
+.woocommerce-product-gallery .wd-carousel-item img,.woocommerce-product-gallery__image img{aspect-ratio:3/4;object-fit:contain;background:#fff;width:100%;height:auto}
+.wd-gallery-thumb img{aspect-ratio:3/4;object-fit:cover}
+.woocommerce-cart-form .product-thumbnail img,.shop_table .product-thumbnail img,.woocommerce-mini-cart-item img,.wd-search-results .wd-suggestion img,.autocomplete-suggestion img,.wd-wishlist-content .product-thumbnail img{aspect-ratio:3/4;object-fit:cover;height:auto}
 </style>
 	<?php
 }, 30 );
