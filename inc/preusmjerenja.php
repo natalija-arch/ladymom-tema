@@ -46,6 +46,8 @@ add_action( 'template_redirect', function () {
 		'/contact/'                => '/kontakt/',
 		'/customer-support/'       => '/kontakt/',
 		'/legal-privacy/'          => '/politika-privatnosti/',
+		// Duplikat kategorije bloga spojen 18.10.2026.
+		'/category/edukacija-bs/'  => '/category/edukacija/',
 	);
 	if ( isset( $fiksno[ $put ] ) ) {
 		wp_safe_redirect( home_url( $fiksno[ $put ] ) . $upit, 301 );

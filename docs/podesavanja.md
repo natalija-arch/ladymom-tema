@@ -64,7 +64,7 @@ Spisak opcija koje su postavljene u adminu, a koje su prije radile kroz snippete
 
 **Sljedeće**
 - QUIC.cloud za WebP i kritični CSS (nalog pravi Marko).
-- Clash Display lokalno, umjesto sa fontshare-a.
+- Clash Display je lokalno od 18.10.2026: `wp-content/uploads/lm-fonts/clash-display-500.woff2` i `-600.woff2`, sa preload-om debljine 600. Fontshare se više ne učitava.
 - Keš zaglavlja (CSS, JS, slike) je 7 dana iako je u LiteSpeed-u godinu dana. Vjerovatno ga postavlja hosting ili Cloudflare.
 
 ## 18.10.2026 – slike proizvoda
