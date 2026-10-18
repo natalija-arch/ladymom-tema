@@ -72,3 +72,9 @@ Spisak opcija koje su postavljene u adminu, a koje su prije radile kroz snippete
 **WooCommerce → Izgled → Prilagodi → WooCommerce → Slike proizvoda**
 - Isijecanje sličica: Prilagođeno, 3:4 (430 × 573). Ranije: „Bez isijecanja“, pa su kartice imale različitu visinu.
 - WooCommerce sam pravi nove sličice u pozadini; one koje još nisu napravljene prave se pri prvom prikazu.
+
+## Mobilni meni (18.10.2026)
+- Dva WordPress menija: **Mobilni – Prodavnica** (520, tab „Prodavnica“, prvi) i **Mobilni – Lady Mom** (521, lokacija `mobile-menu`, tab „Lady Mom“). Stari „Mobile navigation“ (68) i „Categories“ (62) su ostali netaknuti.
+- Header `header_515836` → Mobile menu: tabovi zamijenjeni (Prodavnica prvi), drill-down sa klizanjem, podmeni se otvara klikom na naziv, uključene kategorije u pretrazi, popularne pretrage i HTML blok **51396 „Pretraga – mobilni meni“** (brendovi + kategorije prije kucanja). Lista želja / nalog / poređenje isključeni iz menija (postoje u donjoj traci). Rezerva headera: opcija `lm_rezerva_whb_header_515836`.
+- Izgled stavki ide preko CSS klasa na stavkama menija (`lm-m-veliki`, `lm-m-naslov`, `lm-m-chip`, `lm-m-sve`, `lm-m-akcija`, `lm-m-skola`, `lm-m-radnja`, `lm-m-dugme`), a CSS je u Theme Settings → Custom CSS, sekcija `lm-mob-meni` (zadnja u polju).
+- Važno: kad se `custom_css` mijenja direktno u bazi, WoodMart ga ne prikaže dok se ne obriše opcija `xts-theme_settings_default-status` (tada ponovo generiše CSS). Snimanje kroz Theme Settings to radi samo.
