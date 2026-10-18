@@ -67,8 +67,8 @@ add_shortcode( 'lm_ready_mom', function () {
 			<p class="lm-rm-pod">Edukativni program za trudnice: priprema za porođaj i prve mjesece sa bebom, uz stručnjake koji se time bave svaki dan.</p>
 			<ul class="lm-rm-cinjenice">
 				<li><strong>2</strong> nedjelje</li>
-				<li><strong>6</strong> predavanja</li>
-				<li><strong>8+</strong> stručnjaka</li>
+				<li><strong>8</strong> predavanja</li>
+				<li><strong>6</strong> stručnjaka</li>
 				<li>uživo ili <strong>online</strong></li>
 			</ul>
 			<div class="lm-rm-kupi">
@@ -83,7 +83,7 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-blok">
 		<h2>Šta je Ready Mom?</h2>
-		<p>Ready Mom je intenzivan program od dvije nedjelje i šest predavanja. Vodi vas redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
+		<p>Ready Mom je intenzivan program od dvije nedjelje i osam predavanja, koja drži šest stručnjaka. Vodi vas redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
 	</section>
 
 	<section class="lm-rm-blok">
