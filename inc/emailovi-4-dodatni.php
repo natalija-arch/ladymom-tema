@@ -142,7 +142,7 @@ function lm_em_dodatni_body( $email, $vars = array() ) {
 			$kupon = isset( $vars['coupon'] ) ? $vars['coupon'] : null;
 			if ( $kupon && is_object( $kupon ) ) {
 				$vr = 'percent' === $kupon->get_discount_type() ? $kupon->get_amount() . '%' : wp_strip_all_tags( wc_price( $kupon->get_amount() ) );
-				echo '<tr><td style="padding:22px 40px 0">' . lm_em_box( lm_em_label( 'POPUST ZA VAS' ) . '<div style="font-size:16px;color:#6d4e39">' . esc_html( $vr ) . ' popusta uz kod <strong>' . esc_html( strtoupper( $kupon->get_code() ) ) . '</strong></div>', '#f6ded4' ) . '</td></tr>';
+				echo '<tr><td style="padding:22px 40px 0">' . lm_em_box( lm_em_label( 'POPUST ZA VAS' ) . '<div style="font-size:16px;color:#6d4e39">' . esc_html( $vr ) . ' popusta uz kod <strong>' . esc_html( strtoupper( $kupon->get_code() ) ) . '</strong></div>' . ( $kupon->get_date_expires() ? '<div style="font-size:13px;color:#8a7565;margin-top:4px">Kod važi do ' . esc_html( wc_format_datetime( $kupon->get_date_expires(), 'j. n. Y. \\u H:i' ) ) . ' i može se iskoristiti jednom.</div>' : '' ), '#f6ded4' ) . '</td></tr>';
 			}
 			$link = isset( $vars['recover_button_link'] ) ? $vars['recover_button_link'] : wc_get_cart_url();
 			echo '<tr><td style="padding:26px 40px 0">' . lm_em_btn( $link, 'ZAVRŠI PORUDŽBINU' ) . '</td></tr>';
