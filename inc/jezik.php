@@ -486,3 +486,32 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 		}
 	);
 }
+
+/**
+ * Mjeseci i dani u datumima (blog, porudžbine, emailovi): WordPress radi na hrvatskom
+ * zbog prevoda, pa je datum na blogu bio „27 ruj 2026“. WP_Locale se pravi prije teme,
+ * zato se nazivi upisuju direktno (18.10.2026).
+ */
+add_action( 'after_setup_theme', function () {
+	global $wp_locale;
+	if ( ! $wp_locale instanceof WP_Locale ) {
+		return;
+	}
+	$mj  = array( 'januar', 'februar', 'mart', 'april', 'maj', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar' );
+	$gen = array( 'januara', 'februara', 'marta', 'aprila', 'maja', 'juna', 'jula', 'avgusta', 'septembra', 'oktobra', 'novembra', 'decembra' );
+	$kr  = array( 'jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'avg', 'sep', 'okt', 'nov', 'dec' );
+	foreach ( $mj as $i => $ime ) {
+		$k = zeroise( $i + 1, 2 );
+		$wp_locale->month[ $k ]                 = $ime;
+		$wp_locale->month_genitive[ $k ]        = $gen[ $i ];
+		$wp_locale->month_abbrev[ $ime ]        = $kr[ $i ];
+		$wp_locale->month_abbrev[ $gen[ $i ] ]  = $kr[ $i ];
+	}
+	$dani = array( 'nedjelja', 'ponedjeljak', 'utorak', 'srijeda', 'četvrtak', 'petak', 'subota' );
+	$dk   = array( 'ned', 'pon', 'uto', 'sri', 'čet', 'pet', 'sub' );
+	foreach ( $dani as $i => $d ) {
+		$wp_locale->weekday[ $i ]         = $d;
+		$wp_locale->weekday_abbrev[ $d ]  = $dk[ $i ];
+		$wp_locale->weekday_initial[ $d ] = mb_strtoupper( mb_substr( $d, 0, 1 ) );
+	}
+}, 1 );
