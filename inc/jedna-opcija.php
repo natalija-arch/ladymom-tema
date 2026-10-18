@@ -35,11 +35,47 @@ add_action( 'wp_footer', function () {
     if (svi.length && jednih === svi.length) forma.classList.add('lm-sve-jedna');
   }
   function sve(){ document.querySelectorAll('form.variations_form').forEach(function(f){ setTimeout(function(){ izaberi(f); }, 60); }); }
-  if (window.jQuery) {
+  var vezano = false;
+  function veze(){
+  if (vezano || !window.jQuery) return; vezano = true;
+  {
     jQuery(document).on('wc_variation_form', 'form.variations_form', function(){ var f = this; setTimeout(function(){ izaberi(f); }, 60); });
     jQuery(document).on('woodmart-quick-view-displayed wdQuickShopSuccess', sve);
   }
-  if (document.readyState === 'complete') sve(); else window.addEventListener('load', sve);
+  }
+  veze();
+  document.addEventListener('DOMContentLoaded', veze);
+  window.addEventListener('load', function(){ veze(); sve(); });
+  if (document.readyState === 'complete') sve();
+
+  // Traka na dnu ekrana (WoodMart sticky): kad je varijanta izabrana, dugme dodaje u korpu
+  // umjesto „Izaberi opcije“ (koje samo skroluje do izbora).
+  var vezanoT = false;
+  function trakaVeze(){
+    if (vezanoT || !window.jQuery) return; vezanoT = true;
+    var $ = jQuery;
+    function dugme(){ return $('.wd-sticky-btn .wd-sticky-add-to-cart'); }
+    $(document).on('found_variation', 'form.variations_form.cart', function(e, v){
+      var b = dugme(); if (!b.length) return;
+      if (!b.data('lmTekst')) b.data('lmTekst', $.trim(b.text()));
+      var moze = v && v.is_purchasable && v.is_in_stock;
+      b.text(moze ? 'Dodaj u korpu' : b.data('lmTekst')).toggleClass('lm-dodaj', !!moze);
+    });
+    $(document).on('reset_data', 'form.variations_form.cart', function(){
+      var b = dugme(); if (b.data('lmTekst')) b.text(b.data('lmTekst')); b.removeClass('lm-dodaj');
+    });
+    $(document).on('click', '.wd-sticky-btn .wd-sticky-add-to-cart.lm-dodaj', function(e){
+      var glavno = $('form.variations_form.cart .single_add_to_cart_button').first();
+      if (!glavno.length || glavno.hasClass('disabled')) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      glavno.trigger('click');
+    });
+    // Ako je varijanta već izabrana prije nego što su se veze postavile.
+    $('form.variations_form.cart').each(function(){ var id = parseInt($(this).find('input.variation_id').val(), 10); if (id) $(this).trigger('check_variations'); });
+  }
+  trakaVeze();
+  document.addEventListener('DOMContentLoaded', trakaVeze);
+  window.addEventListener('load', trakaVeze);
 })();
 </script>
 	<?php
