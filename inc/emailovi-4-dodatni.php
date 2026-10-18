@@ -46,8 +46,9 @@ function lm_em_dodatni_copy( $email ) {
 				'txt' => 'Artikli koje ste sačuvali na listi želja sada su po nižoj cijeni. Popust traje dok traju zalihe.' );
 		case 'woodmart_promotional_email':
 			// Naslov koji admin upiše pri slanju ostaje; WoodMart-ov engleski podrazumijevani se mijenja.
-			$s = trim( (string) $email->get_option( 'subject' ) );
-			$h = trim( (string) $email->get_option( 'heading' ) );
+			// settings[] direktno: get_option() ovdje ponovo ulazi u isti filter naslova (WoodMart).
+			$s = isset( $email->settings['subject'] ) ? trim( (string) $email->settings['subject'] ) : '';
+			$h = isset( $email->settings['heading'] ) ? trim( (string) $email->settings['heading'] ) : '';
 			$s_svoj = $s && $s !== $email->get_default_subject();
 			$h_svoj = $h && $h !== $email->get_default_heading();
 			return array( 's' => $s_svoj ? '' : 'Posebna ponuda za vas iz Lady Mom', 'h' => $h_svoj ? '' : 'Posebna ponuda za vas' . $iz . '.', 'pre' => '', 'txt' => '' );
