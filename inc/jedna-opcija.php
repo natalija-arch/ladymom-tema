@@ -13,21 +13,26 @@ defined( 'ABSPATH' ) || exit;
 
 add_action( 'wp_footer', function () {
 	?>
+<style>form.variations_form.lm-sve-jedna .reset_variations{display:none!important}</style>
 <script id="lm-jedna-opcija">
 (function(){
   function izaberi(forma){
     if (!forma || forma.dataset.lmJedna) return;
     forma.dataset.lmJedna = '1';
+    var svi = forma.querySelectorAll('select[name^="attribute_"]'), jednih = 0;
     forma.querySelectorAll('select[name^="attribute_"]').forEach(function(s){
       if (s.value) return;
       var opcije = Array.prototype.filter.call(s.options, function(o){ return o.value && !o.disabled; });
       if (opcije.length !== 1) return;
+      jednih++;
       var red = s.closest('tr') || s.parentElement;
       var sw = red ? Array.prototype.filter.call(red.querySelectorAll('.wd-swatch'), function(x){ return !x.classList.contains('wd-disabled'); }) : [];
       if (sw.length === 1) { sw[0].click(); }
       else if (window.jQuery) { jQuery(s).val(opcije[0].value).trigger('change'); }
       else { s.value = opcije[0].value; s.dispatchEvent(new Event('change', { bubbles: true })); }
     });
+    // Kad nema šta da se bira, link „Očisti“ nema smisla.
+    if (svi.length && jednih === svi.length) forma.classList.add('lm-sve-jedna');
   }
   function sve(){ document.querySelectorAll('form.variations_form').forEach(function(f){ setTimeout(function(){ izaberi(f); }, 60); }); }
   if (window.jQuery) {
