@@ -106,3 +106,7 @@ LiteSpeed crawler: uključen, sitemap `https://ladymom.me/sitemap_index.xml`. Sa
   - prijava iz popupa (CF7 forma 35763, kod DOBRODOSLA10) upisuje adresu u dodatak Newsletter kao potvrđenu.
 - Dodatak Newsletter 9.4.7: pošiljalac natalija@ladymom.me, odgovor na natalija@ladymom.me, 100 emailova na sat, šalje preko WP Mail SMTP (Gmail). Mailchimp for WP isključen.
 - Yoast: tekst početne stranice u putanji „Početna“.
+
+## Tabovi na početnoj se učitavaju unaprijed (18.10.2026)
+
+`inc/pocetna-tabovi.php`. WoodMart drugi tab („Na akciji“) traži od servera tek na klik (oko 1,3 s). Skripta isti zahtjev pošalje u pozadini kad se početna učita, pa je klik trenutan. Sadržaj se pravi svježe pri svakom otvaranju početne, pa se novi artikli na akciji vide odmah. Ako pozadinski zahtjev ne uspije, klik radi kao ranije.

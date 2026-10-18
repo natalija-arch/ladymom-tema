@@ -42,6 +42,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'server-veza.php',
 		'slike-webp.php',
 		'telefon-i-seo.php',
+		'pocetna-tabovi.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}
