@@ -45,8 +45,12 @@ function lm_em_dodatni_copy( $email ) {
 			return array( 's' => 'Artikal sa vaše liste želja je na popustu', 'h' => 'Na popustu je' . $iz . '.', 'pre' => 'Artikli sa vaše liste želja su sada po nižoj cijeni.',
 				'txt' => 'Artikli koje ste sačuvali na listi želja sada su po nižoj cijeni. Popust traje dok traju zalihe.' );
 		case 'woodmart_promotional_email':
-			$vlastiti = trim( (string) $email->get_option( 'subject' ) );
-			return array( 's' => $vlastiti ? '' : 'Posebna ponuda za vas iz Lady Mom', 'h' => trim( (string) $email->get_option( 'heading' ) ) ? '' : 'Posebna ponuda za vas' . $iz . '.', 'pre' => '', 'txt' => '' );
+			// Naslov koji admin upiše pri slanju ostaje; WoodMart-ov engleski podrazumijevani se mijenja.
+			$s = trim( (string) $email->get_option( 'subject' ) );
+			$h = trim( (string) $email->get_option( 'heading' ) );
+			$s_svoj = $s && $s !== $email->get_default_subject();
+			$h_svoj = $h && $h !== $email->get_default_heading();
+			return array( 's' => $s_svoj ? '' : 'Posebna ponuda za vas iz Lady Mom', 'h' => $h_svoj ? '' : 'Posebna ponuda za vas' . $iz . '.', 'pre' => '', 'txt' => '' );
 		case 'woodmart_abandoned_cart_email':
 			return array( 's' => 'Vaša korpa vas čeka' . $iz, 'h' => 'Vaša korpa vas čeka' . $iz . '.', 'pre' => 'Sačuvali smo artikle iz korpe. Porudžbinu završavate jednim klikom.',
 				'txt' => 'Ostavili ste nekoliko artikala u korpi. Sačuvali smo ih za vas, a porudžbinu možete završiti jednim klikom.' );
