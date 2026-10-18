@@ -243,13 +243,16 @@ add_action( 'wp_footer', function () {
 add_filter( 'wpseo_locale', function () {
 	return 'sr_RS';
 }, 20 );
-add_filter( 'wpseo_schema_graph', function ( $graf ) {
-	if ( is_array( $graf ) ) {
-		foreach ( $graf as $i => $dio ) {
-			if ( is_array( $dio ) && isset( $dio['inLanguage'] ) ) {
-				$graf[ $i ]['inLanguage'] = 'sr-Latn-ME';
+function lm_schema_jezik( $dio ) {
+	if ( is_array( $dio ) ) {
+		foreach ( $dio as $k => $v ) {
+			if ( 'inLanguage' === $k ) {
+				$dio[ $k ] = 'sr-Latn-ME';
+			} elseif ( is_array( $v ) ) {
+				$dio[ $k ] = lm_schema_jezik( $v );
 			}
 		}
 	}
-	return $graf;
-}, 20 );
+	return $dio;
+}
+add_filter( 'wpseo_schema_graph', 'lm_schema_jezik', 20 );
