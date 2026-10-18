@@ -142,6 +142,7 @@ add_action( 'wp_head', function () {
 .lm-rm-kupi-centar{justify-content:center}
 .lm-rm-cijena{font-size:30px;font-weight:700;color:#a05c57}
 .lm-rm-cijena .woocommerce-price-suffix{display:none}
+.lm-rm-cijena .amount,.lm-rm-cijena bdi{font-size:30px!important;font-weight:700!important;color:#a05c57!important}
 .lm-rm-dugme{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:12px 28px;border-radius:6px;background:#a05c57;color:#fff!important;font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none!important}
 .lm-rm-dugme:hover{background:#8a4b47}
 .lm-rm-mala{margin:12px 0 16px;font-size:14px}
