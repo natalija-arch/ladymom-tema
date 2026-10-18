@@ -83,7 +83,9 @@ function lm_feed_kategorija( $id ) {
 function lm_feed_opis( $p, $brend, $kat ) {
 	$t = trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( strip_shortcodes( $p->get_description() ?: $p->get_short_description() ) ) ) );
 	if ( '' === $t ) {
-		$t = ( $brend ? $brend . ' – ' : '' ) . $p->get_name() . '.';
+		// Naziv iz ERP-a već počinje brendom velikim slovima („MAMALICIOUS - …“).
+		$naziv = trim( preg_replace( '/^[A-ZČĆŠĐŽ&\'’\s\.\-–]+\s[-–]\s/u', '', $p->get_name() ) );
+		$t     = ( $brend ? $brend . ' – ' : '' ) . $naziv . '.';
 		if ( $kat ) {
 			$t .= ' ' . $kat . '. Lady Mom, butik za trudnice i mame u Podgorici.';
 		}
