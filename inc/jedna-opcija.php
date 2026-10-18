@@ -13,7 +13,11 @@ defined( 'ABSPATH' ) || exit;
 
 add_action( 'wp_footer', function () {
 	?>
-<style>form.variations_form.lm-sve-jedna .reset_variations{display:none!important}</style>
+<style>form.variations_form.lm-sve-jedna .reset_variations{display:none!important}
+.variations .lm-info-red td.value>*:not(.lm-jedina){display:none!important}
+.variations .lm-info-red .wd-attr-selected{display:none!important}
+.lm-jedina{display:inline-block;font-size:15px;color:var(--lm-tekst,#7a6250);font-weight:500;padding:2px 0}
+</style>
 <script id="lm-jedna-opcija">
 (function(){
   function izaberi(forma){
@@ -30,6 +34,15 @@ add_action( 'wp_footer', function () {
       if (sw.length === 1) { sw[0].click(); }
       else if (window.jQuery) { jQuery(s).val(opcije[0].value).trigger('change'); }
       else { s.value = opcije[0].value; s.dispatchEvent(new Event('change', { bubbles: true })); }
+      // Samo informacija: umjesto izbora se ispiše vrijednost („Boja: Zelena“).
+      var polje = s.closest('td') || s.parentElement;
+      if (polje && !polje.querySelector('.lm-jedina')) {
+        var t = document.createElement('span');
+        t.className = 'lm-jedina';
+        t.textContent = opcije[0].textContent.trim();
+        polje.appendChild(t);
+        if (red) red.classList.add('lm-info-red');
+      }
     });
     // Kad nema šta da se bira, link „Očisti“ nema smisla.
     if (svi.length && jednih === svi.length) forma.classList.add('lm-sve-jedna');
