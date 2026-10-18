@@ -176,7 +176,7 @@ add_filter( 'woocommerce_structured_data_product', function ( $markup, $product 
 					'price'         => wc_format_decimal( $v->get_price(), wc_get_price_decimals() ),
 					'priceCurrency' => get_woocommerce_currency(),
 					'availability'  => 'https://schema.org/' . ( $v->is_in_stock() ? 'InStock' : 'OutOfStock' ),
-					'url'           => $v->get_permalink(),
+					'url'           => html_entity_decode( $v->get_permalink(), ENT_QUOTES, 'UTF-8' ),
 					'name'          => wp_strip_all_tags( $v->get_name() ),
 				);
 			}
