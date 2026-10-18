@@ -13,6 +13,12 @@
 defined( 'ABSPATH' ) || exit;
 
 add_filter( 'image_editor_output_format', function ( $formati ) {
+	// Glavna slika ostaje JPG: WordPress je pretvara samo ako ovaj filter to traži
+	// direktno iz wp_create_image_subsizes(); kopije idu preko get_output_format().
+	$poziv = array_column( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 8 ), 'function' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+	if ( in_array( 'wp_create_image_subsizes', $poziv, true ) && ! in_array( 'get_output_format', $poziv, true ) ) {
+		return $formati;
+	}
 	if ( wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
 		$formati['image/jpeg'] = 'image/webp';
 	}
