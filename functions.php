@@ -37,6 +37,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'viber-ios.php',
 		'erp.php',
 		'brendovi.php',
+		'aktivni-termini.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}
