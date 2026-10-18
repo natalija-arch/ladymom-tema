@@ -45,6 +45,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'pocetna-tabovi.php',
 		'google-feed.php',
 		'google-prijava.php',
+		'nalog-uz-porudzbinu.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}

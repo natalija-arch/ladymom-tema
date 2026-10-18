@@ -118,3 +118,7 @@ LiteSpeed crawler: uključen, sitemap `https://ladymom.me/sitemap_index.xml`. Sa
 ## Prijava preko Google naloga (18.10.2026)
 
 WoodMart Social login: ključ u Theme Settings (Google App ID / Secret), Google Cloud projekat „Lady Mom“, klijent „ladymom.me prijava (WoodMart)“, redirect `https://ladymom.me/moj-nalog/google/oauth2callback`. `inc/google-prijava.php`: dugme je prvo u formi za prijavu, sa Google znakom i natpisom „Nastavi sa Google nalogom“, razdjelnik „ili emailom i lozinkom“.
+
+## Nalog uz porudžbinu (18.10.2026)
+
+`inc/nalog-uz-porudzbinu.php`. Gost plaća bez registracije; kad porudžbina nastane, nalog se napravi sam od emaila (email „Dobro došli u Lady Mom“ sa linkom za lozinku) ili se porudžbina veže za postojeći nalog sa istim emailom (ne za naloge osoblja). Na vrhu plaćanja: „Nastavi sa Google nalogom“ i napomena o nalogu. WooCommerce opcija „Allow customers to create an account during checkout“ isključena (rezerva `lm_rezerva_signup_checkout` = yes), jer je kvačica „Napravi nalog?“ sad suvišna.
