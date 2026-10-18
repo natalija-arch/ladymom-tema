@@ -204,7 +204,7 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'Added %s image(s)'    => 'Dodato slika: %s',
 			'No matches found'     => 'Nema rezultata',
 			'Add to cart'          => 'Dodaj u korpu',
-			'Back to %s'           => 'Nazad na %s',
+			'Back to %s'           => '%s', // mobilni meni: strelica nazad + naziv nivoa (npr. „‹ Za mame“)
 			'Back to menu'         => 'Nazad na meni',
 			'Back to categories'   => 'Nazad na kategorije',
 			'Search history'       => 'Istorija pretrage',
