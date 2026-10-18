@@ -218,9 +218,14 @@ add_action( 'wp_footer', function () {
 	?>
 <script id="lm-novosti-cekirano">
 (function(){
+  // Polje je u dijelu koji se osvježava (updated_checkout), pa se pamti izbor kupca.
+  var izbor = null;
+  document.addEventListener('change', function(e){
+    if (e.target && e.target.id === 'wd_email_subscription_consent') izbor = e.target.checked;
+  });
   function cekiraj(){
     var c = document.getElementById('wd_email_subscription_consent');
-    if (c && !c.dataset.lmDirnuto) { c.checked = true; c.dataset.lmDirnuto = '1'; }
+    if (c) c.checked = (izbor === null) ? true : izbor;
   }
   cekiraj();
   document.addEventListener('DOMContentLoaded', cekiraj);
