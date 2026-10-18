@@ -110,3 +110,7 @@ LiteSpeed crawler: uključen, sitemap `https://ladymom.me/sitemap_index.xml`. Sa
 ## Tabovi na početnoj se učitavaju unaprijed (18.10.2026)
 
 `inc/pocetna-tabovi.php`. WoodMart drugi tab („Na akciji“) traži od servera tek na klik (oko 1,3 s). Skripta isti zahtjev pošalje u pozadini kad se početna učita, pa je klik trenutan. Sadržaj se pravi svježe pri svakom otvaranju početne, pa se novi artikli na akciji vide odmah. Ako pozadinski zahtjev ne uspije, klik radi kao ranije.
+
+## Google Merchant Center – spisak proizvoda (18.10.2026)
+
+`inc/google-feed.php`, adresa `https://ladymom.me/?lm_feed=google`. RSS/XML po Google specifikaciji: svaka varijanta je poseban red (`item_group_id` = artikal), cijena sa PDV-om, akcija, zalihe, slika (original JPG), brend, GTIN iz barkoda (SKU), boja, veličina, putanja kategorije bez „Prodavnica ERP“. Čuva se 2 sata, briše se kad se proizvod promijeni. Merchant Center nalog 5416418334 (natalija@ladymom.me), država Crna Gora; jezik proizvoda za sada „English“ jer Google još ne nudi naš jezik.

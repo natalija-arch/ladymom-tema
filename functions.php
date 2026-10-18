@@ -43,6 +43,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'slike-webp.php',
 		'telefon-i-seo.php',
 		'pocetna-tabovi.php',
+		'google-feed.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}
