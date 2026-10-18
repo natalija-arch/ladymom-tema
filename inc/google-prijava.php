@@ -39,13 +39,14 @@ add_action( 'wp_head', function () {
 	}
 	?>
 <style id="lm-google-prijava">
-form.woocommerce-form-login{display:flex;flex-direction:column}
+form.woocommerce-form-login:not(.hidden-form){display:flex!important;flex-direction:column}
 form.woocommerce-form-login>.wd-social-login{order:-2;margin:0 0 4px;display:block}
-form.woocommerce-form-login>.wd-login-divider{order:-1;margin:14px 0 18px}
+form.woocommerce-form-login>.wd-login-divider{order:-1;margin:14px 0 18px!important;text-transform:none!important;font-size:13px!important;font-weight:500!important;letter-spacing:0!important;color:var(--wd-text-color,#777)}
+form.woocommerce-form-login>.wd-login-divider span{word-spacing:normal;font-family:inherit}
 form.woocommerce-form-login .wd-social-login .login-goo-link{
   display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:46px;margin:0;
   padding:10px 16px;background:#fff!important;color:#3c4043!important;border:1px solid #dadce0!important;
-  border-radius:var(--btn-accented-brd-radius,8px);font-size:15px;font-weight:600;text-transform:none;letter-spacing:0;
+  border-radius:6px!important;font-size:15px!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important;
   box-shadow:0 1px 2px rgba(60,64,67,.12);transition:background .15s,box-shadow .15s}
 form.woocommerce-form-login .wd-social-login .login-goo-link:hover{background:#f8f9fa!important;box-shadow:0 1px 4px rgba(60,64,67,.22)}
 form.woocommerce-form-login .wd-social-login .login-goo-link:before{
