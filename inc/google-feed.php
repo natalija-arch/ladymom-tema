@@ -96,6 +96,10 @@ function lm_feed_opis( $p, $brend, $kat ) {
 /** Jedan red (artikal ili varijanta). */
 function lm_feed_stavka( $p, $roditelj = null ) {
 	$glavni = $roditelj ?: $p;
+	// Usluge (npr. Ready Mom program) ne idu u Google Shopping.
+	if ( $glavni->is_virtual() ) {
+		return '';
+	}
 	$cijena = $p->get_regular_price() !== '' ? $p->get_regular_price() : $p->get_price();
 	if ( '' === (string) $cijena || (float) $cijena <= 0 ) {
 		return '';

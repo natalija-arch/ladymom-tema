@@ -49,6 +49,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'naslov-traka.php',
 		'bez-default.php',
 		'jedna-opcija.php',
+		'ready-mom.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}
