@@ -23,7 +23,11 @@ function lm_rm_proizvod_id() {
 /** Link koji stavlja program u korpu i otvara plaćanje. */
 function lm_rm_prijava_url() {
 	$id = lm_rm_proizvod_id();
-	return $id ? add_query_arg( 'add-to-cart', $id, wc_get_checkout_url() ) : '#';
+	$placanje = wc_get_page_permalink( 'checkout' );
+	if ( ! $placanje || false !== strpos( $placanje, 'ready-mom' ) ) {
+		$placanje = home_url( '/placanje/' );
+	}
+	return $id ? add_query_arg( 'add-to-cart', $id, $placanje ) : '#';
 }
 
 // Stranica artikla → stranica programa.
