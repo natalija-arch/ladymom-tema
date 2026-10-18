@@ -112,7 +112,7 @@ function lm_feed_stavka( $p, $roditelj = null ) {
 			$term = $slug ? get_term_by( 'slug', $slug, $tax ) : null;
 			$ime  = $term ? $term->name : (string) $slug;
 			if ( 'pa_boja' === $tax ) {
-				$boja = $ime;
+				$boja = lm_je_default( $ime ) ? '' : $ime;
 			} elseif ( 'pa_velicina' === $tax ) {
 				$vel = $ime;
 			}

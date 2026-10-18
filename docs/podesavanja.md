@@ -122,3 +122,7 @@ WoodMart Social login: ključ u Theme Settings (Google App ID / Secret), Google 
 ## Nalog uz porudžbinu (18.10.2026)
 
 `inc/nalog-uz-porudzbinu.php`. Gost plaća bez registracije; kad porudžbina nastane, nalog se napravi sam od emaila (email „Dobro došli u Lady Mom“ sa linkom za lozinku) ili se porudžbina veže za postojeći nalog sa istim emailom (ne za naloge osoblja). Na vrhu plaćanja: „Nastavi sa Google nalogom“ i napomena o nalogu. WooCommerce opcija „Allow customers to create an account during checkout“ isključena (rezerva `lm_rezerva_signup_checkout` = yes), jer je kvačica „Napravi nalog?“ sad suvišna.
+
+## „Default“ boja se ne prikazuje (18.10.2026)
+
+`inc/bez-default.php`. ERP šalje boju „Default“ (pa_boja 417) za artikle bez boje. Skriva se u tabeli osobina, korpi, porudžbinama i emailovima, nazivu varijante, filteru boja, izboru na proizvodu i Google feedu. Podatak se ne mijenja.
