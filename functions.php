@@ -39,6 +39,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'brendovi.php',
 		'aktivni-termini.php',
 		'zastite.php',
+		'server-veza.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}

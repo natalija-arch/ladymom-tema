@@ -84,3 +84,9 @@ Spisak opcija koje su postavljene u adminu, a koje su prije radile kroz snippete
 - Kategorija je aktivna i kad je aktivna neka podkategorija. Ništa se ne briše: čim ERP javi da je artikal na stanju, stavka se vrati.
 - Spisak je u transientu `lm_aktivni_termini` (1 h); kad se promijeni zaliha/artikal/termin, računa se ponovo na kraju zahtjeva, i ako se spisak promijenio, briše se LiteSpeed keš.
 - Nativne opcije nema: meniji i blokovi su ručno složene stavke, a „sakrij prazne“ u WordPressu broji i artikle kojih nema na stanju.
+
+## Pozivi servera prema samom sajtu (18.10.2026)
+
+Imunify Security (dodatak hostinga) blokira sa „429 Rate limit exceeded“ zahtjeve koje server šalje sam sebi preko Cloudflare-a. Zbog toga LiteSpeed crawler nije mogao da pročita sitemap. `inc/server-veza.php` za ladymom.me razrješava adresu direktno na IP servera (LiteSpeed → General → Server IP = 162.55.0.170). Ako se server ili IP promijeni, treba ažurirati to polje.
+
+LiteSpeed crawler: uključen, sitemap `https://ladymom.me/sitemap_index.xml`. Sam zagrijava keš kategorija i proizvoda, pa prvo otvaranje nije sporo.
