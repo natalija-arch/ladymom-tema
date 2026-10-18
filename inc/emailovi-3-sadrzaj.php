@@ -55,7 +55,7 @@ function lm_em_items( $order, $title = 'Šta ste poručili' ) {
 	$o = '<tr><td style="padding:30px 40px 0;' . lm_em_font() . '"><h2 style="margin:0 0 10px;font-size:19px;font-weight:800;color:#6d4e39">' . esc_html( $title ) . '</h2><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">';
 	foreach ( $order->get_items() as $item ) {
 		$p   = $item->get_product();
-		$img = $p ? wp_get_attachment_image_url( $p->get_image_id(), 'thumbnail' ) : '';
+		$img = $p ? lm_em_slika_url( $p->get_image_id() ) : '';
 		$im  = $img ? '<img src="' . esc_url( $img ) . '" width="64" height="64" alt="" style="display:block;width:64px;height:64px;border-radius:10px;object-fit:cover;border:0">' : '<div style="width:64px;height:64px;border-radius:10px;background:#fdf2ec"></div>';
 		$meta = wp_strip_all_tags( wc_display_item_meta( $item, array( 'echo' => false, 'before' => '', 'after' => '', 'separator' => ' · ', 'label_before' => '', 'label_after' => ': ', 'autop' => false ) ) );
 		$o .= '<tr><td width="64" valign="middle" style="padding:12px 0;border-top:1px solid #f3e6de;width:64px">' . $im . '</td>'

@@ -90,3 +90,7 @@ Spisak opcija koje su postavljene u adminu, a koje su prije radile kroz snippete
 Imunify Security (dodatak hostinga) blokira sa „429 Rate limit exceeded“ zahtjeve koje server šalje sam sebi preko Cloudflare-a. Zbog toga LiteSpeed crawler nije mogao da pročita sitemap. `inc/server-veza.php` za ladymom.me razrješava adresu direktno na IP servera (LiteSpeed → General → Server IP = 162.55.0.170). Ako se server ili IP promijeni, treba ažurirati to polje.
 
 LiteSpeed crawler: uključen, sitemap `https://ladymom.me/sitemap_index.xml`. Sam zagrijava keš kategorija i proizvoda, pa prvo otvaranje nije sporo.
+
+## Slike u WebP formatu (18.10.2026)
+
+`inc/slike-webp.php`: WordPress kopije slika (sličice, slika proizvoda, srednje, velike) pravi kao WebP umjesto JPG (filter `image_editor_output_format`). Original iz ERP-a ostaje JPG i ne mijenja se. Emailovi koriste original, jer Outlook na računaru ne prikazuje WebP. Postojeće slike su jednom ponovo obrađene 18.10.; stare JPG kopije su ostale na disku (ne smetaju, mogu se kasnije očistiti).

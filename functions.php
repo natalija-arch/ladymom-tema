@@ -40,6 +40,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'aktivni-termini.php',
 		'zastite.php',
 		'server-veza.php',
+		'slike-webp.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}

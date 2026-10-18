@@ -61,7 +61,7 @@ function lm_em_dodatni_copy( $email ) {
 
 /** Red sa artiklom: slika, naziv, cijena i dugme. */
 function lm_em_dodatni_red( $product, $desno, $dugme = '' ) {
-	$img = wp_get_attachment_image_url( $product->get_image_id(), 'thumbnail' );
+	$img = lm_em_slika_url( $product->get_image_id() );
 	$im  = $img ? '<img src="' . esc_url( $img ) . '" width="64" height="64" alt="" style="display:block;width:64px;height:64px;border-radius:10px;border:0">' : '<div style="width:64px;height:64px;border-radius:10px;background:#fdf2ec"></div>';
 	return '<tr><td width="64" valign="middle" style="padding:12px 0;border-top:1px solid #f3e6de;width:64px"><a href="' . esc_url( $product->get_permalink() ) . '">' . $im . '</a></td>'
 		. '<td valign="middle" style="padding:12px 14px;border-top:1px solid #f3e6de;' . lm_em_font() . '"><a href="' . esc_url( $product->get_permalink() ) . '" style="font-size:15px;font-weight:700;color:#6d4e39;text-decoration:none">' . esc_html( $product->get_name() ) . '</a>'
