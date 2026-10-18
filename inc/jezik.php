@@ -198,7 +198,6 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'Share on X'           => 'Podijeli na X',
 			'Download image'       => 'Preuzmi sliku',
 			'Some files are too large. Allowed file size is 1 MB.' => 'Neke datoteke su prevelike. Dozvoljena veličina je 1 MB.',
-			'You can upload up to 3 images to your review.' => 'Uz recenziju možete dodati najviše 3 slike.',
 			'Image is required.'   => 'Slika je obavezna.',
 			'You are allowed to upload images only in png, jpeg formats.' => 'Možete dodati samo slike u png ili jpeg formatu.',
 			'Added %s image(s)'    => 'Dodato slika: %s',
@@ -253,6 +252,16 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'Free shipping'        => 'Besplatna dostava',
 			'%s Comment'           => '%s komentar',
 			'%s Comments'          => '%s komentara',
+			// Ostaci sa engleskog (pregled sajta 18.10.2026).
+			'Back'                 => 'Nazad',
+			'Go back'              => 'Nazad',
+			'All'                  => 'Sve',
+			'Show all blog results' => 'Prikaži sve rezultate sa bloga',
+			'You can upload up to %s images to your review.' => 'Uz recenziju možete dodati do %s slike.',
+			'You are allowed to upload images only in %s formats.' => 'Dozvoljene su samo slike u formatu %s.',
+			'Current default group' => 'Trenutna glavna lista',
+			'Default group'        => 'Glavna lista',
+			'Title is empty!'      => 'Naziv je prazan!',
 		);
 	}
 
