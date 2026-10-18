@@ -30,7 +30,6 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'emailovi-3-sadrzaj.php',
 		'ui-dorade.php',
 		'cx-dorade.php',
-		'cf7-php82.php',
 		'povrat-forma.php',
 		'adresa-dostave.php',
 		'prevodi-2.php',
