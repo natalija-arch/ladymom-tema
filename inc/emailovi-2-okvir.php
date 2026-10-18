@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 
 function lm_em_header( $email_heading, $email = null ) {
 	$f   = lm_em_font();
-	$c   = $email ? lm_em_copy( $email ) : array( 'pre' => '' );
+	$c   = $email ? ( ( function_exists( 'lm_em_je_dodatni' ) && lm_em_je_dodatni( $email ) ) ? lm_em_dodatni_copy( $email ) : lm_em_copy( $email ) ) : array( 'pre' => '' );
 	$hdr = wp_get_attachment_url( lm_em_media( 'zaglavlje' ) );
 	echo '<!DOCTYPE html><html lang="sr-ME"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="x-apple-disable-message-reformatting"><title>Lady Mom</title>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&amp;display=swap" rel="stylesheet"></head>';
@@ -53,12 +53,18 @@ function lm_em_footer( $email = null ) {
 	foreach ( $links as $t => $u ) $l[] = '<a href="' . esc_url( home_url( $u ) ) . '" style="color:#e3efee;text-decoration:underline">' . $t . '</a>';
 	$host = wp_parse_url( home_url(), PHP_URL_HOST );
 	$why  = $o ? 'Ovaj email ste dobili jer ste poručili na ' . $host . '.' : 'Ovaj email ste dobili jer imate nalog na ' . $host . '.';
+	$odjava = '';
+	if ( ! empty( $GLOBALS['lm_em_razlog'] ) ) {
+		$why    = $GLOBALS['lm_em_razlog'][0];
+		$odjava = $GLOBALS['lm_em_razlog'][1];
+	}
 	echo '<tr><td style="padding:40px 0 0;font-size:0;line-height:0">&nbsp;</td></tr><tr><td align="center" style="background:#3f6265;padding:34px 40px 30px;text-align:center;' . $f . '">';
 	if ( $logo ) echo '<img src="' . esc_url( $logo ) . '" width="128" alt="Lady Mom" style="display:block;margin:0 auto 14px;width:128px;height:auto;border:0">';
 	echo '<div style="font-size:14px;line-height:1.6;color:#d4e5e4;margin:0 0 12px">Butik: Branka Deletića bb, Podgorica<br>ponedjeljak–subota 9:30–21:00</div>';
 	echo '<div style="font-size:13px;font-weight:600;line-height:1.8;color:#e3efee">' . implode( '&nbsp;&nbsp;·&nbsp;&nbsp;', $l ) . '</div>';
 	echo '<div style="height:1px;background:#557779;margin:18px 0 14px;font-size:0;line-height:0">&nbsp;</div>';
-	echo '<div style="font-size:11px;line-height:1.6;color:#b9d2d0">Tangerine Limited d.o.o. · PIB 03464415<br>' . esc_html( $why ) . '</div>';
+	echo '<div style="font-size:11px;line-height:1.6;color:#b9d2d0">Tangerine Limited d.o.o. · PIB 03464415<br>' . esc_html( $why )
+		. ( $odjava ? ' <a href="' . esc_url( $odjava ) . '" style="color:#e3efee;text-decoration:underline">Ne želim više ove emailove</a>' : '' ) . '</div>';
 	echo '</td></tr></table></td></tr></table></body></html>';
 }
 

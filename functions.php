@@ -28,6 +28,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'emailovi-1-tekstovi.php',
 		'emailovi-2-okvir.php',
 		'emailovi-3-sadrzaj.php',
+		'emailovi-4-dodatni.php',
 		'ui-dorade.php',
 		'cx-dorade.php',
 		'povrat-forma.php',
