@@ -84,9 +84,9 @@ add_action( 'wp_footer', function () {
       f.dataset.lmKupon = '1';
       if (f.querySelector('input[name=coupon_code]') && f.querySelector('input[name=coupon_code]').value) return;
       f.classList.add('lm-sklopljen');
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'lm-kupon-link'; b.textContent = 'Imate kupon?';
-      b.addEventListener('click', function(){ f.classList.remove('lm-sklopljen'); b.remove(); var i=f.querySelector('input[name=coupon_code]'); if(i) i.focus(); });
+      var b = document.createElement('a');
+      b.href = '#'; b.className = 'lm-kupon-link'; b.textContent = 'Imate kupon?';
+      b.addEventListener('click', function(e){ e.preventDefault(); f.classList.remove('lm-sklopljen'); b.remove(); var i=f.querySelector('input[name=coupon_code]'); if(i) i.focus(); });
       f.parentNode.insertBefore(b, f);
     });
   }
