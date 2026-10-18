@@ -28,6 +28,100 @@ add_filter( 'woocommerce_rest_orders_prepare_object_query', function ( $args ) {
 } );
 
 /**
+ * ERP šalje ID-jeve kategorija i atributa sa starog sajta.
+ *
+ * Pri prelasku 17.10.2026 artikli su zadržali svoje ID-jeve, ali kategorije,
+ * brendovi i atributi (boja, veličina) su na novom sajtu dobili nove ID-jeve
+ * (npr. „Prodavnica ERP“ je bila 20, a sada je 104; atribut boja 8 → 1).
+ * ERP i dalje šalje stare brojeve, pa ih WooCommerce nije prepoznavao: artikal
+ * je ostajao „Bez kategorije“, bez boje i veličine.
+ *
+ * Ovdje se, samo za ERP-ove zahtjeve na artikle, stari ID prevodi u novi prije
+ * nego što ga WooCommerce obradi. Sadržaj (koje kategorije, koja boja) je i dalje
+ * onaj koji je ERP poslao. Mapa je napravljena iz stare baze po slug-u i čuva se
+ * u opciji `lm_erp_mapa` (termini po taksonomiji i atributi). Oznake (tags) se ne
+ * prevode: ERP ih ne šalje, a stari i novi ID-jevi oznaka se preklapaju.
+ */
+function lm_erp_prevedi_termin( $id, $taxonomy ) {
+	static $mapa = null;
+	if ( null === $mapa ) {
+		$mapa = (array) get_option( 'lm_erp_mapa', array() );
+	}
+	$id = (int) $id;
+	if ( ! isset( $mapa['termini'][ $taxonomy ][ $id ] ) ) {
+		return $id;
+	}
+	// Ako ERP jednom pošalje već novi ID, ne diraj ga.
+	$postoji = get_term( $id, $taxonomy );
+	if ( $postoji && ! is_wp_error( $postoji ) ) {
+		return $id;
+	}
+	return (int) $mapa['termini'][ $taxonomy ][ $id ];
+}
+
+function lm_erp_prevedi_atribut( $id ) {
+	$mapa = (array) get_option( 'lm_erp_mapa', array() );
+	$id   = (int) $id;
+	if ( ! isset( $mapa['atributi'][ $id ] ) || wc_get_attribute( $id ) ) {
+		return $id;
+	}
+	return (int) $mapa['atributi'][ $id ];
+}
+
+/** Prevedi ID-jeve u podacima jednog artikla ili varijante. */
+function lm_erp_prevedi_artikal( $d ) {
+	if ( ! is_array( $d ) ) {
+		return $d;
+	}
+	foreach ( array( 'categories' => 'product_cat', 'brands' => 'product_brand' ) as $polje => $tx ) {
+		if ( ! empty( $d[ $polje ] ) && is_array( $d[ $polje ] ) ) {
+			foreach ( $d[ $polje ] as $i => $t ) {
+				if ( is_array( $t ) && isset( $t['id'] ) ) {
+					$d[ $polje ][ $i ]['id'] = lm_erp_prevedi_termin( $t['id'], $tx );
+				} elseif ( is_numeric( $t ) ) {
+					$d[ $polje ][ $i ] = lm_erp_prevedi_termin( $t, $tx );
+				}
+			}
+		}
+	}
+	foreach ( array( 'attributes', 'default_attributes' ) as $polje ) {
+		if ( ! empty( $d[ $polje ] ) && is_array( $d[ $polje ] ) ) {
+			foreach ( $d[ $polje ] as $i => $a ) {
+				if ( is_array( $a ) && ! empty( $a['id'] ) ) {
+					$d[ $polje ][ $i ]['id'] = lm_erp_prevedi_atribut( $a['id'] );
+				}
+			}
+		}
+	}
+	return $d;
+}
+
+add_filter( 'rest_request_before_callbacks', function ( $response, $handler, $request ) {
+	if ( is_wp_error( $response ) || 'GET' === $request->get_method() ) {
+		return $response;
+	}
+	if ( ! preg_match( '#^/wc/v\d+/products(/\d+)?(/variations)?(/\d+|/batch)?$#', $request->get_route() ) || ! lm_erp_log_je_erp( $request ) ) {
+		return $response;
+	}
+	if ( ! get_option( 'lm_erp_mapa' ) ) {
+		return $response;
+	}
+	foreach ( array( 'create', 'update' ) as $k ) {
+		$stavke = $request->get_param( $k );
+		if ( is_array( $stavke ) ) {
+			$request->set_param( $k, array_map( 'lm_erp_prevedi_artikal', $stavke ) );
+		}
+	}
+	foreach ( array( 'categories', 'brands', 'attributes', 'default_attributes' ) as $k ) {
+		if ( null !== $request->get_param( $k ) ) {
+			$prevedeno = lm_erp_prevedi_artikal( array( $k => $request->get_param( $k ) ) );
+			$request->set_param( $k, $prevedeno[ $k ] );
+		}
+	}
+	return $response;
+}, 10, 3 );
+
+/**
  * Privremeno bilježenje onoga što ERP šalje za artikle (dijagnostika, 18.10.2026).
  *
  * Uključeno dok je opcija `lm_erp_log` = 1 i dok ne prođe datum u `lm_erp_log_do`
