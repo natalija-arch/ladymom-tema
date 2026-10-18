@@ -205,3 +205,27 @@ add_action( 'wpcf7_before_send_mail', function ( $forma ) {
 		error_log( 'Lady Mom newsletter: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 	}
 } );
+
+/**
+ * Plaćanje: polje „Želim da primam novosti i ponude emailom“ (WoodMart marketing
+ * consent) je unaprijed čekirano za goste (Markova odluka 18.10.2026, uz napomenu da
+ * unaprijed čekirano polje po GDPR-u nije valjan pristanak). Kupac ga može isključiti.
+ */
+add_action( 'wp_footer', function () {
+	if ( ! function_exists( 'is_checkout' ) || ! is_checkout() || is_user_logged_in() ) {
+		return;
+	}
+	?>
+<script id="lm-novosti-cekirano">
+(function(){
+  function cekiraj(){
+    var c = document.getElementById('wd_email_subscription_consent');
+    if (c && !c.dataset.lmDirnuto) { c.checked = true; c.dataset.lmDirnuto = '1'; }
+  }
+  cekiraj();
+  document.addEventListener('DOMContentLoaded', cekiraj);
+  if (window.jQuery) jQuery(document.body).on('updated_checkout', cekiraj);
+})();
+</script>
+	<?php
+}, 99 );
