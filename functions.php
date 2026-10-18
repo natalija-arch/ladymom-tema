@@ -41,6 +41,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'zastite.php',
 		'server-veza.php',
 		'slike-webp.php',
+		'telefon-i-seo.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}
