@@ -44,6 +44,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'telefon-i-seo.php',
 		'pocetna-tabovi.php',
 		'google-feed.php',
+		'google-prijava.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}

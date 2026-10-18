@@ -114,3 +114,7 @@ LiteSpeed crawler: uključen, sitemap `https://ladymom.me/sitemap_index.xml`. Sa
 ## Google Merchant Center – spisak proizvoda (18.10.2026)
 
 `inc/google-feed.php`, adresa `https://ladymom.me/?lm_feed=google`. RSS/XML po Google specifikaciji: svaka varijanta je poseban red (`item_group_id` = artikal), cijena sa PDV-om, akcija, zalihe, slika (original JPG), brend, GTIN iz barkoda (SKU), boja, veličina, putanja kategorije bez „Prodavnica ERP“. Čuva se 2 sata, briše se kad se proizvod promijeni. Merchant Center nalog 5416418334 (natalija@ladymom.me), država Crna Gora; jezik proizvoda za sada „English“ jer Google još ne nudi naš jezik.
+
+## Prijava preko Google naloga (18.10.2026)
+
+WoodMart Social login: ključ u Theme Settings (Google App ID / Secret), Google Cloud projekat „Lady Mom“, klijent „ladymom.me prijava (WoodMart)“, redirect `https://ladymom.me/moj-nalog/google/oauth2callback`. `inc/google-prijava.php`: dugme je prvo u formi za prijavu, sa Google znakom i natpisom „Nastavi sa Google nalogom“, razdjelnik „ili emailom i lozinkom“.
