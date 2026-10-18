@@ -234,3 +234,22 @@ add_action( 'wp_footer', function () {
 </script>
 	<?php
 }, 99 );
+
+/**
+ * Jezik za Google i društvene mreže (18.10.2026). Stranica već ima lang="sr-Latn-ME";
+ * Yoast je slao og:locale en_US i inLanguage „hr“ (po jeziku WordPress-a za prevode).
+ * Crnogorski nema svoj kod kod Facebook-a, pa je og:locale sr_RS (latinica u tekstu).
+ */
+add_filter( 'wpseo_locale', function () {
+	return 'sr_RS';
+}, 20 );
+add_filter( 'wpseo_schema_graph', function ( $graf ) {
+	if ( is_array( $graf ) ) {
+		foreach ( $graf as $i => $dio ) {
+			if ( is_array( $dio ) && isset( $dio['inLanguage'] ) ) {
+				$graf[ $i ]['inLanguage'] = 'sr-Latn-ME';
+			}
+		}
+	}
+	return $graf;
+}, 20 );
