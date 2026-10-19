@@ -81,10 +81,18 @@ function lm_vrati_yes() {
 	return 'yes';
 }
 
-add_action( 'woocommerce_checkout_order_processed', function ( $order_id, $data, $order ) {
-	lm_nalog_uz_porudzbinu( $order );
-}, 20, 3 );
-add_action( 'woocommerce_store_api_checkout_order_processed', 'lm_nalog_uz_porudzbinu', 20 );
+/*
+ * Nalog se pravi tek kad je porudžbina prihvaćena (pouzeće: odmah; kartica: kad
+ * Bankart potvrdi plaćanje), ne pri kliku na „Poruči“. Ispravka 19.10.2026: kad je
+ * porudžbina vezana za nalog prije plaćanja, WooCommerce je gostu na stranici za
+ * plaćanje karticom tražio prijavu („Prijavite se … da nastavite na obrazac naplate“),
+ * pa plaćanje karticom za nove kupce nije moglo da prođe.
+ */
+add_action( 'woocommerce_order_status_changed', function ( $order_id, $staro, $novo, $order ) {
+	if ( in_array( $novo, array( 'processing', 'on-hold', 'completed' ), true ) ) {
+		lm_nalog_uz_porudzbinu( $order instanceof WC_Order ? $order : wc_get_order( $order_id ) );
+	}
+}, 20, 4 );
 
 /** Plaćanje: Google na vrhu za goste i rečenica da nalog stiže sam. */
 add_action( 'woocommerce_before_checkout_form', function () {
