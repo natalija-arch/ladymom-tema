@@ -111,3 +111,11 @@ add_action( 'woocommerce_before_checkout_form', function () {
 	</style>
 	<?php
 }, 6 );
+
+/**
+ * Stranica „Porudžbina primljena“ (ispravka 19.10.2026, end-to-end test):
+ * pošto se porudžbina gosta sada veže za nalog, WooCommerce je umjesto detalja
+ * tražio prijavu („Prijavite se na svoj nalog kako biste vidjeli ovu porudžbinu“).
+ * Link sa tajnim ključem porudžbine je dovoljan dokaz, kao i za goste.
+ */
+add_filter( 'woocommerce_order_received_verify_known_shoppers', '__return_false' );
