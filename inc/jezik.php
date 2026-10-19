@@ -515,3 +515,24 @@ add_action( 'after_setup_theme', function () {
 		$wp_locale->weekday_initial[ $d ] = mb_strtoupper( mb_substr( $d, 0, 1 ) );
 	}
 }, 1 );
+
+/**
+ * Ispravke nađene u end-to-end testu (19.10.2026):
+ * – greška pri pogrešnom emailu je glasila „Email adresa Email adresa nije valjana.“;
+ * – država u adresi (emailovi, porudžbina) je bila „Montenegro“.
+ */
+add_filter( 'gettext_woocommerce', function ( $prevod, $tekst ) {
+	if ( '%s is not a valid email address.' === $tekst ) {
+		return '%s nije ispravna.';
+	}
+	if ( '%s is not a valid phone number.' === $tekst ) {
+		return '%s nije ispravan.';
+	}
+	return $prevod;
+}, 30, 2 );
+add_filter( 'woocommerce_countries', function ( $drzave ) {
+	if ( is_array( $drzave ) && isset( $drzave['ME'] ) ) {
+		$drzave['ME'] = 'Crna Gora';
+	}
+	return $drzave;
+}, 30 );

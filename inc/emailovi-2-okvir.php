@@ -44,8 +44,8 @@ function lm_em_footer( $email = null ) {
 	}
 	if ( $email && in_array( $email->id, array( 'customer_processing_order', 'customer_new_account' ), true ) ) {
 		echo '<tr><td style="padding:14px 40px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#d6ede9;border-radius:16px"><tr>'
-			. '<td style="padding:18px 22px;' . $f . '"><div style="font-size:12px;font-weight:700;letter-spacing:.12em;color:#3f6265">ŠKOLA RODITELJSTVA</div><div style="font-size:15px;font-weight:700;color:#2f4a4c;margin:4px 0 8px">Family Nest — prijave su otvorene</div>'
-			. '<a href="' . esc_url( home_url( '/skola-za-trudnice-ready-mom-podgorica/' ) ) . '" style="font-size:13px;font-weight:700;color:#2f4a4c">Saznajte više →</a></td></tr></table></td></tr>';
+			. '<td style="padding:18px 22px;' . $f . '"><div style="font-size:12px;font-weight:700;letter-spacing:.12em;color:#3f6265">ŠKOLA ZA TRUDNICE</div><div style="font-size:15px;font-weight:700;color:#2f4a4c;margin:4px 0 8px">Ready Mom — prijave su otvorene</div>'
+			. '<a href="' . esc_url( home_url( '/ready-mom/' ) ) . '" style="font-size:13px;font-weight:700;color:#2f4a4c">Saznajte više →</a></td></tr></table></td></tr>';
 	}
 	$logo  = wp_get_attachment_url( lm_em_media( 'logo_bijeli' ) );
 	$links = array( 'Prodavnica' => '/prodavnica/', 'Dostava' => '/dostava/', 'Povrat i zamjena' => '/povrat-robe-i-sredstava/', 'Uslovi' => '/uslovi-koriscenja/' );
