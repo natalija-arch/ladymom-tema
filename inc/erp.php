@@ -23,9 +23,48 @@ add_filter( 'woocommerce_rest_orders_prepare_object_query', function ( $args ) {
 		'key'     => '_lm_stari_broj',
 		'compare' => 'NOT EXISTS',
 	);
+	// Test porudžbine (19.10.2026): ERP ih ne vidi.
+	$mq[] = array(
+		'key'     => '_lm_test',
+		'compare' => 'NOT EXISTS',
+	);
 	$args['meta_query'] = $mq;
 	return $args;
 } );
+
+/**
+ * Test porudžbine: kupac sa adresom natalija+test…@ladymom.me (end-to-end testiranje
+ * 19.10.2026). Dobijaju oznaku `_lm_test`, pa ih ERP ne preuzima, ni u listi ni pojedinačno.
+ */
+function lm_je_test_email( $email ) {
+	return (bool) preg_match( '/^natalija\+test[^@]*@ladymom\.me$/i', trim( (string) $email ) );
+}
+add_action( 'woocommerce_new_order', function ( $order_id, $order = null ) {
+	$order = $order instanceof WC_Order ? $order : wc_get_order( $order_id );
+	if ( $order && lm_je_test_email( $order->get_billing_email() ) ) {
+		$order->update_meta_data( '_lm_test', '1' );
+		$order->save_meta_data();
+	}
+}, 5, 2 );
+add_action( 'woocommerce_checkout_order_created', function ( $order ) {
+	if ( $order instanceof WC_Order && lm_je_test_email( $order->get_billing_email() ) && ! $order->get_meta( '_lm_test' ) ) {
+		$order->update_meta_data( '_lm_test', '1' );
+		$order->save_meta_data();
+	}
+}, 5 );
+add_filter( 'rest_pre_dispatch', function ( $res, $server, $request ) {
+	$erp = (int) get_option( 'lm_erp_korisnik', 0 );
+	if ( null !== $res || ! $erp || get_current_user_id() !== $erp ) {
+		return $res;
+	}
+	if ( preg_match( '#^/wc/v\d/orders/(\d+)#', $request->get_route(), $m ) ) {
+		$o = wc_get_order( (int) $m[1] );
+		if ( $o && $o->get_meta( '_lm_test' ) ) {
+			return new WP_Error( 'woocommerce_rest_shop_order_invalid_id', 'Invalid ID.', array( 'status' => 404 ) );
+		}
+	}
+	return $res;
+}, 10, 3 );
 
 /**
  * ERP šalje ID-jeve kategorija i atributa sa starog sajta.
