@@ -126,3 +126,10 @@ WoodMart Social login: ključ u Theme Settings (Google App ID / Secret), Google 
 ## „Default“ boja se ne prikazuje (18.10.2026)
 
 `inc/bez-default.php`. ERP šalje boju „Default“ (pa_boja 417) za artikle bez boje. Skriva se u tabeli osobina, korpi, porudžbinama i emailovima, nazivu varijante, filteru boja, izboru na proizvodu i Google feedu. Podatak se ne mijenja.
+
+## Brzina početne (19.10.2026)
+
+PageSpeed (telefon, 7:33): 67/100, FCP 2,0 s, LCP 10,4 s (simulacija), TBT 180 ms, CLS 0. Stvarni korisnici (CrUX, većinom stari sajt): LCP 2,0 s, INP 70 ms, CLS 0,14, TTFB 1,3 s.
+- LiteSpeed JS Combine uključen (`optm-js_comb` = 1, rezerva `lm_rezerva_litespeed_js_1910`): početna sa 99 na 5 skripti. Korpa i plaćanje izuzeti iz optimizacije (`optm-exc` = /placanje/, /korpa/) zbog Bankart-a.
+- `inc/brzina.php`: blockUI i js-cookie dobijaju `defer` (bili render-blocking).
+- Otvoreno: Google/Facebook skripte tek na dodir (čeka Markovo da), Cloudflare Email Obfuscation (Marko), QUIC.cloud kritični CSS (s5), memcached na hostingu.
