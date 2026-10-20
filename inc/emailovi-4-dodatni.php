@@ -1,6 +1,6 @@
 <?php
 /**
- * Lady Mom – emailovi (4/4) dodatni emailovi u novom dizajnu (18.10.2026)
+ * Lady Mom – emailovi (4/4) dodatni emailovi u novom dizajnu (18.10.2026; telefon i tamni režim 20.10.2026)
  *
  * Potvrda email adrese (WooCommerce), lista želja (WoodMart: ponovo na stanju,
  * na popustu, promotivni) i napuštena korpa (WoodMart). Do sada su išli na
@@ -64,8 +64,8 @@ function lm_em_dodatni_red( $product, $desno, $dugme = '' ) {
 	$img = lm_em_slika_url( $product->get_image_id() );
 	$im  = $img ? '<img src="' . esc_url( $img ) . '" width="64" height="64" alt="" style="display:block;width:64px;height:64px;border-radius:10px;border:0">' : '<div style="width:64px;height:64px;border-radius:10px;background:#fdf2ec"></div>';
 	return '<tr><td width="64" valign="middle" style="padding:12px 0;border-top:1px solid #f3e6de;width:64px"><a href="' . esc_url( $product->get_permalink() ) . '">' . $im . '</a></td>'
-		. '<td valign="middle" style="padding:12px 14px;border-top:1px solid #f3e6de;' . lm_em_font() . '"><a href="' . esc_url( $product->get_permalink() ) . '" style="font-size:15px;font-weight:700;color:#6d4e39;text-decoration:none">' . esc_html( $product->get_name() ) . '</a>'
-		. ( $dugme ? '<div style="margin-top:6px"><a href="' . esc_url( $dugme ) . '" style="font-size:13px;font-weight:700;color:#8a4b47">Pogledaj artikal →</a></div>' : '' ) . '</td>'
+		. '<td valign="middle" style="padding:12px 14px;border-top:1px solid #f3e6de;' . lm_em_font() . '"><a href="' . esc_url( $product->get_permalink() ) . '" style="font-size:15px;line-height:1.35;font-weight:700;color:#6d4e39;text-decoration:none">' . esc_html( $product->get_name() ) . '</a>'
+		. ( $dugme ? '<div style="margin-top:6px"><a href="' . esc_url( $dugme ) . '" style="font-size:14px;font-weight:700;color:#8a4b47;text-decoration:underline">Pogledaj artikal →</a></div>' : '' ) . '</td>'
 		. '<td align="right" valign="middle" style="padding:12px 0;border-top:1px solid #f3e6de;white-space:nowrap;' . lm_em_font() . '">' . $desno . '</td></tr>';
 }
 
@@ -78,7 +78,7 @@ function lm_em_dodatni_cijena( $product, $popust = false ) {
 }
 
 function lm_em_dodatni_lista( $naslov, $redovi ) {
-	return '<tr><td style="padding:30px 40px 0;' . lm_em_font() . '"><h2 style="margin:0 0 10px;font-size:19px;font-weight:800;color:#6d4e39">' . esc_html( $naslov ) . '</h2><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">' . $redovi . '</table></td></tr>';
+	return lm_em_red( '<h2 style="margin:0 0 10px;font-size:19px;font-weight:800;color:#6d4e39">' . esc_html( $naslov ) . '</h2><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">' . $redovi . '</table>', 30 );
 }
 
 function lm_em_dodatni_body( $email, $vars = array() ) {
@@ -89,10 +89,10 @@ function lm_em_dodatni_body( $email, $vars = array() ) {
 		case 'customer_verify_email':
 			echo lm_em_hero( 'VAŠ NALOG', $h, $c['txt'] );
 			if ( ! empty( $vars['user_email'] ) ) {
-				echo '<tr><td style="padding:18px 40px 0">' . lm_em_box( lm_em_label( 'ADRESA ZA POTVRDU' ) . '<div style="font-size:16px;font-weight:700;color:#6d4e39">' . esc_html( $vars['user_email'] ) . '</div>' ) . '</td></tr>';
+				echo lm_em_red( lm_em_box( lm_em_label( 'ADRESA ZA POTVRDU' ) . '<div style="font-size:16px;font-weight:700;color:#6d4e39;word-break:break-all">' . esc_html( $vars['user_email'] ) . '</div>' ), 18 );
 			}
-			echo '<tr><td style="padding:22px 40px 0">' . lm_em_btn( isset( $vars['verify_url'] ) ? $vars['verify_url'] : wc_get_page_permalink( 'myaccount' ), 'POTVRDI EMAIL ADRESU' ) . '</td></tr>';
-			echo '<tr><td style="padding:22px 40px 0;' . lm_em_font() . 'font-size:14px;line-height:1.6;color:#8a7565">Ako niste vi tražili ovaj email, samo ga zanemarite — ništa se ne mijenja.</td></tr>';
+			echo lm_em_red( lm_em_btn( isset( $vars['verify_url'] ) ? $vars['verify_url'] : wc_get_page_permalink( 'myaccount' ), 'POTVRDI EMAIL ADRESU' ), 22 );
+			echo lm_em_red( '<div style="font-size:14px;line-height:1.6;color:#8a7565">Ako niste vi tražili ovaj email, samo ga zanemarite — ništa se ne mijenja.</div>', 22 );
 			break;
 
 		case 'woodmart_back_in_stock_email':
@@ -108,13 +108,13 @@ function lm_em_dodatni_body( $email, $vars = array() ) {
 			if ( $redovi ) {
 				echo lm_em_dodatni_lista( $popust ? 'Sada po nižoj cijeni' : 'Ponovo na stanju', $redovi );
 			}
-			echo '<tr><td style="padding:26px 40px 0">' . lm_em_btn( function_exists( 'woodmart_get_wishlist_page_url' ) ? woodmart_get_wishlist_page_url() : home_url( '/lista-zelja/' ), 'OTVORI LISTU ŽELJA' ) . '</td></tr>';
+			echo lm_em_red( lm_em_btn( function_exists( 'woodmart_get_wishlist_page_url' ) ? woodmart_get_wishlist_page_url() : home_url( '/lista-zelja/' ), 'OTVORI LISTU ŽELJA' ), 26 );
 			break;
 
 		case 'woodmart_promotional_email':
 			echo lm_em_hero( 'LADY MOM', $h, '' );
 			$sadrzaj = isset( $vars['email_content'] ) ? $vars['email_content'] : '';
-			echo '<tr><td style="padding:14px 40px 0;' . lm_em_font() . 'font-size:16px;line-height:1.6;color:#7a6250">' . wp_kses_post( $sadrzaj ) . '</td></tr>';
+			echo lm_em_red( '<div style="font-size:16px;line-height:1.6;color:#7a6250">' . wp_kses_post( $sadrzaj ) . '</div>', 14 );
 			break;
 
 		case 'woodmart_abandoned_cart_email':
@@ -142,11 +142,11 @@ function lm_em_dodatni_body( $email, $vars = array() ) {
 			$kupon = isset( $vars['coupon'] ) ? $vars['coupon'] : null;
 			if ( $kupon && is_object( $kupon ) ) {
 				$vr = 'percent' === $kupon->get_discount_type() ? $kupon->get_amount() . '%' : wp_strip_all_tags( wc_price( $kupon->get_amount() ) );
-				echo '<tr><td style="padding:22px 40px 0">' . lm_em_box( lm_em_label( 'POPUST ZA VAS' ) . '<div style="font-size:16px;color:#6d4e39">' . esc_html( $vr ) . ' popusta uz kod <strong>' . esc_html( strtoupper( $kupon->get_code() ) ) . '</strong></div>' . ( $kupon->get_date_expires() ? '<div style="font-size:13px;color:#8a7565;margin-top:4px">Kod važi do ' . esc_html( wc_format_datetime( $kupon->get_date_expires(), 'j. n. Y. \\u H:i' ) ) . '.</div>' : '' ), '#f6ded4' ) . '</td></tr>';
+				echo lm_em_red( lm_em_box( lm_em_label( 'POPUST ZA VAS' ) . '<div style="font-size:16px;color:#6d4e39">' . esc_html( $vr ) . ' popusta uz kod <strong>' . esc_html( strtoupper( $kupon->get_code() ) ) . '</strong></div>' . ( $kupon->get_date_expires() ? '<div style="font-size:13px;color:#8a7565;margin-top:4px">Kod važi do ' . esc_html( wc_format_datetime( $kupon->get_date_expires(), 'j. n. Y. \\u H:i' ) ) . '.</div>' : '' ), '#f6ded4' ), 22 );
 			}
 			$link = isset( $vars['recover_button_link'] ) ? $vars['recover_button_link'] : wc_get_cart_url();
-			echo '<tr><td style="padding:26px 40px 0">' . lm_em_btn( $link, 'ZAVRŠI PORUDŽBINU' ) . '</td></tr>';
-			echo '<tr><td style="padding:22px 40px 0;' . lm_em_font() . 'font-size:14px;line-height:1.6;color:#8a7565">Imate pitanje o veličini ili artiklu? Pišite nam na Viber ili WhatsApp: <a href="https://wa.me/38267030655" style="color:#8a4b47;font-weight:700">067 030 655</a>.</td></tr>';
+			echo lm_em_red( lm_em_btn( $link, 'ZAVRŠI PORUDŽBINU' ), 26 );
+			echo lm_em_red( '<div style="font-size:14px;line-height:1.6;color:#8a7565">Imate pitanje o veličini ili artiklu? Pišite nam na Viber ili WhatsApp: <a href="https://wa.me/38267030655" style="color:#8a4b47;font-weight:700;text-decoration:underline;white-space:nowrap">067 030 655</a>.</div>', 22 );
 			break;
 	}
 	echo '</table>';

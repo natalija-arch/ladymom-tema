@@ -237,15 +237,67 @@ function lm_povrat_obradi() {
 	// Email butiku.
 	$admin = admin_url( 'post.php?post=' . $pid . '&action=edit' );
 	$tijelo = implode( "\n", $linije ) . "\n\n" . ( $linkovi ? 'Slike (' . count( $linkovi ) . ') su u prilogu.' . "\n\n" : '' ) . 'Zahtjev u administraciji: ' . $admin . "\n\nOdgovorom na ovaj email pišete direktno kupcu.";
-	wp_mail( lm_povrat_primaoci(), $naslov, $tijelo, array( 'Reply-To: ' . $ime . ' <' . $email . '>' ), $prilozi );
+	$podaci = array( 'ime' => $ime, 'email' => $email, 'tel' => $tel, 'broj' => $broj, 'nadjena' => (bool) $order, 'vrsta' => $vrsta, 'poruka' => $poruka, 'slike' => count( $linkovi ), 'admin' => $admin );
+	$html   = lm_povrat_email_html( true, $podaci );
+	wp_mail( lm_povrat_primaoci(), $naslov, $html ? $html : $tijelo, array_merge( array( 'Reply-To: ' . $ime . ' <' . $email . '>' ), $html ? array( 'Content-Type: text/html; charset=UTF-8' ) : array() ), $prilozi );
 
 	// Potvrda kupcu.
 	$kupac = "Poštovani/a " . $ime . ",\n\nprimili smo vaš zahtjev za " . $vrsta . ( $broj ? ' (porudžbina #' . $broj . ')' : '' ) . ". Javićemo vam se sa uputstvom kako i gdje da pošaljete artikal. Molimo vas da robu ne šaljete prije dogovora.\n\nVaš zahtjev:\n" . implode( "\n", array_slice( $linije, 4 ) ) . "\n\nZa pitanja: 067 030 655 (telefon, WhatsApp, Viber).\n\nLady Mom\nBranka Deletića bb, Podgorica";
-	wp_mail( $email, 'Primili smo vaš zahtjev za ' . $vrsta, $kupac, array( 'Reply-To: ' . implode( ', ', lm_povrat_primaoci() ) ) );
+	$html = lm_povrat_email_html( false, $podaci );
+	wp_mail( $email, 'Primili smo vaš zahtjev za ' . $vrsta, $html ? $html : $kupac, array_merge( array( 'Reply-To: ' . implode( ', ', lm_povrat_primaoci() ) ), $html ? array( 'Content-Type: text/html; charset=UTF-8' ) : array() ) );
 
 	set_transient( $key, $cnt + 1, HOUR_IN_SECONDS );
 	$back( array( 'zahtjev' => 'poslat' ) );
 }
+/**
+ * Emailovi o zahtjevu u Lady Mom okviru (20.10.2026; ranije običan tekst).
+ * $za_butik: email butiku (dugme „Otvori zahtjev“, odgovor ide kupcu) ili potvrda kupcu.
+ * Vraća '' ako okvir emailova nije učitan, pa se šalje stari tekst.
+ */
+function lm_povrat_email_html( $za_butik, $d ) {
+	if ( ! function_exists( 'lm_em_header' ) || ! function_exists( 'lm_em_dovrsi' ) ) {
+		return '';
+	}
+	$host  = wp_parse_url( home_url(), PHP_URL_HOST );
+	$ime1  = trim( strtok( $d['ime'], ' ' ) );
+	$tel   = preg_replace( '/[^0-9+]/', '', (string) $d['tel'] );
+	$GLOBALS['lm_em_pre']    = $za_butik ? $d['ime'] . ' · ' . ( $d['broj'] ? 'porudžbina #' . $d['broj'] : 'bez broja porudžbine' ) : 'Javićemo vam se sa uputstvom. Robu ne šaljite prije dogovora.';
+	$GLOBALS['lm_em_razlog'] = array( $za_butik ? 'Zahtjev je poslat preko forme na ' . $host . '.' : 'Ovaj email ste dobili jer ste poslali zahtjev za ' . $d['vrsta'] . ' na ' . $host . '.', '' );
+	$red = function ( $l, $v ) {
+		return '<tr><td valign="top" style="padding:7px 12px 7px 0;font-size:13px;line-height:1.5;color:#8a7565;white-space:nowrap">' . esc_html( $l ) . '</td><td valign="top" style="padding:7px 0;font-size:15px;line-height:1.5;color:#6d4e39">' . $v . '</td></tr>';
+	};
+	$t  = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">';
+	if ( $za_butik ) {
+		$t .= $red( 'Kupac', '<strong>' . esc_html( $d['ime'] ) . '</strong>' );
+		$t .= $red( 'Telefon', $d['tel'] ? '<a href="tel:' . esc_attr( $tel ) . '" style="color:#8a4b47;font-weight:700;text-decoration:underline;white-space:nowrap">' . esc_html( $d['tel'] ) . '</a>' : '—' );
+		$t .= $red( 'Email', '<a href="mailto:' . esc_attr( $d['email'] ) . '" style="color:#8a4b47;text-decoration:underline;word-break:break-all">' . esc_html( $d['email'] ) . '</a>' );
+	}
+	$t .= $red( 'Porudžbina', $d['broj'] ? '#' . esc_html( $d['broj'] ) . ( $za_butik && ! $d['nadjena'] ? ' <span style="color:#8a7565">(nije pronađena porudžbina sa ovim emailom)</span>' : '' ) : '—' );
+	$t .= $red( 'Želi', esc_html( ucfirst( $d['vrsta'] ) ) );
+	$t .= '</table>';
+	$t .= '<div style="font-size:13px;line-height:1.5;color:#8a7565;margin:10px 0 4px">Artikal i razlog</div><div style="font-size:15px;line-height:1.6;color:#6d4e39">' . ( $d['poruka'] ? nl2br( esc_html( $d['poruka'] ) ) : '—' ) . '</div>';
+	if ( $za_butik && $d['slike'] ) {
+		$t .= '<div style="font-size:14px;line-height:1.5;color:#7a6250;margin:12px 0 0">Slike (' . (int) $d['slike'] . ') su u prilogu.</div>';
+	}
+
+	ob_start();
+	lm_em_header( '', null );
+	echo '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="' . lm_em_font() . 'color:#7a6250">';
+	if ( $za_butik ) {
+		echo lm_em_hero( 'ZA BUTIK · ZAHTJEV ZA ' . mb_strtoupper( $d['vrsta'] ), 'Zahtjev za ' . $d['vrsta'] . ': ' . $d['ime'], 'Odgovorom na ovaj email pišete direktno kupcu.' );
+		echo lm_em_red( lm_em_btns( array( array( $d['admin'], 'OTVORI ZAHTJEV' ), $tel ? array( 'tel:' . $tel, 'POZOVI KUPCA', true ) : null ) ), 20 );
+		echo lm_em_red( lm_em_box( lm_em_label( 'ZAHTJEV' ) . $t ), 26 );
+	} else {
+		echo lm_em_hero( 'ZAHTJEV ZA ' . mb_strtoupper( $d['vrsta'] ), 'Primili smo vaš zahtjev' . ( $ime1 ? ', ' . $ime1 : '' ) . '.', 'Javićemo vam se sa uputstvom kako i gdje da pošaljete artikal. Molimo vas da robu ne šaljete prije dogovora.' );
+		echo lm_em_red( lm_em_box( lm_em_label( 'VAŠ ZAHTJEV' ) . $t ), 26 );
+	}
+	echo '</table>';
+	lm_em_footer( null, array( 'kontakt' => $za_butik ? false : 'Pitanje o zahtjevu?' ) );
+	$html = ob_get_clean();
+	unset( $GLOBALS['lm_em_pre'], $GLOBALS['lm_em_razlog'] );
+	return lm_em_dovrsi( $html );
+}
+
 add_action( 'admin_post_lm_povrat', 'lm_povrat_obradi' );
 add_action( 'admin_post_nopriv_lm_povrat', 'lm_povrat_obradi' );
 

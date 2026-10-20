@@ -12,8 +12,12 @@ defined( 'ABSPATH' ) || exit;
 function lm_em_ids() {
 	return array( 'customer_processing_order', 'customer_on_hold_order', 'customer_completed_order', 'customer_failed_order', 'customer_cancelled_order', 'customer_refunded_order', 'customer_partially_refunded_order', 'customer_note', 'customer_invoice', 'customer_new_account', 'customer_reset_password' );
 }
+/** Emailovi butiku u istom okviru (20.10.2026). */
+function lm_em_admin_ids() {
+	return array( 'new_order', 'cancelled_order', 'failed_order' );
+}
 function lm_em_handles( $email ) {
-	return $email && is_object( $email ) && isset( $email->id ) && in_array( $email->id, lm_em_ids(), true ) && function_exists( 'lm_em_body' );
+	return $email && is_object( $email ) && isset( $email->id ) && ( in_array( $email->id, lm_em_ids(), true ) || in_array( $email->id, lm_em_admin_ids(), true ) ) && function_exists( 'lm_em_body' );
 }
 function lm_em_media( $k ) {
 	$m = get_option( 'lm_email_media', array() );
