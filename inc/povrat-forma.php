@@ -12,6 +12,20 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'LM_POVRAT_EMAIL', 'natalija@ladymom.me' );
 
+/**
+ * Primaoci zahtjeva u butiku: natalija@ladymom.me i adrese iz opcije `lm_butik_emailovi`
+ * (20.10.2026: ladymom.mne@gmail.com, email djevojaka u butiku).
+ */
+function lm_povrat_primaoci() {
+	$primaoci = array( LM_POVRAT_EMAIL );
+	foreach ( (array) get_option( 'lm_butik_emailovi', array() ) as $e ) {
+		if ( is_email( $e ) ) {
+			$primaoci[] = $e;
+		}
+	}
+	return array_values( array_unique( $primaoci ) );
+}
+
 // 1) Zapis zahtjeva u administraciji.
 add_action( 'init', function () {
 	register_post_type( 'lm_povrat', array(
@@ -223,7 +237,7 @@ function lm_povrat_obradi() {
 	// Email butiku.
 	$admin = admin_url( 'post.php?post=' . $pid . '&action=edit' );
 	$tijelo = implode( "\n", $linije ) . "\n\n" . ( $linkovi ? 'Slike (' . count( $linkovi ) . ') su u prilogu.' . "\n\n" : '' ) . 'Zahtjev u administraciji: ' . $admin . "\n\nOdgovorom na ovaj email pišete direktno kupcu.";
-	wp_mail( LM_POVRAT_EMAIL, $naslov, $tijelo, array( 'Reply-To: ' . $ime . ' <' . $email . '>' ), $prilozi );
+	wp_mail( lm_povrat_primaoci(), $naslov, $tijelo, array( 'Reply-To: ' . $ime . ' <' . $email . '>' ), $prilozi );
 
 	// Potvrda kupcu.
 	$kupac = "Poštovani/a " . $ime . ",\n\nprimili smo vaš zahtjev za " . $vrsta . ( $broj ? ' (porudžbina #' . $broj . ')' : '' ) . ". Javićemo vam se sa uputstvom kako i gdje da pošaljete artikal. Molimo vas da robu ne šaljete prije dogovora.\n\nVaš zahtjev:\n" . implode( "\n", array_slice( $linije, 4 ) ) . "\n\nZa pitanja: 067 030 655 (telefon, WhatsApp, Viber).\n\nLady Mom\nBranka Deletića bb, Podgorica";
