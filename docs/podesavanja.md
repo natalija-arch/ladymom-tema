@@ -172,3 +172,21 @@ PageSpeed (telefon, 7:33): 67/100, FCP 2,0 s, LCP 10,4 s (simulacija), TBT 180 m
 - **Kartice proizvoda (20.10.)**: WoodMart → Products → „Product title lines limit“ = dva reda i „Quick shop“ za artikle sa varijantama isključen (ikonica korpe vodi na stranicu artikla umjesto prozora preko slike, koji je na telefonu izlazio iz kartice); stare vrijednosti u `lm_backup_kartice_20_10`. U `inc/dugmad-stil.php` naslov ima tačnu visinu dva reda sa „…“, pa su cijene u istoj ravni u svim listama.
 - **QUIC.cloud i kritični CSS (20.10.)**: Marko je povezao QUIC.cloud (bez njihovog CDN-a; CDN ostaje Cloudflare). LiteSpeed → Page Optimization → CSS: „Load CSS Asynchronously“ uključeno (kritični CSS sa QUIC.cloud-a), jedan kritični CSS po vrsti stranice (`optm-ccss_sep_posttype` prazno), početna posebno (`optm-ccss_sep_uri` = `^/$`). Stare vrijednosti u opciji `lm_backup_ccss_20_10`. Besplatni nivo: 2 kritična CSS-a dnevno, 20 mjesečno; red: početna (gotovo 20.10.), proizvod, prodavnica, kategorije/brendovi, stranice, članak, blog. Dok vrsta stranice nema kritični CSS, CSS se učitava kao ranije. Povratak: isključiti „Load CSS Asynchronously“ i Purge All.
 - **Slike u headeru lijeno** (`inc/brzina.php`, 20.10.): slike iz panela pretrage, mega menija i mobilnog menija dobijaju `loading="lazy"` i ne troše WordPress-ov limit prvih slika „odmah“ (bile su ~7 slika, ~120 KB, na svakoj stranici prije slike slajdera i glavne slike proizvoda).
+
+## SEO i škola za trudnice (21.10.2026)
+
+Analiza: dokument „SEO analiza ladymom.me“ (claude.ai, 21.10.). Marko: „napravi sve što možeš“.
+
+- **`inc/seo-dorade.php`** (novi):
+  - stare adrese škole (`/ready-mom/`, `/skola-za-trudnice-ready-mom-podgorica/`, `/kategorija/skola-za-trudnice/`) → stranica škole, 301;
+  - šema Product na stranici proizvoda (WooCommerce je pravi na `woocommerce_single_product_summary`, koju WoodMart prikaz ne pokreće); poziv se pravi na akciji `wp`. Artikal sa varijantama koji nije na stanju nema šemu (WooCommerce tada izlazi ranije);
+  - kategorije: H1 iz term meta `lm_h1`, tekst ispod artikala iz term meta `lm_tekst` (naziv i opis kategorije ostaju iz ERP-a);
+  - „Default artikal“ iz ERP-a: noindex i van sitemapa;
+  - meta opis proizvoda bez Yoast opisa: cijele rečenice (do 100 znakova) + rečenica o dostavi;
+  - stranica škole: JSON-LD Course (Family Nest, Branka Deletića bb; uživo i online) i FAQPage iz `lm_rm_pitanja()`.
+- **Stranica škole** (#51473): adresa `/skola-za-trudnice/` (bila `/ready-mom/`), H1 „Škola za trudnice Ready Mom“, program po predavačima, mjesto Family Nest – Centar za trudnoću i roditeljstvo, 8 čestih pitanja (`lm_rm_pitanja()` u `inc/ready-mom.php`). Sadržaj članka #35708 spojen ovdje; članak je nacrt (rezerva `lm_backup_seo_c_35708`). „Škola za trudnice“ u glavnom meniju (stavka #51498), mobilnom meniju i footeru.
+- **Trajanje programa: 4 nedjelje** (Marko, 21.10.; bilo „dvije nedjelje“): `inc/ready-mom.php`, opis u Course šemi, opis i kratak opis artikla #51472 (rezerva `lm_backup_rm_trajanje_51472`).
+- **Kategorije**: Yoast naslov i opis za 11 glavnih kategorija (`WPSEO_Taxonomy_Meta::set_values`, oba ključa u jednom pozivu), `lm_h1` i `lm_tekst` za iste; novi Yoast šablon opisa ostalih kategorija. Stare vrijednosti u `lm_backup_seo_21_10`.
+- **Preusmjerenja** (`inc/preusmjerenja.php`): `/featured_item/` i `/elementor-46675/` → početna; `/brand/…` → `/marka/…`; `/kategorija-proizvode/…` → `/kategorija/…`; `/shop(-2)/page/N/` → `/prodavnica/page/N/`; `/boja/…` (404) → `/prodavnica/`.
+- **Blog**: interni linkovi u starim člancima ka školi i kategorijama (rezerve `lm_backup_seo_c_<ID>` i `lm_backup_seo_m_<meta_id>`); Yoast naslovi za 4 duga naslova. 9 novih članaka kao nacrti #51499–#51507 (napomena za objavu u meta `_lm_nacrt_napomena` i na to-do listi, g8).
+- **Ocjena na Google-u**: opcija `lm_google_recenzije` (`lady_mom`, `family_nest` – linkovi za ocjenu); kutija „Ocijenite nas na Google-u“ u emailu `customer_completed_order` („Spremno za preuzimanje“ i „Paket je na putu“), osim za porudžbine bez dostave.
