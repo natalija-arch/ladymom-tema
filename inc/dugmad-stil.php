@@ -18,6 +18,7 @@
  * - Polja za unos: zaobljena 6 px kao dugmad; obavezno polje (*) roze; kvačice veće i roze.
  * - WhatsApp i Viber na proizvodu: roze okvir kao sporedna dugmad.
  * - Veličine u filteru: jednaka dugmad.
+ * - Kartice proizvoda: naslov tačno dva reda, cijene u istoj ravni (uz WoodMart „Product title lines limit“ = dva reda).
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -63,6 +64,9 @@ button.show-password-input:not(.btn-style-bordered):not(.wd-tools-icon):hover{ba
 .wd-swatches-filter .wd-swatch.wd-text,.wd-swatches-product .wd-swatch.wd-text{min-width:44px;width:auto!important;height:34px!important;padding:0 10px;border:1px solid #e8d8cd!important;border-radius:6px!important;background:#fff!important;display:inline-flex!important;align-items:center;justify-content:center;box-shadow:none!important}
 .wd-swatches-filter .wd-swatch.wd-text .wd-swatch-text,.wd-swatches-product .wd-swatch.wd-text .wd-swatch-text{font-size:13px;font-weight:600;color:var(--lm-smedja,#6d4e39);line-height:1}
 .wd-swatches-filter .wd-active .wd-swatch.wd-text,.wd-swatches-filter .chosen .wd-swatch.wd-text,.wd-swatches-product .wd-swatch.wd-text.wd-active{border-color:var(--lm-roze-jaka,#a05c57)!important;background:var(--lm-krem,#fdf2ec)!important}
+/* Kartice proizvoda: naslov uvijek tačno dva reda (sa „…“), pa su cijene svuda u istoj ravni */
+.wd-product .wd-entities-title{line-height:1.35!important;height:calc(2.7em + 1px)!important;max-height:none!important;overflow:hidden!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.wd-product .wd-entities-title a{display:inline!important}
 </style>
 	<?php
 }, 45 );
