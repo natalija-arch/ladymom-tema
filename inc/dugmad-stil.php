@@ -27,8 +27,9 @@ add_action( 'wp_head', function () {
 <style id="lm-dugmad-stil">
 /* Količina */
 .quantity{display:inline-flex!important;align-items:stretch;border:1px solid #e8d8cd;border-radius:6px;overflow:hidden;background:#fff;vertical-align:middle}
-.quantity .minus,.quantity .plus,.quantity input[type=button].minus,.quantity input[type=button].plus{background:#fff!important;color:var(--lm-smedja,#6d4e39)!important;border:0!important;box-shadow:none!important;border-radius:0!important;min-width:34px!important;width:34px!important;height:auto!important;min-height:0!important;padding:0!important;font-size:17px!important;font-weight:500!important;line-height:1!important;text-transform:none!important;letter-spacing:0!important}
-.quantity .minus:hover,.quantity .plus:hover{background:var(--lm-krem,#fdf2ec)!important}
+/* Selektori su jači od opšteg pravila teme `.btn:not(.btn-style-bordered):not(.btn-style-link)` (!important). */
+div.quantity .minus:not(.btn-style-bordered):not(.btn-style-link),div.quantity .plus:not(.btn-style-bordered):not(.btn-style-link){background:#fff!important;color:var(--lm-smedja,#6d4e39)!important;border:0!important;box-shadow:none!important;border-radius:0!important;min-width:34px!important;width:34px!important;height:auto!important;min-height:0!important;padding:0!important;font-size:17px!important;font-weight:500!important;line-height:1!important;text-transform:none!important;letter-spacing:0!important}
+div.quantity .minus:not(.btn-style-bordered):not(.btn-style-link):hover,div.quantity .plus:not(.btn-style-bordered):not(.btn-style-link):hover{background:var(--lm-krem,#fdf2ec)!important}
 .quantity input.qty{border:0!important;border-left:1px solid #f0e4dc!important;border-right:1px solid #f0e4dc!important;border-radius:0!important;box-shadow:none!important;width:38px!important;min-width:0!important;padding:0 2px!important;color:var(--lm-smedja,#6d4e39)!important;font-weight:600;background:#fff!important}
 .summary form.cart .quantity,.summary .woocommerce-variation-add-to-cart .quantity{height:42px}
 @media (max-width:768px){
@@ -36,8 +37,8 @@ add_action( 'wp_head', function () {
 	.summary .woocommerce-variation-add-to-cart{display:flex!important;gap:10px;align-items:stretch}
 }
 /* Prikaži lozinku */
-.show-password-input{background:transparent!important;color:var(--lm-smedja,#6d4e39)!important;border:0!important;box-shadow:none!important}
-.show-password-input:hover{background:var(--lm-krem,#fdf2ec)!important}
+button.show-password-input:not(.btn-style-bordered):not(.wd-tools-icon){background:transparent!important;color:var(--lm-smedja,#6d4e39)!important;border:0!important;box-shadow:none!important}
+button.show-password-input:not(.btn-style-bordered):not(.wd-tools-icon):hover{background:var(--lm-krem,#fdf2ec)!important}
 /* Google dugme */
 .login-goo-link:before,.lm-google-dugme:before{transform:none!important;top:auto!important}
 /* Donja traka na telefonu */
@@ -59,9 +60,9 @@ add_action( 'wp_head', function () {
 /* Tekst u blokovima */
 .lm-cp-lead,.lm-reg-lead{color:#7a6250!important}
 /* Veličine u filteru */
-.wd-swatches-filter .wd-swatch.wd-text{min-width:44px;width:auto!important;height:34px!important;padding:0 10px;border:1px solid #e8d8cd!important;border-radius:6px!important;background:#fff!important;display:inline-flex!important;align-items:center;justify-content:center;box-shadow:none!important}
-.wd-swatches-filter .wd-swatch.wd-text .wd-swatch-text{font-size:13px;font-weight:600;color:var(--lm-smedja,#6d4e39);line-height:1}
-.wd-swatches-filter .wd-active .wd-swatch.wd-text,.wd-swatches-filter .chosen .wd-swatch.wd-text{border-color:var(--lm-roze-jaka,#a05c57)!important;background:var(--lm-krem,#fdf2ec)!important}
+.wd-swatches-filter .wd-swatch.wd-text,.wd-swatches-product .wd-swatch.wd-text{min-width:44px;width:auto!important;height:34px!important;padding:0 10px;border:1px solid #e8d8cd!important;border-radius:6px!important;background:#fff!important;display:inline-flex!important;align-items:center;justify-content:center;box-shadow:none!important}
+.wd-swatches-filter .wd-swatch.wd-text .wd-swatch-text,.wd-swatches-product .wd-swatch.wd-text .wd-swatch-text{font-size:13px;font-weight:600;color:var(--lm-smedja,#6d4e39);line-height:1}
+.wd-swatches-filter .wd-active .wd-swatch.wd-text,.wd-swatches-filter .chosen .wd-swatch.wd-text,.wd-swatches-product .wd-swatch.wd-text.wd-active{border-color:var(--lm-roze-jaka,#a05c57)!important;background:var(--lm-krem,#fdf2ec)!important}
 </style>
 	<?php
 }, 45 );
