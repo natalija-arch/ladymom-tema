@@ -48,6 +48,9 @@ add_action( 'template_redirect', function () {
 		'/legal-privacy/'          => '/politika-privatnosti/',
 		// Duplikat kategorije bloga spojen 18.10.2026.
 		'/category/edukacija-bs/'  => '/category/edukacija/',
+		// Stare adrese iz Search Console koje su vraćale 404 (21.10.2026).
+		'/featured_item/'          => '/',
+		'/elementor-46675/'        => '/',
 	);
 	if ( isset( $fiksno[ $put ] ) ) {
 		wp_safe_redirect( home_url( $fiksno[ $put ] ) . $upit, 301 );
@@ -63,7 +66,21 @@ add_action( 'template_redirect', function () {
 		// Baze sa starog ladymom.me.
 		'/kategorija-proizvoda/' => '/kategorija/',
 		'/proizvod-tag/'         => '/oznaka/',
+		'/brand/'                => '/marka/',
+		// Greška u adresi sa starog sajta (kategorija-proizvode).
+		'/kategorija-proizvode/' => '/kategorija/',
 	);
+	// 3) Stranice prodavnice sa starih adresa (/shop/page/2/, /shop-2/page/3/).
+	if ( preg_match( '#^/shop(?:-2)?/page/(\d+)/$#', $put, $m ) ) {
+		wp_safe_redirect( home_url( '/prodavnica/page/' . (int) $m[1] . '/' ) . $upit, 301 );
+		exit;
+	}
+	// 4) Stare stranice boja (/boja/siva/) više ne postoje; vode na prodavnicu.
+	if ( 0 === strpos( $put, '/boja/' ) && is_404() ) {
+		wp_safe_redirect( home_url( '/prodavnica/' ), 301 );
+		exit;
+	}
+
 	foreach ( $baze as $stara => $nova ) {
 		if ( 0 === strpos( $put, $stara ) ) {
 			$ostatak = substr( $put, strlen( $stara ) );

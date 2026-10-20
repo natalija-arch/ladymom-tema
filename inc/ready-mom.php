@@ -4,11 +4,12 @@
  *
  * - Artikal (virtuelni, 129 €) se prodaje preko sajta; nije iz ERP-a.
  *   ID artikla: opcija `lm_ready_mom_proizvod`, stranica: opcija `lm_ready_mom_stranica`.
- * - Stranica /ready-mom/ ima opis, slike, prijavu (artikal ide pravo na plaćanje)
+ * - Stranica škole (od 21.10.2026 /skola-za-trudnice/, ranije /ready-mom/) ima opis, slike, prijavu (artikal ide pravo na plaćanje)
  *   i dugmad za poziv, WhatsApp i Viber. Sadržaj je u kratkom kodu [lm_ready_mom].
  * - Stranica artikla vodi na ovu stranicu, da kupac uvijek vidi cijeli opis.
  * - Sve „škola“ veze na sajtu (traka na vrhu, mobilni meni, početna, slajd, O nama,
- *   Kontakt, članak bloga) vode na /ready-mom/ umjesto na poziv.
+ *   Kontakt) vode na stranicu škole. Stare adrese preusmjerava inc/seo-dorade.php.
+ * - 21.10.2026 (SEO): H1 „Škola za trudnice Ready Mom“, sadržaj članka o školi spojen ovdje, česta pitanja.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -40,6 +41,26 @@ add_action( 'template_redirect', function () {
 	}
 } );
 
+/**
+ * Česta pitanja na stranici škole (i u podacima za Google, inc/seo-dorade.php).
+ * Samo činjenice koje su već potvrđene na stranici; termin, cijena i mjesto iz istog izvora.
+ */
+function lm_rm_pitanja() {
+	$id     = lm_rm_proizvod_id();
+	$p      = $id ? wc_get_product( $id ) : null;
+	$cijena = $p ? wp_strip_all_tags( wc_price( wc_get_price_to_display( $p ) ) ) : '129,00 €';
+	return array(
+		array( 'Koliko traje škola za trudnice Ready Mom?', 'Dvije nedjelje. Za to vrijeme je osam predavanja.' ),
+		array( 'Ko drži predavanja?', 'Šest stručnjaka: ginekolog, babica, dva pedijatra, patronažna sestra i psihoterapeut. Svaku temu objašnjava osoba koja se njome bavi svaki dan.' ),
+		array( 'Kada je najbolje upisati školu za trudnice?', 'U drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje.' ),
+		array( 'Može li partner da dođe na predavanja?', 'Da, partneri su dobrodošli.' ),
+		array( 'Mogu li pratiti školu ako nisam iz Podgorice?', 'Da. Program možete pratiti online, iz bilo kog grada.' ),
+		array( 'Gdje se održavaju predavanja uživo?', 'U prostoru Family Nest, naselje New City, Podgorica.' ),
+		array( 'Koliko košta i kako se plaća?', 'Cijena programa je ' . $cijena . '. Možete platiti karticom pri prijavi na sajtu ili gotovinom.' ),
+		array( 'Kada počinje naredna grupa?', 'Poslije prijave vas zovemo sa terminom naredne grupe. Za termine možete nas pozvati ili pisati na WhatsApp i Viber: ' . LM_RM_TEL_TXT . '.' ),
+	);
+}
+
 add_shortcode( 'lm_ready_mom', function () {
 	$id = lm_rm_proizvod_id();
 	$p  = $id ? wc_get_product( $id ) : null;
@@ -62,9 +83,9 @@ add_shortcode( 'lm_ready_mom', function () {
 <div class="lm-rm">
 	<section class="lm-rm-hero">
 		<div class="lm-rm-hero-tekst">
-			<p class="lm-rm-nad">Škola za trudnice · Podgorica i online</p>
-			<h1 class="lm-rm-naslov">Ready Mom</h1>
-			<p class="lm-rm-pod">Edukativni program za trudnice: priprema za porođaj i prve mjesece sa bebom, uz stručnjake koji se time bave svaki dan.</p>
+			<p class="lm-rm-nad">Podgorica i online</p>
+			<h1 class="lm-rm-naslov">Škola za trudnice Ready Mom</h1>
+			<p class="lm-rm-pod">Priprema za porođaj i prve mjesece sa bebom: osam predavanja sa šest stručnjaka, uživo u Podgorici ili online.</p>
 			<ul class="lm-rm-cinjenice">
 				<li><strong>2</strong> nedjelje</li>
 				<li><strong>8</strong> predavanja</li>
@@ -83,11 +104,12 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-blok">
 		<h2>Šta je Ready Mom?</h2>
+		<p>Trudnoća donosi mnogo pitanja. Kako da znam da je porođaj počeo? Šta da ponesem u porodilište? Kako da podojim bebu i šta da radim kad beba plače, a ne znam zašto? U Ready Mom školi za trudnice na ta pitanja odgovaraju stručnjaci koji se time bave svaki dan.</p>
 		<p>Ready Mom je intenzivan program od dvije nedjelje i osam predavanja, koja drži šest stručnjaka. Vodi vas redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
 	</section>
 
 	<section class="lm-rm-blok">
-		<h2>Ko drži predavanja</h2>
+		<h2>Program: ko drži predavanja i šta se uči</h2>
 		<ul class="lm-rm-predavaci">
 			<li><strong>Ginekolog</strong><span>posljednji trimestar, znaci porođaja i kada krenuti u porodilište</span></li>
 			<li><strong>Babica</strong><span>tok porođaja, disanje, položaji i šta vas čeka u porodilištu</span></li>
@@ -99,13 +121,23 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-dvije">
 		<div class="lm-rm-kartica">
-			<h3>Gdje</h3>
-			<p>Uživo u prostoru Family Nest, naselje New City, Podgorica. Ako ste van Podgorice ili vam je lakše od kuće, program možete pratiti online. Partneri su dobrodošli.</p>
+			<h2>Uživo u Podgorici ili online</h2>
+			<p>Predavanja se održavaju uživo u prostoru Family Nest, naselje New City, Podgorica. Ako ste iz drugog grada, imate obaveze ili vam je lakše od kuće, program možete pratiti online. Partneri su dobrodošli: porođaj i prvi dani sa bebom su timski posao, pa je dobro da oboje znate šta vas čeka.</p>
 		</div>
 		<div class="lm-rm-kartica">
-			<h3>Kada upisati</h3>
-			<p>Najbolje u drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje. Tada vam je sve aktuelno, a imate vremena da naučeno primijenite. Grupe se popunjavaju, pa se prijavite na vrijeme.</p>
+			<h2>Kada upisati školu za trudnice</h2>
+			<p>Najbolje u drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje. Tada vam je sve aktuelno, a imate vremena da naučeno primijenite: da <a href="<?php echo esc_url( home_url( '/sta-spakovati-u-porodiliste/' ) ); ?>">spakujete torbu za porodilište</a>, nabavite <a href="<?php echo esc_url( home_url( '/kategorija/prodavnica/mame/oprema/dojenje/' ) ); ?>">opremu za dojenje</a> i pripremite dom za bebu. Grupe se popunjavaju, pa se prijavite na vrijeme.</p>
 		</div>
+	</section>
+
+	<section class="lm-rm-blok lm-rm-pitanja">
+		<h2>Česta pitanja o školi za trudnice</h2>
+		<?php foreach ( lm_rm_pitanja() as $q ) : ?>
+		<details>
+			<summary><?php echo esc_html( $q[0] ); ?></summary>
+			<p><?php echo wp_kses_post( $q[1] ); ?></p>
+		</details>
+		<?php endforeach; ?>
 	</section>
 
 	<section class="lm-rm-kraj">
@@ -162,6 +194,8 @@ add_action( 'wp_head', function () {
 .lm-rm-kartica{padding:24px 26px;background:#fdf2ec;border-radius:14px}
 .lm-rm-kartica h3{margin:0 0 8px;font-size:21px}
 .lm-rm-kartica p{margin:0;line-height:1.65}
+.lm-rm-kartica h2{margin:0 0 8px;font-size:21px}.lm-rm-kartica a,.lm-rm-pitanja a{color:#6d4e39;text-decoration:underline;text-underline-offset:3px}.lm-rm-blok p+p{margin-top:12px}
+.lm-rm-pitanja details{border-bottom:1px solid #f3e7e0;padding:14px 0}.lm-rm-pitanja summary{cursor:pointer;font-weight:700;color:#6d4e39;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:14px}.lm-rm-pitanja summary::-webkit-details-marker{display:none}.lm-rm-pitanja summary:after{content:"+";color:#a05c57;font-size:20px;line-height:1}.lm-rm-pitanja details[open] summary:after{content:"–"}.lm-rm-pitanja details p{margin:8px 0 0}
 .lm-rm-kraj{margin:34px auto 0;padding:36px 24px;text-align:center;border-top:1px solid #f3e7e0}
 .lm-rm-kraj .lm-rm-kontakt{justify-content:center}
 @media (max-width:900px){.lm-rm-hero{grid-template-columns:1fr;gap:24px;padding-top:18px}.lm-rm-hero-slika{order:-1}.lm-rm-hero-slika img{border-radius:160px 160px 12px 12px}.lm-rm-naslov{font-size:34px}.lm-rm-dvije{grid-template-columns:1fr}}

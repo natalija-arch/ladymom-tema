@@ -217,7 +217,7 @@ function lm_em_footer( $email = null, $opcije = array() ) {
 	if ( $email && ! $admin && in_array( $email->id, array( 'customer_processing_order', 'customer_new_account' ), true ) && ! ( function_exists( 'lm_em_ima_rm' ) && lm_em_ima_rm( $o ) ) ) {
 		echo lm_em_red( '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#d6ede9;border-radius:16px"><tr>'
 			. '<td class="lm-box-td" style="padding:20px 24px;' . $f . '"><div style="font-size:12px;font-weight:700;letter-spacing:.12em;color:#3f6265">ŠKOLA ZA TRUDNICE</div><div style="font-size:16px;font-weight:700;color:#2f4a4c;margin:4px 0 10px">Ready Mom — prijave su otvorene</div>'
-			. '<a href="' . esc_url( home_url( '/ready-mom/' ) ) . '" style="font-size:14px;font-weight:700;color:#2f4a4c;text-decoration:underline">Saznajte više →</a></td></tr></table>', 14 );
+			. '<a href="' . esc_url( function_exists( 'lm_skola_url' ) && lm_skola_url() ? lm_skola_url() : home_url( '/ready-mom/' ) ) . '" style="font-size:14px;font-weight:700;color:#2f4a4c;text-decoration:underline">Saznajte više →</a></td></tr></table>', 14 );
 	}
 	$logo  = wp_get_attachment_url( lm_em_media( 'logo_footer' ) );
 	$logo  = $logo ? $logo : wp_get_attachment_url( lm_em_media( 'logo_bijeli' ) );
