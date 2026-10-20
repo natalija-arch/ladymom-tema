@@ -92,3 +92,6 @@ add_filter( 'wp_calculate_image_srcset', function ( $izvori ) {
 	} );
 	return count( $webp ) >= 2 ? $webp : $izvori;
 }, 20 );
+
+// Korpa (20.10.2026): bez rečenice „Opcije dostave biće ažurirane na plaćanju.“ (dostava je samo po Crnoj Gori).
+add_filter( 'woocommerce_shipping_estimate_html', '__return_empty_string', 20 );
