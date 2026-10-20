@@ -290,6 +290,8 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'e-pošta' => 'email', 'e-pošte' => 'emaila', 'e-poštu' => 'email', 'e-poštom' => 'emailom', 'e-pošti' => 'emailu',
 			'uvjeti' => 'uslovi', 'uvjete' => 'uslove', 'uvjetima' => 'uslovima', 'uvjeta' => 'uslova',
 			'prihvaćam' => 'prihvatam', 'zaprimljena' => 'primljena', 'zaprimili' => 'primili',
+			// Moj nalog (end-to-end test 20.10.2026): „poveznicu“, „Ponovno pošalji“, „nisi …?“
+			'poveznica' => 'link', 'poveznicu' => 'link', 'poveznicom' => 'linkom', 'poveznice' => 'linka', 'ponovno pošalji' => 'pošalji ponovo', 'ponovno' => 'ponovo', 'nisi' => 'niste',
 			'tjedan' => 'nedjelja', 'tjedna' => 'nedjelje', 'tjedno' => 'nedjeljno', 'tisuća' => 'hiljada',
 			'upravljačka ploča' => 'kontrolna tabla', 'moj račun' => 'moj nalog', 'korisnički račun' => 'korisnički nalog', 'detalji računa' => 'podaci o nalogu', 'stvori račun' => 'napravi nalog', 'kreiraj račun' => 'napravi nalog', 'vaš račun' => 'vaš nalog', 'svoj račun' => 'svoj nalog', 'prijavi se u račun' => 'prijavi se na nalog',
 			'nadzorna ploča' => 'kontrolna tabla', 'nadzorne ploče' => 'kontrolne table', 'nadzornu ploču' => 'kontrolnu tablu', 'korisničkog računa' => 'korisničkog naloga', 'svojim računom' => 'svojim nalogom', 'vašim računom' => 'vašim nalogom', 'adresu emaila' => 'email adresu', 'županija' => 'opština', 'županije' => 'opštine',

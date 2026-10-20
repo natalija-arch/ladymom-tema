@@ -142,3 +142,5 @@ PageSpeed (telefon, 7:33): 67/100, FCP 2,0 s, LCP 10,4 s (simulacija), TBT 180 m
 - **Emailovi bez dostave** (`inc/emailovi-1/2/3`): za Ready Mom i druge virtuelne artikle nema teksta o paketu, kuriru, adresi dostave ni trake „Na putu“; kupac Ready Mom ne dobija poziv na Ready Mom.
 - **Sortiranje** (`inc/jezik.php`): crnogorski nazivi (Preporučeno, Najpopularnije, Najnovije, Cijena…); sortiranje po ocjeni uklonjeno.
 - **„Još samo N komada“** (`inc/prodaja-i-brend.php`): oznaka isključena (u katalogu i na artiklu), jer otkriva zalihu. Vraća se filterom `lm_prikazi_preostalo`.
+- **Moj nalog** (`inc/jezik.php`): „poveznicu“ → „link“, „Ponovno pošalji“ → „Pošalji ponovo“, „nisi …?“ → „niste …?“.
+- **Podešavanja 20.10.** (WooCommerce, prethodne vrijednosti u opciji `lm_backup_privacy_text`): tekst o privatnosti na plaćanju i registraciji je glasio „…opisane u našoj politika privatnosti“, sada „…u našoj politici privatnosti“ sa linkom; tab „Preuzimanja“ u Mom nalogu uklonjen (Advanced → Account endpoints → Downloads prazno), jer nema artikala za preuzimanje.
