@@ -531,6 +531,12 @@ add_filter( 'gettext_woocommerce', function ( $prevod, $tekst ) {
 	if ( '%s is not a valid phone number.' === $tekst ) {
 		return '%s nije ispravan.';
 	}
+	if ( 'Sorry, coupon "%s" is not applicable to selected products.' === $tekst ) {
+		return 'Kupon „%s“ ne važi za izabrane proizvode.';
+	}
+	if ( 'Sorry, this coupon is not valid for sale items.' === $tekst ) {
+		return 'Kupon ne važi za artikle na akciji.';
+	}
 	return $prevod;
 }, 30, 2 );
 add_filter( 'woocommerce_countries', function ( $drzave ) {

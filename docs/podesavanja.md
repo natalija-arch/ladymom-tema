@@ -158,3 +158,4 @@ PageSpeed (telefon, 7:33): 67/100, FCP 2,0 s, LCP 10,4 s (simulacija), TBT 180 m
 - **Traka kategorija na /prodavnica/**: kategorije ispod korijena „Prodavnica“ umjesto „Bez kategorije / Prodavnica“.
 - **Stranica proizvoda**: galerija 1:1 kad je glavna slika kvadratna (klasa `lm-galerija-kvadrat`); u srcset-u samo WebP kad postoji.
 - **Plaćanje na telefonu** (`inc/placanje-telefon.php`): kompaktan vrh (nalog i kupon u jednom redu, „Unesite kod“), napomena na link, artikli sklopljeni od 2 artikla, bez trake prednosti i velikog footera; mini korpa sa glavnim dugmetom „Plaćanje“. Tekst pristanka za napuštenu korpu skraćen u WoodMart podešavanju (stari u opciji `lm_backup_recover_consent_text`).
+- **Poruke o kuponu** (`inc/jezik.php`): „Kupon „…“ ne važi za izabrane proizvode.“ i „Kupon ne važi za artikle na akciji.“ (bilo „…nije primjenjiv…“).
