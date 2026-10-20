@@ -32,6 +32,24 @@ function lm_em_pickup( $order ) {
 	}
 	return false;
 }
+/** Porudžbina bez dostave (samo virtuelni artikli, npr. Ready Mom). */
+function lm_em_bez_dostave( $order ) {
+	if ( ! $order || $order->get_shipping_methods() ) return false;
+	foreach ( $order->get_items() as $item ) {
+		$pr = is_callable( array( $item, 'get_product' ) ) ? $item->get_product() : null;
+		if ( ! $pr || ! $pr->is_virtual() ) return false;
+	}
+	return true;
+}
+/** Porudžbina sadrži Ready Mom program. */
+function lm_em_ima_rm( $order ) {
+	$rm = function_exists( 'lm_rm_proizvod_id' ) ? lm_rm_proizvod_id() : 0;
+	if ( ! $order || ! $rm ) return false;
+	foreach ( $order->get_items() as $item ) {
+		if ( is_callable( array( $item, 'get_product_id' ) ) && (int) $item->get_product_id() === $rm ) return true;
+	}
+	return false;
+}
 function lm_em_card( $order ) {
 	return $order && 0 === strpos( (string) $order->get_payment_method(), 'bankart' );
 }
@@ -52,7 +70,18 @@ function lm_em_copy( $email ) {
 	$i  = lm_em_ime( $email );
 	$iz = $i ? ', ' . $i : '';
 	$n  = $o ? $o->get_order_number() : '';
+	$b  = lm_em_bez_dostave( $o );
+	$rm = $b && lm_em_ima_rm( $o );
 	$c  = array( 's' => '', 'h' => '', 'pre' => '', 'txt' => '' );
+	// Bez dostave (Ready Mom, 20.10.2026): bez teksta o paketu i kuriru.
+	if ( $b && 'customer_processing_order' === $id ) {
+		return $rm
+			? array( 's' => 'Hvala' . $iz . '! Prijava za Ready Mom je primljena', 'h' => 'Hvala' . $iz . '! Prijava je primljena.', 'pre' => 'Javićemo vam se sa terminom i detaljima programa.', 'txt' => 'Hvala na prijavi za Ready Mom. Javićemo vam se telefonom ili emailom sa terminom prvog predavanja i detaljima.' )
+			: array( 's' => 'Hvala' . $iz . '! Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.', 'pre' => 'Javićemo vam se sa detaljima.', 'txt' => 'Javićemo vam se telefonom ili emailom sa detaljima.' );
+	}
+	if ( $b && 'customer_completed_order' === $id ) {
+		return array( 's' => 'Porudžbina #' . $n . ' je završena', 'h' => 'Hvala' . $iz . '!', 'pre' => 'Porudžbina je završena.', 'txt' => 'Porudžbina #' . $n . ' je završena. Hvala što ste izabrali Lady Mom.' );
+	}
 	switch ( $id ) {
 		case 'customer_processing_order':
 			$c = array( 's' => 'Hvala' . $iz . '! Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.',

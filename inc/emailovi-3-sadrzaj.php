@@ -17,9 +17,10 @@ function lm_em_payment_html( $order, $stage ) {
 	if ( lm_em_card( $order ) ) {
 		$r = (int) $order->get_meta( '_bankart_instalments' );
 		$h = 'Kartica' . ( $r > 1 ? ' · ' . $r . ' rata' : '' );
-		$d = 'completed' === $stage ? 'Plaćeno karticom: <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>' : '<strong style="color:#6d4e39">' . esc_html( $t ) . '</strong> je rezervisano na kartici. Naplaćuje se kad porudžbinu pripremimo za slanje.';
+		$d = 'completed' === $stage ? 'Plaćeno karticom: <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>' : '<strong style="color:#6d4e39">' . esc_html( $t ) . '</strong> je rezervisano na kartici. Naplaćuje se kad porudžbinu ' . ( lm_em_bez_dostave( $order ) ? 'potvrdimo.' : 'pripremimo za slanje.' );
 	} elseif ( 'cod' === $order->get_payment_method() ) {
-		if ( lm_em_pickup( $order ) ) { $h = 'Prilikom preuzimanja'; $d = 'U butiku plaćate <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>'; }
+		if ( lm_em_bez_dostave( $order ) ) { $h = 'Gotovinom'; $d = 'Plaćate gotovinom <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>'; }
+		elseif ( lm_em_pickup( $order ) ) { $h = 'Prilikom preuzimanja'; $d = 'U butiku plaćate <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>'; }
 		else { $h = 'Pouzećem'; $d = 'Kuriru plaćate gotovinom <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>'; }
 	} else {
 		$h = $order->get_payment_method_title(); $d = esc_html( $t );
@@ -42,6 +43,9 @@ function lm_em_pickup_box() {
 }
 
 function lm_em_cards( $order, $stage ) {
+	if ( lm_em_bez_dostave( $order ) ) {
+		return '<tr><td style="padding:26px 40px 0">' . lm_em_box( lm_em_payment_html( $order, $stage ) ) . '</td></tr>';
+	}
 	if ( lm_em_pickup( $order ) ) {
 		return '<tr><td style="padding:26px 40px 0">' . lm_em_pickup_box() . '</td></tr><tr><td style="padding:12px 40px 0">' . lm_em_box( lm_em_payment_html( $order, $stage ) ) . '</td></tr>';
 	}
@@ -75,7 +79,8 @@ function lm_em_totals( $order ) {
 	$o .= '<tr><td colspan="2" style="height:10px;font-size:0;line-height:0">&nbsp;</td></tr>';
 	$o .= $row( 'Međuzbir', esc_html( wp_strip_all_tags( $order->get_subtotal_to_display( false, 'incl' ) ) ) );
 	if ( (float) $order->get_total_discount() > 0 ) $o .= $row( 'Popust', '−' . esc_html( lm_em_money( $order, (float) $order->get_total_discount() + (float) $order->get_discount_tax() ) ) );
-	if ( lm_em_pickup( $order ) ) $o .= $row( 'Preuzimanje u butiku', '0,00 €' );
+	if ( lm_em_bez_dostave( $order ) ) { /* bez reda za dostavu */ }
+	elseif ( lm_em_pickup( $order ) ) $o .= $row( 'Preuzimanje u butiku', '0,00 €' );
 	elseif ( (float) $order->get_shipping_total() <= 0 ) $o .= $row( 'Dostava', '<span style="color:#3f6265;font-weight:700">Besplatna</span>' );
 	else $o .= $row( 'Dostava', esc_html( lm_em_money( $order, (float) $order->get_shipping_total() + (float) $order->get_shipping_tax() ) ) );
 	foreach ( $order->get_refunds() as $r ) $o .= $row( 'Vraćeno', '−' . esc_html( lm_em_money( $order, $r->get_amount() ) ) );
@@ -87,7 +92,7 @@ function lm_em_totals( $order ) {
 }
 
 function lm_em_addresses( $order ) {
-	$left = lm_em_pickup( $order )
+	$left = ( lm_em_pickup( $order ) || lm_em_bez_dostave( $order ) )
 		? lm_em_label( 'KUPAC' ) . '<div style="font-size:14px;line-height:1.6">' . esc_html( $order->get_formatted_billing_full_name() ) . '<br>' . esc_html( $order->get_billing_phone() ) . '<br>' . esc_html( $order->get_billing_email() ) . '</div>'
 		: lm_em_label( 'DOSTAVA NA ADRESU' ) . '<div style="font-size:14px;line-height:1.6">' . wp_kses_post( $order->get_formatted_shipping_address() ? $order->get_formatted_shipping_address() : $order->get_formatted_billing_address() ) . '<br>' . esc_html( $order->get_billing_phone() ) . '</div>';
 	$note  = $order->get_customer_note();
@@ -100,6 +105,7 @@ function lm_em_body( $email, $vars = array() ) {
 	$id = $email->id;
 	$c  = lm_em_copy( $email );
 	$p  = lm_em_pickup( $o );
+	$b  = lm_em_bez_dostave( $o );
 	$ey = $o ? 'PORUDŽBINA #' . $o->get_order_number() . ( $o->get_date_created() ? ' · ' . mb_strtoupper( wc_format_datetime( $o->get_date_created(), 'j. F Y.' ) ) : '' ) : 'VAŠ NALOG';
 	$labels = $p ? array( 'Primljena', 'Pripremamo', 'Spremna' ) : array( 'Primljena', 'Pripremamo', 'Na putu' );
 	echo '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="' . lm_em_font() . 'color:#7a6250">';
@@ -107,19 +113,19 @@ function lm_em_body( $email, $vars = array() ) {
 	switch ( $id ) {
 		case 'customer_processing_order':
 		case 'customer_on_hold_order':
-			echo lm_em_tracker( $labels, array( 'done', 'customer_on_hold_order' === $id ? 'todo' : 'current', 'todo' ) );
+			if ( ! $b ) echo lm_em_tracker( $labels, array( 'done', 'customer_on_hold_order' === $id ? 'todo' : 'current', 'todo' ) );
 			echo lm_em_cards( $o, 'processing' );
 			echo lm_em_items( $o );
 			echo lm_em_totals( $o );
 			echo lm_em_addresses( $o );
 			break;
 		case 'customer_completed_order':
-			echo lm_em_tracker( array( 'Primljena', 'Pripremljena', $p ? 'Spremna' : 'Na putu' ), array( 'done', 'done', 'done' ) );
+			if ( ! $b ) echo lm_em_tracker( array( 'Primljena', 'Pripremljena', $p ? 'Spremna' : 'Na putu' ), array( 'done', 'done', 'done' ) );
 			if ( $p ) echo '<tr><td style="padding:26px 40px 0">' . lm_em_pickup_box() . '</td></tr>';
 			echo '<tr><td style="padding:12px 40px 0">' . lm_em_box( lm_em_payment_html( $o, 'completed' ) ) . '</td></tr>';
-			echo lm_em_items( $o, $p ? 'Vaša porudžbina' : 'U paketu' );
+			echo lm_em_items( $o, ( $p || $b ) ? 'Vaša porudžbina' : 'U paketu' );
 			echo lm_em_totals( $o );
-			echo '<tr><td style="padding:28px 40px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1.5px solid #f6ded4;border-radius:16px"><tr><td style="padding:20px 24px;' . lm_em_font() . '">'
+			if ( ! $b ) echo '<tr><td style="padding:28px 40px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1.5px solid #f6ded4;border-radius:16px"><tr><td style="padding:20px 24px;' . lm_em_font() . '">'
 				. '<div style="font-size:17px;font-weight:800;color:#6d4e39;margin:0 0 6px">Ne odgovara veličina?</div>'
 				. '<div style="font-size:15px;line-height:1.55;color:#7a6250;margin:0 0 8px">Zamjena ili povrat je moguć u roku od 14 dana.</div>'
 				. '<a href="' . esc_url( home_url( '/povrat-robe-i-sredstava/' ) ) . '" style="font-size:14px;font-weight:700;color:#8a4b47">Kako ide zamjena →</a></td></tr></table></td></tr>';

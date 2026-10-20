@@ -42,7 +42,8 @@ function lm_em_footer( $email = null ) {
 			. '<div style="font-size:15px;line-height:1.5;color:#6d4e39;margin:14px 0 0">Viber i telefon: <a href="tel:+38267030655" style="font-weight:700;color:#8a4b47;text-decoration:underline;white-space:nowrap">067 030 655</a></div>',
 			'#f6ded4' ) . '</td></tr>';
 	}
-	if ( $email && in_array( $email->id, array( 'customer_processing_order', 'customer_new_account' ), true ) ) {
+	// Poziv na Ready Mom se ne šalje onome ko je upravo kupio program.
+	if ( $email && in_array( $email->id, array( 'customer_processing_order', 'customer_new_account' ), true ) && ! ( function_exists( 'lm_em_ima_rm' ) && lm_em_ima_rm( $o ) ) ) {
 		echo '<tr><td style="padding:14px 40px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#d6ede9;border-radius:16px"><tr>'
 			. '<td style="padding:18px 22px;' . $f . '"><div style="font-size:12px;font-weight:700;letter-spacing:.12em;color:#3f6265">ŠKOLA ZA TRUDNICE</div><div style="font-size:15px;font-weight:700;color:#2f4a4c;margin:4px 0 8px">Ready Mom — prijave su otvorene</div>'
 			. '<a href="' . esc_url( home_url( '/ready-mom/' ) ) . '" style="font-size:13px;font-weight:700;color:#2f4a4c">Saznajte više →</a></td></tr></table></td></tr>';

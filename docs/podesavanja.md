@@ -133,3 +133,11 @@ PageSpeed (telefon, 7:33): 67/100, FCP 2,0 s, LCP 10,4 s (simulacija), TBT 180 m
 - LiteSpeed JS Combine uključen (`optm-js_comb` = 1, rezerva `lm_rezerva_litespeed_js_1910`): početna sa 99 na 5 skripti. Korpa i plaćanje izuzeti iz optimizacije (`optm-exc` = /placanje/, /korpa/) zbog Bankart-a.
 - `inc/brzina.php`: blockUI i js-cookie dobijaju `defer` (bili render-blocking).
 - Otvoreno: Google/Facebook skripte tek na dodir (čeka Markovo da), Cloudflare Email Obfuscation (Marko), QUIC.cloud kritični CSS (s5), memcached na hostingu.
+
+## End-to-end test, ispravke 20.10.2026.
+
+- **Plaćanje karticom za nove kupce** (`inc/nalog-uz-porudzbinu.php`): nalog se pravi tek kad porudžbina pređe u obradu (pouzeće odmah, kartica posle potvrde Bankarta). Test #51484: Bankart forma se otvara bez prijave.
+- **Telefon** (`inc/placanje-provjere.php`): mora imati 8–15 cifara.
+- **Plaćanje gotovinom** (`inc/placanje-provjere.php`): kod preuzimanja u butiku piše „Plaćanje u butiku“, za korpu bez dostave (Ready Mom) „Plaćanje gotovinom“; isti tekst na stranici „Porudžbina primljena“.
+- **Emailovi bez dostave** (`inc/emailovi-1/2/3`): za Ready Mom i druge virtuelne artikle nema teksta o paketu, kuriru, adresi dostave ni trake „Na putu“; kupac Ready Mom ne dobija poziv na Ready Mom.
+- **Sortiranje** (`inc/jezik.php`): crnogorski nazivi (Preporučeno, Najpopularnije, Najnovije, Cijena…); sortiranje po ocjeni uklonjeno.

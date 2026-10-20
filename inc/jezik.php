@@ -236,6 +236,7 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'Sort by popularity'   => 'Po popularnosti',
 			'Sort by average rating' => 'Po ocjeni',
 			'Sort by latest'       => 'Najnovije',
+			'Newness'              => 'Najnovije',
 			'Sort by price: low to high' => 'Cijena: od najniže',
 			'Sort by price: high to low' => 'Cijena: od najviše',
 			'Show more'            => 'Prikaži više',
@@ -536,3 +537,28 @@ add_filter( 'woocommerce_countries', function ( $drzave ) {
 	}
 	return $drzave;
 }, 30 );
+
+/**
+ * Sortiranje u prodavnici (end-to-end test 20.10.2026): padajuća lista je dolazila sa
+ * hrvatskim prevodom („Zadano sortiranje“, „Poredaj od zadnjeg“), a WoodMart lista sa
+ * „Newness“. Sortiranje po ocjeni je uklonjeno jer artikli nemaju recenzije.
+ */
+add_filter( 'woocommerce_catalog_orderby', function ( $opcije ) {
+	if ( is_admin() && ! wp_doing_ajax() ) {
+		return $opcije;
+	}
+	$nazivi = array(
+		'menu_order' => 'Preporučeno',
+		'popularity' => 'Najpopularnije',
+		'date'       => 'Najnovije',
+		'price'      => 'Cijena: od najniže',
+		'price-desc' => 'Cijena: od najviše',
+	);
+	unset( $opcije['rating'] );
+	foreach ( $opcije as $k => $v ) {
+		if ( isset( $nazivi[ $k ] ) ) {
+			$opcije[ $k ] = $nazivi[ $k ];
+		}
+	}
+	return $opcije;
+}, 99 );
