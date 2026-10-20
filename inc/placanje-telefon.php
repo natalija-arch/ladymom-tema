@@ -39,7 +39,7 @@ add_action( 'wp_head', function () {
 .woocommerce-additional-fields.lm-napomena-skrivena h3,.woocommerce-additional-fields.lm-napomena-skrivena .woocommerce-additional-fields__field-wrapper{display:none}
 .lm-napomena-link{display:inline-block;margin:4px 0 6px;font-size:14px;font-weight:600;color:var(--lm-smedja,#6d4e39)!important;text-decoration:underline;text-underline-offset:3px}
 .lm-artikli-red td{padding:10px 0!important}
-.lm-artikli-dugme{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;background:var(--lm-krem,#fdf2ec);border:0;border-radius:8px;padding:10px 12px;font:inherit;font-size:14px;font-weight:600;color:var(--lm-smedja,#6d4e39);cursor:pointer}
+.woocommerce-checkout-review-order-table .lm-artikli-dugme{display:flex!important;width:100%!important;min-height:0!important;align-items:center;justify-content:space-between;gap:10px;background:var(--lm-krem,#fdf2ec)!important;border:0!important;border-radius:8px!important;padding:10px 12px!important;font-size:14px!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important;color:var(--lm-smedja,#6d4e39)!important;box-shadow:none!important;cursor:pointer}
 .lm-artikli-dugme:after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px;transition:transform .15s}
 .lm-artikli-otvoreno .lm-artikli-dugme:after{transform:rotate(-135deg);margin-top:4px}
 @media (max-width:768px){
@@ -48,12 +48,17 @@ add_action( 'wp_head', function () {
 	.lm-brza-kupovina .lm-google-dugme{min-height:44px}
 	.lm-brza-kupovina .lm-brza-ili{margin:10px 0 6px!important}
 	.lm-brza-kupovina .lm-nalog-napomena{font-size:12px!important;line-height:1.4!important}
-	.woocommerce-form-login-toggle,.woocommerce-form-coupon-toggle{display:inline-block;width:calc(50% - 4px);vertical-align:top}
-	.woocommerce-form-login-toggle{margin-right:8px}
-	body.logged-in .woocommerce-form-coupon-toggle{width:100%}
-	.woocommerce-form-login-toggle .woocommerce-info,.woocommerce-form-coupon-toggle .woocommerce-info{padding:9px 10px!important;margin-bottom:12px!important;font-size:12.5px!important;line-height:1.35!important;min-height:0!important}
-	.woocommerce-form-login-toggle .woocommerce-info:before,.woocommerce-form-coupon-toggle .woocommerce-info:before{display:none!important}
-	.woocommerce-checkout .wd-shipping-progress-bar{padding:10px 12px!important;margin-bottom:14px!important;font-size:13px}
+	body .woocommerce-form-login-toggle,body .woocommerce-form-coupon-toggle{float:left;width:calc(50% - 6px)}
+	body .woocommerce-form-login-toggle{margin-right:12px}
+	body.logged-in .woocommerce-form-coupon-toggle{float:none;width:100%}
+	.woocommerce-form-coupon-toggle~form,.woocommerce-form-coupon-toggle~div{clear:both}
+	body .woocommerce-form-login-toggle>.woocommerce-info,body .woocommerce-form-coupon-toggle>.woocommerce-info{display:block!important;margin-bottom:14px!important;font-size:13px!important;line-height:1.4!important}
+	body .woocommerce-form-login-toggle>.woocommerce-info a,body .woocommerce-form-coupon-toggle>.woocommerce-info a{display:block}
+	body.logged-in .woocommerce-form-coupon-toggle>.woocommerce-info a{display:inline}
+	body.woocommerce-checkout .wd-shipping-progress-bar{padding:0!important;margin-bottom:14px!important}
+	body.woocommerce-checkout .wd-shipping-progress-bar .wd-progress-bar{padding:10px 12px!important}
+	body.woocommerce-checkout .wd-shipping-progress-bar p{font-size:13px!important;line-height:1.4!important;margin-bottom:6px!important}
+	body.woocommerce-checkout .wd-shipping-progress-bar .amount{font-size:14px!important}
 	.woocommerce-billing-fields h3,#order_review_heading{margin-bottom:10px!important;font-size:17px!important}
 	.woocommerce-billing-fields .form-row{margin-bottom:12px!important}
 	.woocommerce-billing-fields .form-row label{margin-bottom:4px!important}
