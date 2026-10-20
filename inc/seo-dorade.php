@@ -37,22 +37,21 @@ add_action( 'template_redirect', function () {
 	}
 }, 0 );
 
-/* 2) Šema Product kad je WooCommerce sam ne napravi. */
-add_action( 'wp_footer', function () {
+/* 2) Šema Product kad je WooCommerce sam ne napravi.
+ * Pravi se na akciji `wp` (glavni upit je tada poznat), a WooCommerce-ov poziv na
+ * `woocommerce_single_product_summary` se skida da ne bi bilo dva Product zapisa.
+ * Na wp_footer više nije pouzdano: WoodMart prikaz mijenja globalni upit, pa is_product() tamo ne važi. */
+add_action( 'wp', function () {
 	if ( ! function_exists( 'is_product' ) || ! is_product() || empty( WC()->structured_data ) ) {
 		return;
 	}
 	$sd = WC()->structured_data;
-	foreach ( (array) $sd->get_data() as $d ) {
-		if ( isset( $d['@type'] ) && 'Product' === $d['@type'] ) {
-			return;
-		}
-	}
+	remove_action( 'woocommerce_single_product_summary', array( $sd, 'generate_product_data' ), 60 );
 	$p = wc_get_product( get_queried_object_id() );
 	if ( $p ) {
 		$sd->generate_product_data( $p );
 	}
-}, 5 );
+}, 20 );
 
 /* 3) Kategorije: H1 i tekst ispod artikala. */
 add_filter( 'woocommerce_page_title', function ( $naslov ) {
