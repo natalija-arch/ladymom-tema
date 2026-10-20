@@ -19,3 +19,24 @@ add_filter( 'script_loader_tag', function ( $tag, $handle ) {
 	}
 	return $tag;
 }, 20, 2 );
+
+/*
+ * Slike u headeru (20.10.2026, PageSpeed 51 na telefonu): panel pretrage („Novo“ i
+ * članci), mega meni i mobilni meni su skriveni, ali je WordPress njihovih ~7 slika
+ * (~120 KB) označavao kao „učitaj odmah“, jer su prve na stranici. Na sporom mobilnom
+ * su se otimale za protok sa prvom slikom slajdera (LCP), a trošile su i WordPress-ov
+ * limit „prve 3 slike odmah“, pa je glavna slika proizvoda mogla da ostane bez prioriteta.
+ * Slike koje nastaju u headeru sada dobijaju loading="lazy" i ne ulaze u to brojanje.
+ */
+add_action( 'woodmart_after_body_open', function () {
+	$GLOBALS['lm_u_headeru'] = true;
+}, 1 );
+add_action( 'woodmart_after_header', function () {
+	$GLOBALS['lm_u_headeru'] = false;
+}, 1 );
+add_filter( 'pre_wp_get_loading_optimization_attributes', function ( $pre, $tag ) {
+	if ( ! empty( $GLOBALS['lm_u_headeru'] ) && 'img' === $tag ) {
+		return array( 'loading' => 'lazy', 'decoding' => 'async' );
+	}
+	return $pre;
+}, 10, 2 );
