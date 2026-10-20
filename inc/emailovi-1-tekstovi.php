@@ -98,7 +98,7 @@ function lm_em_copy( $email ) {
 		case 'customer_completed_order':
 			$c = $p
 				? array( 's' => 'Porudžbina #' . $n . ' je spremna za preuzimanje', 'h' => 'Porudžbina je spremna' . $iz . '.', 'pre' => 'Čeka vas u butiku, Branka Deletića bb.', 'txt' => 'Čeka vas u butiku Lady Mom, Branka Deletića bb, Podgorica.' )
-				: array( 's' => 'Paket #' . $n . ' je na putu', 'h' => 'Paket je na putu' . $iz . '.', 'pre' => 'Kurir The Vault, dostava 1–3 radna dana.', 'txt' => 'Predali smo ga kurirskoj službi The Vault. Dostava traje 1–3 radna dana.' );
+				: array( 's' => 'Paket #' . $n . ' je na putu', 'h' => 'Paket je na putu' . $iz . '.', 'pre' => 'Kurir The Vault d.o.o., dostava 1–3 radna dana.', 'txt' => 'Predali smo ga kurirskoj službi The Vault d.o.o. Dostava traje 1–3 radna dana.' );
 			break;
 		case 'customer_failed_order':
 			$c = array( 's' => 'Plaćanje za porudžbinu #' . $n . ' nije prošlo', 'h' => 'Plaćanje nije prošlo.', 'pre' => 'Porudžbina je sačuvana i možete pokušati ponovo.', 'txt' => 'Banka nije odobrila plaćanje karticom. Porudžbina je sačuvana i možete pokušati ponovo, istom ili drugom karticom.' );

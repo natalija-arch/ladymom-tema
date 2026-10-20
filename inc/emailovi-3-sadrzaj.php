@@ -39,7 +39,7 @@ function lm_em_payment_html( $order, $stage ) {
 function lm_em_delivery_html( $order ) {
 	$free = (float) $order->get_shipping_total() <= 0;
 	$txt  = '1–3 radna dana · ' . ( $free ? 'besplatno, porudžbina je preko 100 €' : esc_html( lm_em_money( $order, (float) $order->get_shipping_total() + (float) $order->get_shipping_tax() ) ) );
-	return lm_em_label( 'DOSTAVA' ) . '<div style="font-size:15px;font-weight:700;color:#6d4e39;margin:0 0 4px">Kurirska služba The Vault</div><div style="font-size:14px;line-height:1.5">' . $txt . '</div>';
+	return lm_em_label( 'DOSTAVA' ) . '<div style="font-size:15px;font-weight:700;color:#6d4e39;margin:0 0 4px">Kurirska služba The Vault d.o.o.</div><div style="font-size:14px;line-height:1.5">' . $txt . '</div>';
 }
 
 function lm_em_pickup_box() {
