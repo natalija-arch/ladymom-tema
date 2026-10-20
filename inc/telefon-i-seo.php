@@ -52,7 +52,7 @@ add_filter( 'wpseo_breadcrumb_links', function ( $links ) {
 /**
  * t4) Telefon, stranica proizvoda: putanja i strelice „prethodni/sljedeći“ stoje između
  * slike i naziva, pa naziv i cijena padaju ispod prvog ekrana. Na telefonu se sklanjaju,
- * a logo brenda je manji.
+ * a logo brenda je umjeren (do 150 × 40 px; 20.10.2026 uvećan na Markov zahtjev, bio 70 × 26).
  * t6) Telefon, korpa: polje za kupon je sklopljeno u link „Imate kupon?“.
  */
 add_action( 'wp_head', function () {
@@ -61,7 +61,7 @@ add_action( 'wp_head', function () {
 @media (max-width:768.98px){
 .single-product .summary .single-breadcrumbs-wrapper{display:none!important}
 .single-product .summary .wd-product-brands{margin-bottom:6px!important}
-.single-product .summary .wd-product-brands img{max-height:26px!important;width:auto!important}
+.single-product .summary .wd-product-brands img{max-height:40px!important;max-width:150px!important;width:auto!important}
 .woocommerce-cart .wd-coupon-form.lm-sklopljen{display:none!important}
 .lm-kupon-link{display:inline-block;margin:4px 0 10px;font-size:14px;font-weight:600;color:var(--lm-smedja,#6d4e39);text-decoration:underline;cursor:pointer;background:none;border:0;padding:0}
 }
