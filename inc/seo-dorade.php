@@ -158,7 +158,7 @@ add_action( 'wp_head', function () {
 		'@type'             => 'Course',
 		'@id'               => $url . '#kurs',
 		'name'              => 'Škola za trudnice Ready Mom',
-		'description'       => 'Priprema za porođaj i prve mjesece sa bebom: 8 predavanja sa 6 stručnjaka (ginekolog, babica, pedijatri, patronažna sestra, psihoterapeut). Uživo u Podgorici ili online.',
+		'description'       => 'Priprema za porođaj i prve mjesece sa bebom: program od 4 nedjelje, 8 predavanja sa 6 stručnjaka (ginekolog, babica, pedijatri, patronažna sestra, psihoterapeut). Uživo u Podgorici ili online.',
 		'url'               => $url,
 		'inLanguage'        => 'sr-Latn-ME',
 		'provider'          => array( '@type' => 'Organization', 'name' => 'Lady Mom', 'url' => home_url( '/' ) ),

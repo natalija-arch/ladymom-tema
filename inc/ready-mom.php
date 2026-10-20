@@ -50,7 +50,7 @@ function lm_rm_pitanja() {
 	$p      = $id ? wc_get_product( $id ) : null;
 	$cijena = $p ? wp_strip_all_tags( wc_price( wc_get_price_to_display( $p ) ) ) : '129,00 €';
 	return array(
-		array( 'Koliko traje škola za trudnice Ready Mom?', 'Dvije nedjelje. Za to vrijeme je osam predavanja.' ),
+		array( 'Koliko traje škola za trudnice Ready Mom?', 'Četiri nedjelje. Za to vrijeme je osam predavanja.' ),
 		array( 'Ko drži predavanja?', 'Šest stručnjaka: ginekolog, babica, dva pedijatra, patronažna sestra i psihoterapeut. Svaku temu objašnjava osoba koja se njome bavi svaki dan.' ),
 		array( 'Kada je najbolje upisati školu za trudnice?', 'U drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje.' ),
 		array( 'Može li partner da dođe na predavanja?', 'Da, partneri su dobrodošli.' ),
@@ -87,7 +87,7 @@ add_shortcode( 'lm_ready_mom', function () {
 			<h1 class="lm-rm-naslov">Škola za trudnice Ready Mom</h1>
 			<p class="lm-rm-pod">Priprema za porođaj i prve mjesece sa bebom: osam predavanja sa šest stručnjaka, uživo u Podgorici ili online.</p>
 			<ul class="lm-rm-cinjenice">
-				<li><strong>2</strong> nedjelje</li>
+				<li><strong>4</strong> nedjelje</li>
 				<li><strong>8</strong> predavanja</li>
 				<li><strong>6</strong> stručnjaka</li>
 				<li>uživo ili <strong>online</strong></li>
@@ -105,7 +105,7 @@ add_shortcode( 'lm_ready_mom', function () {
 	<section class="lm-rm-blok">
 		<h2>Šta je Ready Mom?</h2>
 		<p>Trudnoća donosi mnogo pitanja. Kako da znam da je porođaj počeo? Šta da ponesem u porodilište? Kako da podojim bebu i šta da radim kad beba plače, a ne znam zašto? U Ready Mom školi za trudnice na ta pitanja odgovaraju stručnjaci koji se time bave svaki dan.</p>
-		<p>Ready Mom je intenzivan program od dvije nedjelje i osam predavanja, koja drži šest stručnjaka. Vodi vas redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
+		<p>Ready Mom je program od četiri nedjelje i osam predavanja, koja drži šest stručnjaka. Vodi vas redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
 	</section>
 
 	<section class="lm-rm-blok">
