@@ -142,6 +142,29 @@ foreach ( lm_em_ids() as $lm_em_id ) {
 	}, 20, 3 );
 }
 
+/**
+ * Kad kupac odgovori na email o porudžbini ili nalogu, odgovor ide i butiku (20.10.2026):
+ * natalija@ladymom.me i adrese iz opcije `lm_butik_emailovi` (ladymom.mne@gmail.com).
+ */
+function lm_em_odgovor_primaoci() {
+	$p = array( 'natalija@ladymom.me' );
+	foreach ( (array) get_option( 'lm_butik_emailovi', array() ) as $e ) {
+		if ( is_email( $e ) ) {
+			$p[] = $e;
+		}
+	}
+	return array_values( array_unique( $p ) );
+}
+add_filter( 'woocommerce_email_headers', function ( $headers, $id = '', $object = null, $email = null ) {
+	$kupcu = $email && is_object( $email ) && method_exists( $email, 'is_customer_email' ) ? $email->is_customer_email() : in_array( $id, lm_em_ids(), true );
+	if ( ! $kupcu ) {
+		return $headers;
+	}
+	// WooCommerce emailu kupcu sam stavlja „Reply-to: Lady Mom <natalija@…>“; zamjenjujemo ga.
+	$headers = preg_replace( '/^Reply-to:[^\n]*\n?/im', '', (string) $headers );
+	return $headers . 'Reply-To: ' . implode( ', ', lm_em_odgovor_primaoci() ) . "\r\n";
+}, 20, 4 );
+
 // Naši emailovi nose stil u samom kodu – WooCommerce CSS (npr. margin na slikama) se ne primjenjuje na njih.
 add_filter( 'woocommerce_email_styles', function ( $css, $email = null ) {
 	if ( $email && lm_em_handles( $email ) ) return 'img{border:0;outline:none;text-decoration:none}a{color:#a05c57}';

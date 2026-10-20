@@ -241,7 +241,7 @@ function lm_povrat_obradi() {
 
 	// Potvrda kupcu.
 	$kupac = "Poštovani/a " . $ime . ",\n\nprimili smo vaš zahtjev za " . $vrsta . ( $broj ? ' (porudžbina #' . $broj . ')' : '' ) . ". Javićemo vam se sa uputstvom kako i gdje da pošaljete artikal. Molimo vas da robu ne šaljete prije dogovora.\n\nVaš zahtjev:\n" . implode( "\n", array_slice( $linije, 4 ) ) . "\n\nZa pitanja: 067 030 655 (telefon, WhatsApp, Viber).\n\nLady Mom\nBranka Deletića bb, Podgorica";
-	wp_mail( $email, 'Primili smo vaš zahtjev za ' . $vrsta, $kupac, array( 'Reply-To: Lady Mom <' . LM_POVRAT_EMAIL . '>' ) );
+	wp_mail( $email, 'Primili smo vaš zahtjev za ' . $vrsta, $kupac, array( 'Reply-To: ' . implode( ', ', lm_povrat_primaoci() ) ) );
 
 	set_transient( $key, $cnt + 1, HOUR_IN_SECONDS );
 	$back( array( 'zahtjev' => 'poslat' ) );
