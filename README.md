@@ -1,6 +1,6 @@
 # Lady Mom – child tema i prilagođeni kod
 
-Repozitorijum za sajt **ladymom.me** (razvoj na `dev.ladymom.me`). Tema je WoodMart, a ovo je njena child tema `woodmart-child`.
+Repozitorijum za sajt **ladymom.me**. Sajt je u produkciji od 17.10.2026; do tada je razvijan na `dev.ladymom.me`. Tema je WoodMart, a ovo je njena child tema `woodmart-child`.
 
 ## Šta je gdje
 
@@ -14,7 +14,7 @@ Prilagođeni kod je u `inc/`. Učitava ga `functions.php`, ali samo kad je opcij
 
 ## Objava na sajt
 
-Automatski: cron na serveru svakih 5 minuta povuče `main` i, ako ima novih izmjena, pokrene objavu (`.cpanel.yml` kopira temu u `dev` instalaciju). Ručno: cPanel → Git Version Control → `ladymom-tema` → *Pull or Deploy* → **Update from Remote**, pa **Deploy HEAD Commit**. GitHub Actions samo provjerava PHP sintaksu. Za `ladymom.me` se na dan prelaska mijenja putanja u `.cpanel.yml`.
+Automatski: cron na serveru svakih 5 minuta povuče `main` i, ako ima novih izmjena, pokrene objavu (`.cpanel.yml` kopira temu u `/home/ladymomm/public_html/wp-content/themes/woodmart-child/`, tj. na ladymom.me). Ručno: cPanel → Git Version Control → `ladymom-tema` → *Pull or Deploy* → **Update from Remote**, pa **Deploy HEAD Commit**. GitHub Actions samo provjerava PHP sintaksu. Objava ne briše LiteSpeed keš: poslije objave treba Purge All.
 
 ## Pravila održavanja
 
@@ -22,5 +22,6 @@ Automatski: cron na serveru svakih 5 minuta povuče `main` i, ako ima novih izmj
 2. **Sve izmjene idu kroz child temu i zvanične hookove i filtere**, ne kroz izmjenu postojećeg koda.
 3. **Nijedan prilagođeni kod bez verzionisanja.** Svaka izmjena ide u ovaj repozitorijum, a prije izmjena se pravi backup sajta.
 4. **Bez skripti iz neprovjerenih izvora.** Samo zvanična dokumentacija (WordPress, WooCommerce, WoodMart) i kod koji je pregledan.
-5. **Redovna ažuriranja**, uvijek ovim redom: backup, pa test na staging verziji (`dev.ladymom.me`), pa tek onda živi sajt.
+5. **Redovna ažuriranja**, uvijek ovim redom: backup, pa test na staging kopiji, pa tek onda živi sajt. `dev.ladymom.me` je od prelaska prazan, pa za veća ažuriranja treba napraviti novu staging kopiju.
+7. **Test porudžbine** idu na adrese `natalija+test…@ladymom.me`. Dobijaju oznaku `_lm_test`, pa ih ERP ne preuzima (`inc/erp.php`).
 6. **Prvo podešavanja, pa kod.** Ako tema, WooCommerce, Yoast, Loco Translate ili Elementor imaju opciju, koristi se opcija, a ne kod.
