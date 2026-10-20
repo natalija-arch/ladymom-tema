@@ -93,6 +93,11 @@ function lm_is_bestseller( $product ) {
 	return $sales >= 10;
 }
 function lm_stock_note( $product ) {
+	// Isključeno 20.10.2026 (Markova odluka: količina na stanju se ne prikazuje kupcima;
+	// end-to-end test je našao oznaku „Još samo 2 komada“ u katalogu i na artiklu).
+	if ( ! apply_filters( 'lm_prikazi_preostalo', false ) ) {
+		return '';
+	}
 	if ( ! $product->managing_stock() || ! $product->is_in_stock() ) {
 		return '';
 	}
