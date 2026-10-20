@@ -23,5 +23,5 @@ Automatski: cron na serveru svakih 5 minuta povuče `main` i, ako ima novih izmj
 3. **Nijedan prilagođeni kod bez verzionisanja.** Svaka izmjena ide u ovaj repozitorijum, a prije izmjena se pravi backup sajta.
 4. **Bez skripti iz neprovjerenih izvora.** Samo zvanična dokumentacija (WordPress, WooCommerce, WoodMart) i kod koji je pregledan.
 5. **Redovna ažuriranja**, uvijek ovim redom: backup, pa test na staging kopiji, pa tek onda živi sajt. `dev.ladymom.me` je od prelaska prazan, pa za veća ažuriranja treba napraviti novu staging kopiju.
-7. **Test porudžbine** idu na adrese `natalija+test…@ladymom.me`. Dobijaju oznaku `_lm_test`, pa ih ERP ne preuzima (`inc/erp.php`).
 6. **Prvo podešavanja, pa kod.** Ako tema, WooCommerce, Yoast, Loco Translate ili Elementor imaju opciju, koristi se opcija, a ne kod.
+7. **Test porudžbine** idu na adrese `natalija+test…@ladymom.me`. Dobijaju oznaku `_lm_test`, pa ih ERP ne preuzima (`inc/erp.php`).
