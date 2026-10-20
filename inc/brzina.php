@@ -34,9 +34,10 @@ add_action( 'woodmart_after_body_open', function () {
 add_action( 'woodmart_after_header', function () {
 	$GLOBALS['lm_u_headeru'] = false;
 }, 1 );
-add_filter( 'pre_wp_get_loading_optimization_attributes', function ( $pre, $tag ) {
-	if ( ! empty( $GLOBALS['lm_u_headeru'] ) && 'img' === $tag ) {
+add_filter( 'pre_wp_get_loading_optimization_attributes', function ( $pre, $tag, $attr = array() ) {
+	$logo = is_array( $attr ) && ( false !== stripos( (string) ( isset( $attr['class'] ) ? $attr['class'] : '' ), 'logo' ) || false !== stripos( (string) ( isset( $attr['src'] ) ? $attr['src'] : '' ), 'logo' ) );
+	if ( ! empty( $GLOBALS['lm_u_headeru'] ) && 'img' === $tag && ! $logo ) {
 		return array( 'loading' => 'lazy', 'decoding' => 'async' );
 	}
 	return $pre;
-}, 10, 2 );
+}, 10, 3 );
