@@ -146,3 +146,15 @@ PageSpeed (telefon, 7:33): 67/100, FCP 2,0 s, LCP 10,4 s (simulacija), TBT 180 m
 - **Podešavanja 20.10.** (WooCommerce, prethodne vrijednosti u opciji `lm_backup_privacy_text`): tekst o privatnosti na plaćanju i registraciji je glasio „…opisane u našoj politika privatnosti“, sada „…u našoj politici privatnosti“ sa linkom; tab „Preuzimanja“ u Mom nalogu uklonjen (Advanced → Account endpoints → Downloads prazno), jer nema artikala za preuzimanje.
 - **Emailovi za butik (20.10.)**: `ladymom.mne@gmail.com` (djevojke u butiku) dobija iste emailove kao natalija@ladymom.me: nova, otkazana i neuspjela porudžbina (WooCommerce → Podešavanja → Emailovi → Primalac) i zahtjeve za povrat/zamjenu (opcija `lm_butik_emailovi`, `inc/povrat-forma.php`).
 - **Poruke kupaca (20.10.)**: kontakt forma (CF7 1572 „Kontakt forma“, primalac u podešavanju forme; stara vrijednost u opciji `lm_backup_cf7_1572_recipient`) stiže na natalija@ladymom.me i ladymom.mne@gmail.com. Kad kupac odgovori na bilo koji email kupcu (porudžbina, nalog, lista želja, napuštena korpa, potvrda zahtjeva za povrat), „Reply-To“ sadrži obje adrese (`lm_em_odgovor_primaoci()` u `inc/emailovi-1-tekstovi.php`, `lm_povrat_primaoci()` u `inc/povrat-forma.php`).
+
+## Odobreni predlozi iz testa kupovine (20.10.2026)
+
+- **Kuponi** DOBRODOSLA10 i READYMOM10: Ready Mom (#51472) je u „Isključeni proizvodi“.
+- **Ready Mom van listi proizvoda**: vidljivost artikla „Sakriveno“ (ne vidi se u prodavnici, kategorijama, „Novo u ponudi“ ni pretrazi); kupuje se sa /ready-mom/.
+- **Ready Mom plaćanje** (`inc/placanje-provjere.php`): kad korpa nema dostavu, samo ime, prezime, telefon i email; naslov „Vaši podaci“.
+- **NLB rate** (`inc/prodaja-i-brend.php`): napomena tek od 30 € (artikal, korpa, plaćanje); druga NLB napomena ispod „Poruči“ uklonjena (`inc/ux-dodaci.php`).
+- **„Pitajte nas“**: „za veličinu ili savjet“ samo kad artikal ima veličinu, inače „Pitajte nas za savjet“.
+- **Sortiranje** (`inc/prodavnica-dorade.php` + WooCommerce podešavanje): podrazumijevano „Najpopularnije“; „Preporučeno“ (ručni redoslijed) izbačeno.
+- **Traka kategorija na /prodavnica/**: kategorije ispod korijena „Prodavnica“ umjesto „Bez kategorije / Prodavnica“.
+- **Stranica proizvoda**: galerija 1:1 kad je glavna slika kvadratna (klasa `lm-galerija-kvadrat`); u srcset-u samo WebP kad postoji.
+- **Plaćanje na telefonu** (`inc/placanje-telefon.php`): kompaktan vrh (nalog i kupon u jednom redu, „Unesite kod“), napomena na link, artikli sklopljeni od 2 artikla, bez trake prednosti i velikog footera; mini korpa sa glavnim dugmetom „Plaćanje“. Tekst pristanka za napuštenu korpu skraćen u WoodMart podešavanju (stari u opciji `lm_backup_recover_consent_text`).

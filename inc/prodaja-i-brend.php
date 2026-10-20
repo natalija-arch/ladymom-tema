@@ -16,9 +16,11 @@ add_action( 'woocommerce_after_add_to_cart_form', function () {
 	if ( ! $product ) {
 		return;
 	}
-	$msg  = 'Zdravo! Zanima me proizvod „' . wp_strip_all_tags( $product->get_name() ) . '“ – ' . get_permalink( $product->get_id() ) . ' Možete li mi pomoći sa veličinom?';
+	// Veličina se pominje samo kod artikala koji imaju veličinu (20.10.2026).
+	$ima_velicinu = '' !== trim( (string) $product->get_attribute( 'pa_velicina' ) );
+	$msg  = 'Zdravo! Zanima me proizvod „' . wp_strip_all_tags( $product->get_name() ) . '“ – ' . get_permalink( $product->get_id() ) . ( $ima_velicinu ? ' Možete li mi pomoći sa veličinom?' : ' Imam pitanje.' );
 	$link = 'https://wa.me/38267030655?text=' . rawurlencode( $msg );
-	echo '<div class="lm-ask-box"><p class="lm-ask-t">Pitajte nas za veličinu ili savjet</p><div class="lm-ask-row">'
+	echo '<div class="lm-ask-box"><p class="lm-ask-t">' . ( $ima_velicinu ? 'Pitajte nas za veličinu ili savjet' : 'Pitajte nas za savjet' ) . '</p><div class="lm-ask-row">'
 		. '<a class="lm-ask lm-ask-wa" href="' . esc_url( $link ) . '" target="_blank" rel="noopener nofollow">'
 		. '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg>'
 		. '<span>WhatsApp</span></a>'
@@ -338,9 +340,25 @@ add_action( 'wp_head', function () {
 function lm_nlb_rate_html() {
 	return '<div class="lm-nlb-rate"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg><span><strong>Plaćanje NLB karticom na rate do 12 mjeseci.</strong> Broj rata birate prilikom plaćanja.</span></div>';
 }
-add_action( 'woocommerce_single_product_summary', function () { echo lm_nlb_rate_html(); }, 11 );
-add_action( 'woocommerce_proceed_to_checkout', function () { echo lm_nlb_rate_html(); }, 25 );
-add_action( 'woocommerce_review_order_before_payment', function () { echo lm_nlb_rate_html(); }, 10 );
+// Rate se pominju tek od 30 € (20.10.2026): kod jeftinih artikala napomena samo zauzima prostor.
+function lm_nlb_prag() {
+	return 30;
+}
+function lm_nlb_korpa_ok() {
+	return function_exists( 'WC' ) && WC()->cart && (float) WC()->cart->get_total( 'edit' ) >= lm_nlb_prag();
+}
+add_action( 'woocommerce_single_product_summary', function () {
+	global $product;
+	if ( ! $product ) {
+		return;
+	}
+	$cijena = $product->is_type( 'variable' ) ? (float) $product->get_variation_price( 'max', true ) : (float) wc_get_price_including_tax( $product );
+	if ( $cijena >= lm_nlb_prag() ) {
+		echo lm_nlb_rate_html();
+	}
+}, 11 );
+add_action( 'woocommerce_proceed_to_checkout', function () { if ( lm_nlb_korpa_ok() ) echo lm_nlb_rate_html(); }, 25 );
+add_action( 'woocommerce_review_order_before_payment', function () { if ( lm_nlb_korpa_ok() ) echo lm_nlb_rate_html(); }, 10 );
 add_action( 'wp_head', function () {
 	echo '<style id="lm-nlb">.lm-nlb-rate{background:var(--lm-blijedo);border-radius:10px;padding:11px 14px;margin:14px 0;font-size:13px;line-height:1.5;color:var(--lm-smedja);display:flex;align-items:flex-start;gap:9px}.lm-nlb-rate strong{color:var(--lm-smedja);font-weight:700}.lm-nlb-rate svg{flex:0 0 auto;margin-top:1px;stroke:var(--lm-roze-jaka);fill:none}@media (max-width:768px){.lm-nlb-rate{font-size:12.5px;padding:10px 12px}}</style>';
 }, 34 );

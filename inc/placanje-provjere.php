@@ -99,3 +99,26 @@ add_action( 'woocommerce_thankyou_cod', function ( $order_id ) {
 			: 'Plaćate gotovinom. Javićemo vam se telefonom ili emailom sa detaljima.';
 	}
 }, 1 );
+
+/*
+ * Korpa bez dostave (npr. Ready Mom), Markovo odobrenje 20.10.2026: na plaćanju samo
+ * ime, prezime, telefon i email. Ulica i grad se ne traže, a naslov je „Vaši podaci“.
+ */
+function lm_korpa_bez_dostave() {
+	return did_action( 'wp_loaded' ) && function_exists( 'WC' ) && WC()->cart && ! WC()->cart->is_empty() && ! WC()->cart->needs_shipping();
+}
+add_filter( 'woocommerce_checkout_fields', function ( $f ) {
+	if ( ! lm_korpa_bez_dostave() ) {
+		return $f;
+	}
+	foreach ( array( 'billing_address_1', 'billing_address_2', 'billing_city', 'billing_postcode', 'billing_state', 'billing_company' ) as $k ) {
+		unset( $f['billing'][ $k ] );
+	}
+	return $f;
+}, 120 );
+add_filter( 'gettext', function ( $t, $text, $domain ) {
+	if ( ( 'Billing details' === $text || 'Billing &amp; Shipping' === $text || 'Billing & Shipping' === $text ) && 'woocommerce' === $domain && lm_korpa_bez_dostave() ) {
+		return 'Vaši podaci';
+	}
+	return $t;
+}, 40, 3 );

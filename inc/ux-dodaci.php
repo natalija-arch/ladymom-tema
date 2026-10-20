@@ -60,7 +60,8 @@ add_action( 'wp_head', function () {
 
 // 3) Napomena o sigurnom plaćanju iznad dugmeta za poručivanje.
 add_action( 'woocommerce_review_order_before_submit', function () {
-	echo '<p class="lm-secure-pay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10V7a6 6 0 0 1 12 0v3M5 10h14v11H5z"/></svg> Plaćanje karticom je zaštićeno (3D Secure) – prihvatamo <strong>Visa</strong> i <strong>Mastercard</strong>.</p><p class="lm-rate"><span class="lm-rate-badge">NLB</span> Plaćanje NLB platnim karticama moguće je na <strong>do 12 rata</strong>.</p>';
+	echo '<p class="lm-secure-pay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10V7a6 6 0 0 1 12 0v3M5 10h14v11H5z"/></svg> Plaćanje karticom je zaštićeno (3D Secure) – prihvatamo <strong>Visa</strong> i <strong>Mastercard</strong>.</p>';
+	// Napomena o NLB ratama je iznad načina plaćanja (od 30 €), pa se ovdje ne ponavlja (20.10.2026).
 } );
 
 // 5) Preuzimanje u butiku: bez ulice i grada, podaci butika u korpi, na potvrdi i u emailu kupcu.
