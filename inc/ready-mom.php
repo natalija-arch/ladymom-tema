@@ -75,7 +75,7 @@ add_shortcode( 'lm_ready_mom', function () {
 				<span class="lm-rm-cijena"><?php echo wp_kses_post( $cijena ); ?></span>
 				<a class="lm-rm-dugme" href="<?php echo $prijava; // phpcs:ignore ?>">Prijavi se i plati</a>
 			</div>
-			<p class="lm-rm-mala">Plaćanje karticom ili pouzećem. Poslije prijave vas zovemo sa terminom naredne grupe.</p>
+			<p class="lm-rm-mala">Plaćanje karticom ili gotovinom. Poslije prijave vas zovemo sa terminom naredne grupe.</p>
 			<?php echo $kontakt; // phpcs:ignore ?>
 		</div>
 		<div class="lm-rm-hero-slika"><?php echo $slika; // phpcs:ignore ?></div>

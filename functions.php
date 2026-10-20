@@ -53,6 +53,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'placanje-provjere.php',
 		'prodavnica-dorade.php',
 		'placanje-telefon.php',
+		'dugmad-stil.php',
 		'brzina.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;

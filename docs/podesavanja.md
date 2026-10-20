@@ -161,3 +161,9 @@ PageSpeed (telefon, 7:33): 67/100, FCP 2,0 s, LCP 10,4 s (simulacija), TBT 180 m
 - **Poruke o kuponu** (`inc/jezik.php`): „Kupon „…“ ne važi za izabrane proizvode.“ i „Kupon ne važi za artikle na akciji.“ (bilo „…nije primjenjiv…“).
 - **Korpa (20.10.)**: „Izračunaj dostavu“ uklonjeno (WooCommerce → Podešavanja → Dostava → Opcije → kalkulator dostave u korpi isključen; stara vrijednost u opciji `lm_backup_shipping_calc`).
 - **Korpa (20.10.)**: bez rečenice „Opcije dostave biće ažurirane na plaćanju.“ (`woocommerce_shipping_estimate_html`, `inc/prodavnica-dorade.php`).
+
+## Pregled telefona i Lady Mom stila (20.10.2026)
+
+- **`inc/dugmad-stil.php`**: količina (−/broj/+) u jednom bijelom okviru umjesto punih roze dugmića; „Dodaj u korpu“ do kraja reda na telefonu; dugme za prikaz lozinke bez pozadine; Google ikonica u ravni sa tekstom; puni nazivi u donjoj traci; Česta pitanja u Raleway (bio Lato); roze ikonice za dijeljenje članka; „Pročitaj više“ kao roze link; polja zaobljena 6 px; zvjezdica obaveznog polja roze; veće roze kvačice; WhatsApp/Viber sa roze okvirom; veličine u filteru kao jednaka dugmad; tekst u blokovima #7a6250.
+- **Podešavanja** (stare vrijednosti u opciji `lm_backup_stil_20_10`): sve veličine (`pa_velicina`) imaju „not_dropdown“, pa se na proizvodu biraju dugmadima, a ne padajućom listom (nove veličine dobijaju isto, `inc/prodavnica-dorade.php`); filter Boja prikazuje naziv uz tačkicu; newsletter popup (CF7 35763) `acceptance_as_validation: on`, pa dugme nije izblijeđeno; dijeljenje: Facebook, Pinterest, WhatsApp, Viber (bez X, LinkedIn, Telegram); početna, „Omiljeno kod mama“: kartice proizvoda kao u ostalim listama (`product_hover` = icons).
+- **Ready Mom**: „Plaćanje karticom ili gotovinom“ (bilo „pouzećem“).

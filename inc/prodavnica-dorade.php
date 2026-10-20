@@ -95,3 +95,10 @@ add_filter( 'wp_calculate_image_srcset', function ( $izvori ) {
 
 // Korpa (20.10.2026): bez rečenice „Opcije dostave biće ažurirane na plaćanju.“ (dostava je samo po Crnoj Gori).
 add_filter( 'woocommerce_shipping_estimate_html', '__return_empty_string', 20 );
+
+// Nove veličine (npr. iz ERP-a) se na proizvodu prikazuju kao dugmad, kao i postojeće (20.10.2026).
+add_action( 'created_pa_velicina', function ( $term_id ) {
+	if ( ! get_term_meta( $term_id, 'not_dropdown', true ) ) {
+		update_term_meta( $term_id, 'not_dropdown', 'on' );
+	}
+} );
