@@ -171,6 +171,13 @@ function lm_em_body( $email, $vars = array() ) {
 					. '<div style="font-size:15px;line-height:1.55;color:#7a6250;margin:0 0 10px">Zamjena ili povrat je moguć u roku od 14 dana.</div>'
 					. '<a href="' . esc_url( home_url( '/povrat-robe-i-sredstava/' ) ) . '" style="font-size:14px;font-weight:700;color:#8a4b47;text-decoration:underline">Kako ide zamjena →</a></td></tr></table>', 28 );
 			}
+			// Ocjena na Google-u (21.10.2026, SEO: više recenzija za Lady Mom profil).
+			$recenzija = (array) get_option( 'lm_google_recenzije', array() );
+			if ( ! $b && ! empty( $recenzija['lady_mom'] ) ) {
+				echo lm_em_red( lm_em_box( '<div style="font-size:17px;font-weight:800;color:#6d4e39;margin:0 0 6px">Zadovoljni ste kupovinom?</div>'
+					. '<div style="font-size:15px;line-height:1.55;color:#7a6250;margin:0 0 14px">Kad isprobate artikle, ostavite nam ocjenu na Google-u. Mnogo nam znači, a drugim mamama pomaže da nas pronađu.</div>'
+					. lm_em_btn( $recenzija['lady_mom'], 'OCIJENITE NAS NA GOOGLE-U', true ) ), 12 );
+			}
 			break;
 		case 'customer_failed_order':
 			echo lm_em_red( lm_em_btn( $o->get_checkout_payment_url(), 'POKUŠAJ PONOVO' ), 20 );

@@ -55,7 +55,7 @@ function lm_rm_pitanja() {
 		array( 'Kada je najbolje upisati školu za trudnice?', 'U drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje.' ),
 		array( 'Može li partner da dođe na predavanja?', 'Da, partneri su dobrodošli.' ),
 		array( 'Mogu li pratiti školu ako nisam iz Podgorice?', 'Da. Program možete pratiti online, iz bilo kog grada.' ),
-		array( 'Gdje se održavaju predavanja uživo?', 'U prostoru Family Nest, naselje New City, Podgorica.' ),
+		array( 'Gdje se održavaju predavanja uživo?', 'U prostoru Family Nest – Centar za trudnoću i roditeljstvo, Branka Deletića bb (naselje New City), Podgorica.' ),
 		array( 'Koliko košta i kako se plaća?', 'Cijena programa je ' . $cijena . '. Možete platiti karticom pri prijavi na sajtu ili gotovinom.' ),
 		array( 'Kada počinje naredna grupa?', 'Poslije prijave vas zovemo sa terminom naredne grupe. Za termine možete nas pozvati ili pisati na WhatsApp i Viber: ' . LM_RM_TEL_TXT . '.' ),
 	);
@@ -122,7 +122,7 @@ add_shortcode( 'lm_ready_mom', function () {
 	<section class="lm-rm-dvije">
 		<div class="lm-rm-kartica">
 			<h2>Uživo u Podgorici ili online</h2>
-			<p>Predavanja se održavaju uživo u prostoru Family Nest, naselje New City, Podgorica. Ako ste iz drugog grada, imate obaveze ili vam je lakše od kuće, program možete pratiti online. Partneri su dobrodošli: porođaj i prvi dani sa bebom su timski posao, pa je dobro da oboje znate šta vas čeka.</p>
+			<p>Predavanja se održavaju uživo u prostoru Family Nest – Centar za trudnoću i roditeljstvo, Branka Deletića bb (naselje New City), Podgorica. Ako ste iz drugog grada, imate obaveze ili vam je lakše od kuće, program možete pratiti online. Partneri su dobrodošli: porođaj i prvi dani sa bebom su timski posao, pa je dobro da oboje znate šta vas čeka.</p>
 		</div>
 		<div class="lm-rm-kartica">
 			<h2>Kada upisati školu za trudnice</h2>

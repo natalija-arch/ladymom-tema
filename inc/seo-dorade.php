@@ -164,7 +164,7 @@ add_action( 'wp_head', function () {
 		'provider'          => array( '@type' => 'Organization', 'name' => 'Lady Mom', 'url' => home_url( '/' ) ),
 		'offers'            => array( '@type' => 'Offer', 'category' => 'Paid', 'price' => number_format( $cijena, 2, '.', '' ), 'priceCurrency' => 'EUR', 'availability' => 'https://schema.org/InStock', 'url' => $url ),
 		'hasCourseInstance' => array(
-			array( '@type' => 'CourseInstance', 'courseMode' => 'Onsite', 'location' => array( '@type' => 'Place', 'name' => 'Family Nest – Centar za trudnoću i roditeljstvo', 'address' => array( '@type' => 'PostalAddress', 'addressLocality' => 'Podgorica', 'addressCountry' => 'ME' ) ) ),
+			array( '@type' => 'CourseInstance', 'courseMode' => 'Onsite', 'location' => array( '@type' => 'Place', 'name' => 'Family Nest – Centar za trudnoću i roditeljstvo', 'address' => array( '@type' => 'PostalAddress', 'streetAddress' => 'Branka Deletića bb', 'addressLocality' => 'Podgorica', 'addressCountry' => 'ME' ) ) ),
 			array( '@type' => 'CourseInstance', 'courseMode' => 'Online' ),
 		),
 	);
