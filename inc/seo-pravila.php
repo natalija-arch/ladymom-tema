@@ -193,9 +193,11 @@ add_filter( 'wpseo_title', function ( $naslov ) {
 	}
 
 	// Sve ostalo: predug naslov gubi dodatak sa nazivom sajta.
-	if ( mb_strlen( $naslov ) > LM_SEO_MAX_NASLOV ) {
-		$kraci = preg_replace( '/\s+[–|-]\s+Lady Mom( Podgorica| blog)?$/u', '', $naslov );
-		if ( $kraci && $kraci !== $naslov ) {
+	// Yoast separator stiže kao HTML entitet („&ndash;“), pa se dužina mjeri na dekodiranom tekstu.
+	$cist = html_entity_decode( (string) $naslov, ENT_QUOTES, 'UTF-8' );
+	if ( mb_strlen( $cist ) > LM_SEO_MAX_NASLOV ) {
+		$kraci = preg_replace( '/\s+[–|-]\s+Lady Mom( Podgorica| blog)?$/u', '', $cist );
+		if ( $kraci && $kraci !== $cist ) {
 			return $kraci;
 		}
 	}
@@ -232,8 +234,9 @@ add_filter( 'wpseo_metadesc', function ( $opis ) {
 		}
 	}
 	// Sve ostalo: najviše 160 znakova, cijele rečenice.
-	if ( is_string( $opis ) && mb_strlen( $opis ) > LM_SEO_MAX_OPIS && function_exists( 'lm_skrati_recenice' ) ) {
-		return lm_skrati_recenice( $opis, LM_SEO_MAX_OPIS );
+	$cist = is_string( $opis ) ? html_entity_decode( $opis, ENT_QUOTES, 'UTF-8' ) : '';
+	if ( mb_strlen( $cist ) > LM_SEO_MAX_OPIS && function_exists( 'lm_skrati_recenice' ) ) {
+		return lm_skrati_recenice( $cist, LM_SEO_MAX_OPIS );
 	}
 	return $opis;
 }, 40 );
