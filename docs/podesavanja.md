@@ -207,3 +207,14 @@ Marko: „odradi sva podešavanja koja treba za sve ove platforme“ (Meta, Goog
 - **Microsoft Clarity** (`inc/mjerenje.php`): projekat `z173rgv3iv` (Marko napravio 21.10.), zvanični kod u `wp_head`, ne za prijavljene administratore. Kad stigne traka za kolačiće, Clarity ide pod saglasnost.
 - **`inc/google-feed.php`**: `g:gender` i `g:age_group` za garderobu (Mame > Garderoba: female/adult; Bebe > Bodi: unisex/infant; Bebe > Naočare za sunce po uzrastu iz potkategorije). Usluge (virtuelni artikli, Ready Mom) su već bile van feeda.
 - **GA4**: sajt šalje u svojstvo 337396867 (G-BN6QSS18LM, Site Kit, Google tag GT-KDQMQTQP) od 18.10. Svojstvo 343127380 „ladymom.me“ je primalo stari sajt do 17.10. `G-EQDN3BWDSD` u izvoru stranice je Site Kit-ova telemetrija za prijavljenog admina, nije druga oznaka.
+
+## Početna, faza 1 (21.10.2026, nacrt)
+
+- Nacrt: stranica „Početna (nacrt 21.10.)“ (#51509, opcija `lm_pocetna_nacrt`), kopija početne #3228 sa svim meta poljima. Prava početna nije mijenjana; njen `_elementor_data` prije izmjena je u meta `_lm_rezerva_prije_c` na #3228.
+- Raspored: slajder, kategorije, proizvodi u tabovima, Spectra, Koala, škola i butik, brendovi, blog, Instagram. Sekcija „Novo u ponudi“ (lmn0001) je ukinuta i postala tab.
+- Kategorije (lmc0001): WoodMart *Product categories*, karusel (6 / 4 / 2,5 vidljivih), ID-jevi 106, 115, 107, 112, 110, 124, 125, 127, 150, 141, `orderby` = `include`, `order` = ASC (redoslijed kako su upisani). Izbor po pregledima u GA4 17.–21.10. i artiklima na stanju.
+- Proizvodi (76d6c0d): tabovi Najprodavanije, Novo (svi artikli, najnoviji prvi), Na akciji; po 8 artikala (bilo je 54 u tabu Na akciji); boja tabova #a05c57; dugme „Pogledaj sve“ (lmo0004) → /prodavnica/.
+- Koala (lmhs000): *Image Hotspot* umjesto slike, jedna tačka na pojasu sa tekstom iz opisa artikla i linkom na kategoriju pojaseva.
+- Škola (lms0008): *List* sa 4 stavke (4 nedjelje i 8 predavanja, 6 stručnjaka, uživo ili online, partneri dobrodošli).
+- Brendovi (lmr0004): bez Bubbija (0 artikala), 3 logotipa na telefonu. Blog (38198c0): dizajn „Small images“, 3 članka, kategorije Savjeti za mame i Edukacija. Instagram: slike `woocommerce_thumbnail` umjesto pune veličine.
+- Razmaci sekcija na telefonu 34 px (bilo 42). Izgled: `inc/pocetna-dizajn.php` (samo početna i nacrt).
