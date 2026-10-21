@@ -28,9 +28,9 @@ add_action( 'wp_head', function () {
 .elementor-element-lmc0001 .wd-cat-thumb,.elementor-element-lmc0001 .wd-cat-image{display:block;border-radius:14px;overflow:hidden}
 .elementor-element-lmc0001 .wd-cat-image img{transition:transform .5s ease}
 .elementor-element-lmc0001 .wd-cat:hover .wd-cat-image img{transform:scale(1.04)}
-.elementor-element-lmc0001 .wd-cat-content{position:static!important;inset:auto!important;transform:none!important;padding:10px 2px 0!important;text-align:center}
+.elementor-element-lmc0001 .wd-cat-content{position:static!important;inset:auto!important;transform:none!important;padding:10px 2px 0!important;text-align:center!important}
 .elementor-element-lmc0001 .wd-cat-inner{overflow:visible!important}
-.elementor-element-lmc0001 .wd-entities-title{position:static!important;inset:auto!important;transform:none!important;opacity:1!important;text-transform:none!important;letter-spacing:0!important;font-size:16px!important;font-weight:600!important;line-height:1.25!important;color:var(--lm-smedja,#6d4e39)!important;word-break:normal!important;overflow-wrap:normal!important;hyphens:none!important}
+.elementor-element-lmc0001 .wd-entities-title{text-align:center!important;width:100%;position:static!important;inset:auto!important;transform:none!important;opacity:1!important;text-transform:none!important;letter-spacing:0!important;font-size:16px!important;font-weight:600!important;line-height:1.25!important;color:var(--lm-smedja,#6d4e39)!important;word-break:normal!important;overflow-wrap:normal!important;hyphens:none!important}
 .elementor-element-lmc0001 .wd-carousel-container{margin-bottom:0}
 
 /* Tabovi proizvoda: sitniji natpisi, svi tabovi u jednom redu */
