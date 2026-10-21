@@ -12,6 +12,8 @@
  * 3. Upiti kao konverzije: klik na telefon, WhatsApp i Viber, i poslata CF7 forma
  *    (GA4: contact, generate_lead, sign_up; Meta: Contact). CF7 Lead za Metu
  *    šalje sam dodatak.
+ * 4. Microsoft Clarity (mape klikova i snimci posjeta), projekat z173rgv3iv.
+ *    Ne učitava se za prijavljene administratore.
  *
  * @package woodmart-child
  */
@@ -130,4 +132,28 @@ add_action(
 		<?php
 	},
 	50
+);
+
+/*
+ * 4. Microsoft Clarity (zvanični kod sa clarity.microsoft.com).
+ */
+const LM_CLARITY_ID = 'z173rgv3iv';
+
+add_action(
+	'wp_head',
+	function () {
+		if ( is_admin() || current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		?>
+<script id="lm-clarity">
+(function(c,l,a,r,i,t,y){
+	c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+	t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+	y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", <?php echo wp_json_encode( LM_CLARITY_ID ); ?>);
+</script>
+		<?php
+	},
+	20
 );
