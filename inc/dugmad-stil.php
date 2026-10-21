@@ -26,8 +26,8 @@ defined( 'ABSPATH' ) || exit;
 add_action( 'wp_head', function () {
 	?>
 <style id="lm-dugmad-stil">
-/* Količina */
-.quantity{display:inline-flex!important;align-items:stretch;border:1px solid #e8d8cd;border-radius:6px;overflow:hidden;background:#fff;vertical-align:middle}
+/* Količina (samo polje: div.quantity; span.quantity u mini korpi je cijena) */
+div.quantity{display:inline-flex!important;align-items:stretch;border:1px solid #e8d8cd;border-radius:6px;overflow:hidden;background:#fff;vertical-align:middle}
 /* Selektori su jači od opšteg pravila teme `.btn:not(.btn-style-bordered):not(.btn-style-link)` (!important). */
 div.quantity .minus:not(.btn-style-bordered):not(.btn-style-link),div.quantity .plus:not(.btn-style-bordered):not(.btn-style-link){background:#fff!important;color:var(--lm-smedja,#6d4e39)!important;border:0!important;box-shadow:none!important;border-radius:0!important;min-width:34px!important;width:34px!important;height:auto!important;min-height:0!important;padding:0!important;font-size:17px!important;font-weight:500!important;line-height:1!important;text-transform:none!important;letter-spacing:0!important}
 div.quantity .minus:not(.btn-style-bordered):not(.btn-style-link):hover,div.quantity .plus:not(.btn-style-bordered):not(.btn-style-link):hover{background:var(--lm-krem,#fdf2ec)!important}

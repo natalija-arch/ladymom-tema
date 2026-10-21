@@ -30,6 +30,38 @@ add_action( 'wp_head', function () {
 	echo '<style id="lm-mini-korpa">.woocommerce-mini-cart__buttons .button.checkout{background:var(--lm-roze-jaka,#a05c57)!important;color:#fff!important;border-color:var(--lm-roze-jaka,#a05c57)!important}.woocommerce-mini-cart__buttons .button.checkout:hover{filter:brightness(.94)}.woocommerce-mini-cart__buttons .button:not(.checkout){background:transparent!important;color:var(--lm-smedja,#6d4e39)!important;box-shadow:inset 0 0 0 1px #e8d8cd!important}.woocommerce-mini-cart__buttons .button:not(.checkout):hover{background:var(--lm-krem,#fdf2ec)!important}</style>';
 }, 41 );
 
+/*
+ * Mini korpa, cijena artikla (21.10.2026, Marko: „loše izgleda ova cijena“).
+ * WooCommerce piše „3 × 19,00 €“ pored polja za količinu, pa se količina vidi dvaput,
+ * a opšte pravilo za okvir količine (`inc/dugmad-stil.php`) je i taj tekst stavljalo u okvir.
+ * Sada: polje za količinu i desno ukupno za artikal u istom redu, a ispod sitno „po 19,00 €“
+ * kad je više od jednog komada. Na uskom telefonu cijena pređe u red ispod, poravnata desno.
+ */
+add_filter( 'woocommerce_widget_cart_item_quantity', function ( $html, $stavka ) {
+	if ( empty( $stavka['data'] ) || ! is_a( $stavka['data'], 'WC_Product' ) || ! WC()->cart ) {
+		return $html;
+	}
+	$kol = (int) $stavka['quantity'];
+	$out = '<span class="quantity lm-mk-cijena"><span class="lm-mk-ukupno">' . WC()->cart->get_product_subtotal( $stavka['data'], $kol ) . '</span>';
+	if ( $kol > 1 ) {
+		$out .= '<span class="lm-mk-kom">po ' . WC()->cart->get_product_price( $stavka['data'] ) . '</span>';
+	}
+	return $out . '</span>';
+}, 20, 2 );
+
+add_action( 'wp_head', function () {
+	echo '<style id="lm-mini-korpa-cijena">'
+		. '.woocommerce-mini-cart-item .cart-info{display:flex;flex-wrap:wrap;align-items:center;column-gap:8px;row-gap:8px}'
+		. '.woocommerce-mini-cart-item .cart-info>*{flex:0 0 100%;margin-bottom:0}'
+		. '.woocommerce-mini-cart-item .cart-info>div.quantity{flex:0 0 auto;height:34px;margin:0!important}'
+		. '.woocommerce-mini-cart-item div.quantity .minus:not(.btn-style-bordered):not(.btn-style-link),.woocommerce-mini-cart-item div.quantity .plus:not(.btn-style-bordered):not(.btn-style-link){width:30px!important;min-width:30px!important}'
+		. '.woocommerce-mini-cart-item div.quantity input.qty{width:32px!important}'
+		. '.woocommerce-mini-cart-item .cart-info>span.lm-mk-cijena{flex:1 1 auto;display:flex!important;flex-direction:column;align-items:flex-end;justify-content:center;gap:2px;margin:0 0 0 auto!important;padding:0!important;border:0!important;background:none!important;line-height:1.2;text-align:right;white-space:nowrap}'
+		. '.lm-mk-ukupno,.lm-mk-ukupno .amount{font-size:15px;font-weight:700;color:var(--lm-smedja,#6d4e39)!important}'
+		. '.lm-mk-kom,.lm-mk-kom .amount{font-size:12px;font-weight:400;color:#9b8576!important}'
+		. '</style>';
+}, 42 );
+
 add_action( 'wp_head', function () {
 	if ( ! lm_je_placanje_forma() ) {
 		return;
