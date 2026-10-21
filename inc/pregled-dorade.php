@@ -396,6 +396,8 @@ add_action(
 .entry-content .wp-block-details summary::-webkit-details-marker{display:none}
 .entry-content .wp-block-details summary::after{content:"";position:absolute;right:6px;top:50%;width:9px;height:9px;margin-top:-7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
 .entry-content .wp-block-details[open] summary::after{transform:rotate(-135deg);margin-top:-2px}
+.entry-content .wp-block-details summary{margin:0!important}
+.entry-content .wp-block-details[open] summary{padding-bottom:6px}
 .entry-content .wp-block-details > p{margin:0 0 16px;line-height:1.65}
 </style>
 		<?php
