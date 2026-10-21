@@ -34,6 +34,11 @@ add_action( 'template_redirect', function () {
 	if ( $put !== $cilj && in_array( $put, $stare, true ) ) {
 		// UTM i ostali parametri idu dalje (Meta oglasi, QR kodovi, stari linkovi), inače GA4 ne zna izvor.
 		$upit = isset( $_SERVER['QUERY_STRING'] ) ? (string) wp_unslash( $_SERVER['QUERY_STRING'] ) : '';
+		if ( '' !== $upit ) {
+			// LiteSpeed u ključ keša ne uzima utm_*, pa bi keširano preusmjerenje dalo tuđi UTM.
+			do_action( 'litespeed_control_set_nocache', 'preusmjerenje sa parametrima' );
+			nocache_headers();
+		}
 		wp_safe_redirect( '' !== $upit ? $url . ( false === strpos( $url, '?' ) ? '?' : '&' ) . $upit : $url, 301 );
 		exit;
 	}
