@@ -34,6 +34,19 @@ add_filter(
 	}
 );
 
+// Kad je izabrana rasprodata veličina, „Dodaj u korpu“ (koje tada ne radi) se sklanja, pa je
+// forma „Javi mi kad stigne“ jedina radnja. Prije izbora veličine dugme ostaje kao i do sada.
+add_action(
+	'wp_head',
+	function () {
+		if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+			return;
+		}
+		echo '<style id="lm-lista-cekanja">.summary-inner:has(> .wd-wtl-form:not(.wd-hide):not(.wd-wtl-is-template)) .woocommerce-variation-add-to-cart-disabled{display:none!important}</style>' . "\n";
+	},
+	50
+);
+
 /* ---------- r13: „sa PDV-om“ ---------- */
 
 $GLOBALS['lm_pdv_sufiks'] = false;
