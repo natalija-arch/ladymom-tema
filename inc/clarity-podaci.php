@@ -9,6 +9,8 @@
  * - API token upisuje Marko: Podešavanja → Opšte → „Microsoft Clarity – API token“
  *   (opcija `lm_clarity_api_token`, nije u kodu). Clarity → Settings → Data export.
  * - Dnevno 4 poziva: ukupno, po uređaju, po kanalu, po stranici (URL).
+ * - Ponedjeljkom (05:40 UTC) sedmični pregled emailom na natalija@ladymom.me (čita ga i
+ *   sedmični izvještaj o oglasima preko Gmail-a).
  * - Čuvanje: opcija po danu `lm_clarity_d_GGGGMMDD` (bez autoload), spisak dana u
  *   `lm_clarity_dani`. Po stranicama se čuva prvih 20 redova svake metrike. Stariji od 400 dana
  *   se brišu (to je samo kopija Clarity brojeva).
@@ -133,6 +135,76 @@ add_action(
 				$sutra += DAY_IN_SECONDS;
 			}
 			wp_schedule_event( $sutra, 'daily', 'lm_clarity_dnevno' );
+		}
+	}
+);
+
+/*
+ * Sedmični pregled emailom (ponedjeljak 05:40 UTC) na natalija@ladymom.me. Iz njega ga čita
+ * i sedmični izvještaj o oglasima (Gmail), jer zakazani zadaci nemaju pristup administraciji.
+ */
+function lm_clarity_red( $info ) {
+	$djelovi = array();
+	foreach ( (array) $info as $k => $v ) {
+		$djelovi[] = $k . '=' . lm_clarity_vrijednost( $v );
+	}
+	return implode( '; ', $djelovi );
+}
+
+function lm_clarity_sedmicni_email() {
+	$dani = array_slice( (array) get_option( 'lm_clarity_dani', array() ), -7 );
+	if ( ! $dani ) {
+		return false;
+	}
+	$html  = '<div style="font-family:Arial,sans-serif;font-size:13px;color:#333">';
+	$html .= '<p>Clarity brojevi za ladymom.me, posljednjih ' . count( $dani ) . ' dana (svaki dan = posljednja 24 sata do jutarnjeg povlačenja, UTC). Detalji: Alati → Clarity brojevi.</p>';
+	$html .= '<h3>Po danima (ukupno)</h3><table cellpadding="4" cellspacing="0" border="1" style="border-collapse:collapse">';
+	foreach ( $dani as $d ) {
+		$z = get_option( 'lm_clarity_d_' . $d );
+		if ( empty( $z['ukupno'] ) ) {
+			continue;
+		}
+		foreach ( $z['ukupno'] as $m ) {
+			$prvi  = ! empty( $m['information'][0] ) ? $m['information'][0] : array();
+			$html .= '<tr><td>' . esc_html( substr( $d, 6, 2 ) . '.' . substr( $d, 4, 2 ) . '.' ) . '</td><td>' . esc_html( $m['metricName'] ) . '</td><td>' . esc_html( lm_clarity_red( $prvi ) ) . '</td></tr>';
+		}
+	}
+	$html   .= '</table>';
+	$zadnji  = get_option( 'lm_clarity_d_' . end( $dani ) );
+	$dijelovi = array(
+		'uredjaj'  => array( 'Po uređaju (posljednji dan)', 5 ),
+		'kanal'    => array( 'Po kanalu (posljednji dan)', 8 ),
+		'stranica' => array( 'Po stranici (posljednji dan, prvih 10)', 10 ),
+	);
+	foreach ( $dijelovi as $k => $p ) {
+		if ( empty( $zadnji[ $k ] ) ) {
+			continue;
+		}
+		$html .= '<h3>' . esc_html( $p[0] ) . '</h3>';
+		foreach ( $zadnji[ $k ] as $m ) {
+			$redovi = array_slice( (array) $m['information'], 0, $p[1] );
+			if ( ! $redovi ) {
+				continue;
+			}
+			$html .= '<p style="margin:10px 0 2px"><b>' . esc_html( $m['metricName'] ) . '</b></p><ul style="margin:0">';
+			foreach ( $redovi as $r ) {
+				$html .= '<li>' . esc_html( lm_clarity_red( $r ) ) . '</li>';
+			}
+			$html .= '</ul>';
+		}
+	}
+	$html .= '</div>';
+	$od    = $dani[0];
+	$do    = end( $dani );
+	$naslov = sprintf( '[Clarity] sedmični brojevi ladymom.me %s.%s.–%s.%s.', substr( $od, 6, 2 ), substr( $od, 4, 2 ), substr( $do, 6, 2 ), substr( $do, 4, 2 ) );
+	return wp_mail( 'natalija@ladymom.me', $naslov, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+}
+add_action( 'lm_clarity_sedmicno', 'lm_clarity_sedmicni_email' );
+add_action(
+	'init',
+	function () {
+		if ( '' !== (string) get_option( 'lm_clarity_api_token', '' ) && ! wp_next_scheduled( 'lm_clarity_sedmicno' ) ) {
+			wp_schedule_event( strtotime( 'next monday 05:40:00 UTC' ), 'weekly', 'lm_clarity_sedmicno' );
 		}
 	}
 );
