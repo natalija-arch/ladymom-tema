@@ -55,6 +55,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'placanje-telefon.php',
 		'dugmad-stil.php',
 		'seo-dorade.php',
+		'pocetna-dizajn.php',
 		'brzina.php',
 		'mjerenje.php',
 	) as $lm_fajl ) {
