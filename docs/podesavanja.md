@@ -190,3 +190,8 @@ Analiza: dokument „SEO analiza ladymom.me“ (claude.ai, 21.10.). Marko: „na
 - **Preusmjerenja** (`inc/preusmjerenja.php`): `/featured_item/` i `/elementor-46675/` → početna; `/brand/…` → `/marka/…`; `/kategorija-proizvode/…` → `/kategorija/…`; `/shop(-2)/page/N/` → `/prodavnica/page/N/`; `/boja/…` (404) → `/prodavnica/`.
 - **Blog**: interni linkovi u starim člancima ka školi i kategorijama (rezerve `lm_backup_seo_c_<ID>` i `lm_backup_seo_m_<meta_id>`); Yoast naslovi za 4 duga naslova. 9 novih članaka kao nacrti #51499–#51507 (napomena za objavu u meta `_lm_nacrt_napomena` i na to-do listi, g8).
 - **Ocjena na Google-u**: opcija `lm_google_recenzije` (`lady_mom`, `family_nest` – linkovi za ocjenu); kutija „Ocijenite nas na Google-u“ u emailu `customer_completed_order` („Spremno za preuzimanje“ i „Paket je na putu“), osim za porudžbine bez dostave.
+
+## Mini korpa, cijena artikla (21.10.2026)
+
+- `inc/placanje-telefon.php`: filter `woocommerce_widget_cart_item_quantity` umjesto „3 × 19,00 €“ ispisuje ukupno za artikal (`get_product_subtotal`), a kad je više od jednog komada ispod sitno „po 19,00 €“. Polje za količinu i cijena su u istom redu, cijena desno; na uskom telefonu cijena pređe u red ispod. Dugmad količine u mini korpi 30 px, polje 32 px.
+- `inc/dugmad-stil.php`: okvir količine važi samo za `div.quantity`. Ranije je pravilo `.quantity` stavljalo okvir i oko teksta cijene u mini korpi (`span.quantity`).
