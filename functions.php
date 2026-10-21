@@ -56,6 +56,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'dugmad-stil.php',
 		'seo-dorade.php',
 		'brzina.php',
+		'mjerenje.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}

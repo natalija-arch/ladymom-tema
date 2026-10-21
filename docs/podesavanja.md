@@ -195,3 +195,14 @@ Analiza: dokument „SEO analiza ladymom.me“ (claude.ai, 21.10.). Marko: „na
 
 - `inc/placanje-telefon.php`: filter `woocommerce_widget_cart_item_quantity` umjesto „3 × 19,00 €“ ispisuje ukupno za artikal (`get_product_subtotal`), a kad je više od jednog komada ispod sitno „po 19,00 €“. Polje za količinu i cijena su u istom redu, cijena desno; na uskom telefonu cijena pređe u red ispod. Dugmad količine u mini korpi 30 px, polje 32 px.
 - `inc/dugmad-stil.php`: okvir količine važi samo za `div.quantity`. Ranije je pravilo `.quantity` stavljalo okvir i oko teksta cijene u mini korpi (`span.quantity`).
+
+## Mjerenje za oglase (21.10.2026)
+
+Marko: „odradi sva podešavanja koja treba za sve ove platforme“ (Meta, Google Ads, GA4, Merchant Center). Plan i lista: dokument „Lady Mom — oglasi, AI i mjerenje“ i artifact „Lady Mom oglasi“.
+
+- **`inc/mjerenje.php`** (novi):
+  - WoodMart AJAX dodavanje u korpu (`woodmart_ajax_add_to_cart`) ne okida `woocommerce_ajax_added_to_cart`, pa Meta for WooCommerce nije slao AddToCart iz pregledača. Na `woocommerce_add_to_cart` (prioritet 50, poslije serverskog događaja dodatka) postavljamo `product_id`/`quantity` u `$_POST` i okidamo tu akciju; dodatak sam ubaci fragment sa AddToCart i istim `event_id` (bez dupliranja).
+  - Filter `wc_facebook_crawler_user_agent_patterns` (zvanični, dodatak 3.3+): botovi, LiteSpeed crawler, QUIC.cloud, headless, Lighthouse/PageSpeed, curl/wget/python ne šalju serverske (CAPI) događaje. Prazan User-Agent = bot (`wc_facebook_is_crawler_request`). Razlog: ~90 % serverskih PageView i ~99 % Search događaja (28 dana do 21.10.) nije imalo par iz pregledača.
+  - Upiti: klik na telefon, WhatsApp, Viber (samo linkovi sa brojem butika, ne dijeljenje) → GA4 `contact` + Meta `Contact`; CF7 poslata forma → GA4 `generate_lead`, newsletter popup (CF7 35763) → GA4 `sign_up`. CF7 Lead za Metu šalje sam dodatak.
+- **`inc/google-feed.php`**: `g:gender` i `g:age_group` za garderobu (Mame > Garderoba: female/adult; Bebe > Bodi: unisex/infant; Bebe > Naočare za sunce po uzrastu iz potkategorije). Usluge (virtuelni artikli, Ready Mom) su već bile van feeda.
+- **GA4**: sajt šalje u svojstvo 337396867 (G-BN6QSS18LM, Site Kit, Google tag GT-KDQMQTQP) od 18.10. Svojstvo 343127380 „ladymom.me“ je primalo stari sajt do 17.10. `G-EQDN3BWDSD` u izvoru stranice je Site Kit-ova telemetrija za prijavljenog admina, nije druga oznaka.

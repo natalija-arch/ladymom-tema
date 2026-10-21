@@ -93,6 +93,31 @@ function lm_feed_opis( $p, $brend, $kat ) {
 	return mb_substr( $t, 0, 4900 );
 }
 
+/**
+ * Pol i uzrast za odjeću (Google ih traži za garderobu), iz putanje kategorije.
+ * Vraća [ gender, age_group ] ili prazan niz kad artikal nije odjeća.
+ */
+function lm_feed_pol_uzrast( $kat ) {
+	if ( 0 === strpos( $kat, 'Mame > Garderoba' ) ) {
+		return array( 'female', 'adult' );
+	}
+	if ( 0 === strpos( $kat, 'Bebe > Bodi' ) ) {
+		return array( 'unisex', 'infant' );
+	}
+	if ( 0 === strpos( $kat, 'Bebe > Naočare za sunce' ) ) {
+		$uzrast = 'kids';
+		if ( false !== strpos( $kat, '0-1' ) || false !== strpos( $kat, '0-2' ) ) {
+			$uzrast = 'infant';
+		} elseif ( false !== strpos( $kat, '2-4' ) ) {
+			$uzrast = 'toddler';
+		} elseif ( false !== mb_strpos( $kat, 'odrasli' ) ) {
+			$uzrast = 'adult';
+		}
+		return array( 'unisex', $uzrast );
+	}
+	return array();
+}
+
 /** Jedan red (artikal ili varijanta). */
 function lm_feed_stavka( $p, $roditelj = null ) {
 	$glavni = $roditelj ?: $p;
@@ -187,6 +212,11 @@ function lm_feed_stavka( $p, $roditelj = null ) {
 	}
 	if ( $vel ) {
 		$r .= '<g:size>' . lm_feed_x( mb_strtoupper( $vel ) ) . "</g:size>\n";
+	}
+	$pol_uzrast = lm_feed_pol_uzrast( $kat );
+	if ( $pol_uzrast ) {
+		$r .= '<g:gender>' . $pol_uzrast[0] . "</g:gender>\n";
+		$r .= '<g:age_group>' . $pol_uzrast[1] . "</g:age_group>\n";
 	}
 	$r .= "</item>\n";
 	return $r;
