@@ -59,6 +59,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'brzina.php',
 		'mjerenje.php',
 		'kolacici.php',
+		'filteri-stil.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}
