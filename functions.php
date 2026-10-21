@@ -62,6 +62,9 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'filteri-stil.php',
 		'mjerenje-porudzbine.php',
 		'clarity-podaci.php',
+		'pretraga.php',
+		'kategorije-dugmad.php',
+		'pregled-dorade.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}

@@ -200,6 +200,8 @@ add_action( 'wp_head', function () {
 .lm-rm-kraj .lm-rm-kontakt{justify-content:center}
 @media (max-width:900px){.lm-rm-hero{grid-template-columns:1fr;gap:24px;padding-top:18px}.lm-rm-hero-slika{order:-1}.lm-rm-hero-slika img{border-radius:160px 160px 12px 12px}.lm-rm-naslov{font-size:34px}.lm-rm-dvije{grid-template-columns:1fr}}
 @media (max-width:520px){.lm-rm-dugme{width:100%}.lm-rm-kupi{gap:10px}.lm-rm-k{flex:1 1 auto;justify-content:center}.lm-rm-blok h2,.lm-rm-kraj h2{font-size:23px}}
+/* Telefon (pregled 21.10., r11): cijena i „Prijavi se i plati“ u prvom ekranu – niža slika, dugme prije činjenica */
+@media (max-width:520px){.lm-rm{padding-top:0}.lm-rm-hero{gap:14px;padding:4px 0 26px}.lm-rm-hero-slika img{aspect-ratio:16/9;border-radius:120px 120px 12px 12px}.lm-rm-hero-tekst{display:flex;flex-direction:column}.lm-rm-hero-tekst>.lm-rm-nad{order:1;margin-bottom:6px}.lm-rm-hero-tekst>.lm-rm-naslov{order:2;font-size:30px;margin-bottom:8px}.lm-rm-hero-tekst>.lm-rm-pod{order:3;font-size:16px;margin-bottom:14px}.lm-rm-hero-tekst>.lm-rm-kupi{order:4}.lm-rm-hero-tekst>.lm-rm-mala{order:5;margin:8px 0 14px}.lm-rm-hero-tekst>.lm-rm-cinjenice{order:6;margin-bottom:16px}.lm-rm-hero-tekst>.lm-rm-kontakt{order:7}}
 </style>
 	<?php
 }, 46 );

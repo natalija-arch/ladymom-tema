@@ -239,6 +239,12 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'Newness'              => 'Najnovije',
 			'Sort by price: low to high' => 'Cijena: od najniže',
 			'Sort by price: high to low' => 'Cijena: od najviše',
+			// Skriveni tekst za čitače ekrana uz broj rezultata, ako ga paket ne prevede (pregled 21.10.; hrvatski „Poredano“ ispravlja lm_cg_rijeci).
+			'Sorted by popularity' => 'Poređano po popularnosti',
+			'Sorted by average rating' => 'Poređano po ocjeni',
+			'Sorted by latest'     => 'Poređano od najnovijih',
+			'Sorted by price: low to high' => 'Poređano po cijeni, od najniže',
+			'Sorted by price: high to low' => 'Poređano po cijeni, od najviše',
 			'Show more'            => 'Prikaži više',
 			'Show less'            => 'Prikaži manje',
 			'Newsletter'           => 'Novosti',
@@ -281,6 +287,7 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'kupnja' => 'kupovina', 'kupnju' => 'kupovinu', 'kupnje' => 'kupovine', 'kupnji' => 'kupovini', 'kupnjom' => 'kupovinom',
 			// ostalo
 			'odaberi' => 'izaberi', 'odaberite' => 'izaberite', 'odabir' => 'izbor', 'odabrani' => 'izabrani', 'odabrane' => 'izabrane', 'odabrano' => 'izabrano',
+			'poredano' => 'poređano', 'poredani' => 'poređani', 'poredane' => 'poređane',
 			'spremi' => 'sačuvaj', 'spremite' => 'sačuvajte', 'spremljeno' => 'sačuvano', 'spremljene' => 'sačuvane', 'spremljena' => 'sačuvana',
 			'zalihi' => 'stanju', 'zalihe' => 'stanja', 'zaliha' => 'stanje',
 			'neobvezno' => 'opciono', 'obvezno' => 'obavezno', 'obvezna' => 'obavezna', 'obvezan' => 'obavezan', 'obvezni' => 'obavezni', 'obvezne' => 'obavezne',

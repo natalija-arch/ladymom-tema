@@ -119,6 +119,24 @@ function lm_feed_pol_uzrast( $kat ) {
 }
 
 /** Jedan red (artikal ili varijanta). */
+/**
+ * Google kategorija po kategoriji sajta (pregled 21.10., r26). Samo grane za koje smo sigurni;
+ * za ostale Google bira sam. Google prihvata putanju iz svoje liste kategorija (na engleskom).
+ */
+function lm_feed_google_kategorija( $kat ) {
+	$k = mb_strtolower( (string) $kat, 'UTF-8' );
+	if ( false !== strpos( $k, 'mame > garderoba' ) ) {
+		return 'Apparel & Accessories > Clothing > Maternity Clothing';
+	}
+	if ( false !== strpos( $k, 'nosiljke' ) ) {
+		return 'Baby & Toddler > Baby Transport > Baby Carriers';
+	}
+	if ( false !== strpos( $k, 'dojenje' ) || false !== strpos( $k, 'hranjenje' ) || false !== strpos( $k, 'mame > oprema > jastuci' ) ) {
+		return 'Baby & Toddler > Nursing & Feeding';
+	}
+	return '';
+}
+
 function lm_feed_stavka( $p, $roditelj = null ) {
 	$glavni = $roditelj ?: $p;
 	// Usluge (npr. Ready Mom program) ne idu u Google Shopping.
@@ -206,6 +224,10 @@ function lm_feed_stavka( $p, $roditelj = null ) {
 	}
 	if ( $kat ) {
 		$r .= '<g:product_type>' . lm_feed_x( $kat ) . "</g:product_type>\n";
+		$gkat = lm_feed_google_kategorija( $kat );
+		if ( $gkat ) {
+			$r .= '<g:google_product_category>' . lm_feed_x( $gkat ) . "</g:google_product_category>\n";
+		}
 	}
 	if ( $boja ) {
 		$r .= '<g:color>' . lm_feed_x( $boja ) . "</g:color>\n";

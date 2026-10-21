@@ -60,7 +60,8 @@ add_action( 'wp_head', function () {
 
 // 3) Napomena o sigurnom plaćanju iznad dugmeta za poručivanje.
 add_action( 'woocommerce_review_order_before_submit', function () {
-	echo '<p class="lm-secure-pay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10V7a6 6 0 0 1 12 0v3M5 10h14v11H5z"/></svg> Plaćanje karticom je zaštićeno (3D Secure) – prihvatamo <strong>Visa</strong> i <strong>Mastercard</strong>.</p>';
+	// Tekst je u jednom <span>: .lm-secure-pay je flex, pa bi inače svaka riječ bila poseban dio reda (pregled 21.10., r5).
+	echo '<p class="lm-secure-pay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10V7a6 6 0 0 1 12 0v3M5 10h14v11H5z"/></svg><span>Plaćanje karticom je zaštićeno (3D Secure) – prihvatamo <strong>Visa</strong> i <strong>Mastercard</strong>.</span></p>';
 	// Napomena o NLB ratama je iznad načina plaćanja (od 30 €), pa se ovdje ne ponavlja (20.10.2026).
 } );
 

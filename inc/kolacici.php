@@ -40,6 +40,17 @@ add_action(
 .cmplz-manage-consent-container input.cmplz-consent-checkbox:focus-visible{outline:2px solid var(--lm-smedja,#6d4e39);outline-offset:2px}
 .cmplz-manage-consent-container .cmplz-always-active .cmplz-banner-checkbox{display:none}
 .cmplz-manage-consent-container .cmplz-label{display:none!important}
+
+/* Telefon (pregled 21.10., r14): manja traka – „Prihvati“ i „Odbij“ jedno pored drugog, iste veličine; „Podešavanja“ ispod, kao sporedno dugme */
+@media (max-width:768px){
+.cmplz-cookiebanner.cmplz-show{padding:14px 16px 12px!important;row-gap:8px!important}
+.cmplz-cookiebanner .cmplz-message,.cmplz-cookiebanner .cmplz-message p{font-size:13.5px!important;line-height:1.45!important}
+.cmplz-cookiebanner .cmplz-buttons{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn{width:auto!important;height:44px!important;min-height:44px!important;margin:0!important;padding:0 10px!important;font-size:13px!important}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-view-preferences{grid-column:1 / -1;height:auto!important;min-height:0!important;padding:8px 0!important;border:0!important;box-shadow:none!important;color:var(--lm-smedja,#6d4e39)!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-save-preferences{grid-column:1 / -1}
+.cmplz-cookiebanner .cmplz-links.cmplz-documents{margin:0!important}
+}
 </style>
 		<?php
 	},
