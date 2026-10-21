@@ -169,7 +169,27 @@ add_action(
 			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
 			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 		})(window, document, "clarity", "script", <?php echo wp_json_encode( LM_CLARITY_ID ); ?>);
+		<?php if ( function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'order-received' ) ) : ?>
+		dogadjaj('kupovina');
+		<?php endif; ?>
 	}
+	// Događaji za Clarity (smart events i levak): dodavanje u korpu, kontakt, kupovina.
+	function dogadjaj(ime) {
+		try { if (typeof window.clarity === 'function') { window.clarity('event', ime); } } catch (e) {}
+	}
+	function vezi() {
+		if (window.jQuery) {
+			window.jQuery(document.body).on('added_to_cart', function () { dogadjaj('dodaj_u_korpu'); });
+		}
+	}
+	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', vezi); } else { vezi(); }
+	document.addEventListener('click', function (e) {
+		var t = e.target && e.target.closest ? e.target : null;
+		if (!t) { return; }
+		if (t.closest('.single_add_to_cart_button:not(.disabled), .add_to_cart_button')) { dogadjaj('klik_dodaj_u_korpu'); }
+		var a = t.closest('a[href]');
+		if (a && (a.getAttribute('href') || '').replace(/[^0-9]/g, '').indexOf('67030655') !== -1) { dogadjaj('kontakt'); }
+	}, true);
 	<?php if ( function_exists( 'wp_has_consent' ) ) : ?>
 	function provjeri() {
 		if (typeof window.wp_has_consent === 'function' && window.wp_has_consent('statistics')) { ucitaj(); }
