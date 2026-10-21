@@ -61,6 +61,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'kolacici.php',
 		'filteri-stil.php',
 		'mjerenje-porudzbine.php',
+		'clarity-podaci.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}
