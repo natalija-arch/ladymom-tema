@@ -9,6 +9,8 @@
  * - U rezultatima pretrage artikli se slažu po relevantnosti; u kategorijama ostaje „Najpopularnije“.
  *   Naprijed idu artikli koji u nazivu imaju traženu riječ (ili njen sinonim) kao cijelu riječ,
  *   pa oni gdje je ona dio riječi, pa ostali („pojas“: prvo pojasevi, pa helanke „sa pojasom“).
+ * - Kategorije, brendovi i atributi se pretražuju po nazivu i sinonimima, ne po opisu
+ *   (opisi kategorija su dugi tekstovi pa su dovlačili gomilu nepovezanih artikala).
  *
  * Česte greške u kucanju (haakka, spektra, body…) su u WoodMart podešavanju „Search synonyms“
  * (Theme Settings → General → Search). Oblik reda je „pogrešno = tačno, tačno 2“; red bez „=“
@@ -88,46 +90,102 @@ add_filter(
 );
 
 /**
- * Pojmovi po kojima se slažu rezultati: tražena riječ i njeni WoodMart sinonimi.
- * Za pretragu sa više riječi bez sinonima vraća prazno: tu WordPress sam stavlja naprijed
- * artikle sa cijelom frazom u nazivu.
+ * Da li je ovo WoodMart padajuća pretraga (AJAX).
+ */
+function lm_pretraga_padajuca() {
+	return wp_doing_ajax() && isset( $_REQUEST['action'] ) && 'woodmart_ajax_search' === $_REQUEST['action']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+}
+
+/**
+ * Da li upit treba da dira ova datoteka: pretraga artikala na sajtu (puna ili padajuća).
+ *
+ * @param WP_Query $query Upit.
+ */
+function lm_pretraga_artikala( $query ) {
+	if ( ! lm_pretraga_padajuca() && ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) ) {
+		return false;
+	}
+	return in_array( 'product', (array) $query->get( 'post_type' ), true );
+}
+
+/**
+ * Samo sinonimi tražene riječi iz WoodMart podešavanja (bez nje same).
  *
  * @param string $s Tekst pretrage.
  * @return string[]
  */
-function lm_pretraga_pojmovi( $s ) {
-	$s = trim( (string) $s );
-	if ( '' === $s ) {
+function lm_pretraga_sinonimi( $s ) {
+	$s     = trim( (string) $s );
+	$klasa = '\XTS\Modules\Search\Query\Search_With_Synonyms';
+	if ( '' === $s || ! function_exists( 'woodmart_get_opt' ) || ! woodmart_get_opt( 'search_synonyms' ) || ! class_exists( $klasa ) ) {
 		return array();
 	}
-	$pojmovi = array( mb_strtolower( $s, 'UTF-8' ) );
-	$klasa   = '\XTS\Modules\Search\Query\Search_With_Synonyms';
-	if ( function_exists( 'woodmart_get_opt' ) && woodmart_get_opt( 'search_synonyms' ) && class_exists( $klasa ) ) {
-		$sinonimi = $klasa::get_instance();
-		$pojmovi  = array_merge( $pojmovi, $sinonimi->generate_new_terms( $sinonimi->get_original_terms( $s ) ) );
-	}
-	$pojmovi = array_values(
+	$sinonimi = $klasa::get_instance();
+	$izvorni  = $sinonimi->get_original_terms( $s );
+	$novi     = array_diff( $sinonimi->generate_new_terms( $izvorni ), $izvorni );
+	return array_values(
 		array_unique(
 			array_filter(
-				array_map( 'trim', $pojmovi ),
+				array_map( 'trim', $novi ),
 				function ( $p ) {
 					return '' !== $p && '-' !== $p[0];
 				}
 			)
 		)
 	);
-	if ( 1 === count( $pojmovi ) && false !== strpos( $pojmovi[0], ' ' ) ) {
-		return array();
-	}
-	return $pojmovi;
 }
 
-// Redoslijed rezultata: cijela riječ u nazivu, pa dio riječi u nazivu, pa ostalo. Samo kad kupac nije sam izabrao redoslijed.
+/**
+ * Pojmovi po kojima se slažu rezultati: tražena riječ i njeni sinonimi.
+ * Za pretragu sa više riječi bez sinonima vraća prazno: tu WoodMart sam stavlja naprijed
+ * artikle sa cijelom frazom, pa sa svim riječima u nazivu.
+ *
+ * @param string $s Tekst pretrage.
+ * @return string[]
+ */
+function lm_pretraga_pojmovi( $s ) {
+	$s = mb_strtolower( trim( (string) $s ), 'UTF-8' );
+	if ( '' === $s ) {
+		return array();
+	}
+	$sinonimi = lm_pretraga_sinonimi( $s );
+	if ( ! $sinonimi && false !== strpos( $s, ' ' ) ) {
+		return array();
+	}
+	return array_values( array_unique( array_merge( array( $s ), $sinonimi ) ) );
+}
+
+// Kategorije, brendovi i atributi u pretrazi: po nazivu i po sinonimima, ne po opisu.
+// WoodMart traži i po opisu kategorije, a naši opisi su dugi tekstovi koji pominju mnogo vrsta
+// artikala, pa je „nosiljke“ vraćalo 157 artikala (jakne, štitnike…), a „pojas“ 89.
+// Sinonime dodajemo istom WoodMart funkcijom („body“ nađe i artikle iz kategorije „Bodi“).
+add_filter(
+	'posts_search',
+	function ( $search, $query ) {
+		if ( empty( $search ) || ! lm_pretraga_artikala( $query ) || ! function_exists( 'woodmart_get_opt' ) ) {
+			return $search;
+		}
+		$klasa = '\XTS\Modules\Search\Query\Search_With_Taxonomies';
+		$taks  = woodmart_get_opt( 'search_by_product_categories' ) || woodmart_get_opt( 'search_by_product_tag' ) || woodmart_get_opt( 'search_by_product_attributes' ) || woodmart_get_opt( 'search_by_product_brands' );
+		if ( $taks && class_exists( $klasa ) ) {
+			$sinonimi = lm_pretraga_sinonimi( $query->get( 's' ) );
+			if ( $sinonimi ) {
+				$search = $klasa::get_instance()->extend_query( $search, implode( ',', $sinonimi ) );
+			}
+		}
+		$bez_opisa = preg_replace( "/\)\s+OR\s+\(tt\.description LIKE '(?:[^'\\\\]|\\\\.)*'\)/", ')', $search );
+		return null === $bez_opisa ? $search : $bez_opisa;
+	},
+	11,
+	2
+);
+
+// Redoslijed: cijela riječ (ili sinonim) u nazivu, pa dio riječi u nazivu, pa WoodMart-ov redoslijed.
+// Prioritet 30, jer WoodMart na 20 zamijeni redoslijed svojim. Kad kupac sam izabere redoslijed, ne miješamo se.
 add_filter(
 	'posts_search_orderby',
 	function ( $orderby, $query ) {
-		$padajuci = wp_doing_ajax() && isset( $_REQUEST['action'] ) && 'woodmart_ajax_search' === $_REQUEST['action']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( ! $padajuci && ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) ) {
+		if ( ! lm_pretraga_artikala( $query ) ) {
 			return $orderby;
 		}
 		$izbor = $query->get( 'orderby' );
@@ -149,6 +207,6 @@ add_filter(
 		$red = '(CASE WHEN ' . implode( ' OR ', $cijela ) . ' THEN 1 WHEN ' . implode( ' OR ', $dio ) . ' THEN 2 ELSE 3 END)';
 		return $orderby ? $red . ', ' . $orderby : $red;
 	},
-	10,
+	30,
 	2
 );
