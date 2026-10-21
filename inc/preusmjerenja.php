@@ -52,6 +52,13 @@ add_action( 'template_redirect', function () {
 		'/featured_item/'          => '/',
 		'/elementor-46675/'        => '/',
 	);
+	// Kad se objavi stranica „Česta pitanja“ (pregled 21.10.2026, r17), njena adresa više ne vodi na Dostavu.
+	if ( '/cesta-pitanja/' === $put ) {
+		$lm_cp = get_page_by_path( 'cesta-pitanja' );
+		if ( $lm_cp && 'publish' === $lm_cp->post_status ) {
+			unset( $fiksno['/cesta-pitanja/'] );
+		}
+	}
 	if ( isset( $fiksno[ $put ] ) ) {
 		wp_safe_redirect( home_url( $fiksno[ $put ] ) . $upit, 301 );
 		exit;

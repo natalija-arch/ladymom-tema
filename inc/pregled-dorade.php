@@ -11,6 +11,7 @@
  * r20  Spisak korisnika preko REST-a samo za prijavljene; ?author=N ne otkriva korisničko ime;
  *      uređivanje fajlova iz admina isključeno; bez zaglavlja X-Powered-By.
  * r22  Najviše 10 revizija po stranici/članku.
+ * r17  Stranica „Česta pitanja“: podaci za Google (FAQPage) iz blokova „Details“ i izgled pitanja.
  * r26  Podaci o dostavi i povratu u ponudi artikla (schema.org) za Google.
  *
  * @package woodmart-child
@@ -325,6 +326,79 @@ add_filter(
 		}
 		$markup['offers'] = isset( $markup['offers']['@type'] ) ? $ponude[0] : $ponude;
 		return $markup;
+	},
+	30
+);
+
+/* ---------- r17: stranica „Česta pitanja“ (/cesta-pitanja/) ---------- */
+
+/**
+ * Pitanja i odgovori sa stranice: svaki blok „Details“ (sklopivi red) je jedno pitanje.
+ * Kad se tekst izmijeni u editoru, mijenjaju se i podaci za Google.
+ *
+ * @param int $post_id Stranica.
+ * @return array<int, array{0:string,1:string}>
+ */
+function lm_cp_pitanja( $post_id ) {
+	$izlaz = array();
+	$prodji = function ( $blokovi ) use ( &$prodji, &$izlaz ) {
+		foreach ( $blokovi as $b ) {
+			if ( 'core/details' === $b['blockName'] ) {
+				$q = preg_match( '#<summary[^>]*>(.*?)</summary>#s', (string) $b['innerHTML'], $m ) ? trim( wp_strip_all_tags( $m[1] ) ) : '';
+				$a = '';
+				foreach ( $b['innerBlocks'] as $u ) {
+					$a .= ' ' . wp_strip_all_tags( render_block( $u ) );
+				}
+				$a = trim( preg_replace( '/\s+/u', ' ', $a ) );
+				if ( '' !== $q && '' !== $a ) {
+					$izlaz[] = array( html_entity_decode( $q, ENT_QUOTES, 'UTF-8' ), html_entity_decode( $a, ENT_QUOTES, 'UTF-8' ) );
+				}
+			} elseif ( ! empty( $b['innerBlocks'] ) ) {
+				$prodji( $b['innerBlocks'] );
+			}
+		}
+	};
+	$prodji( parse_blocks( (string) get_post_field( 'post_content', $post_id ) ) );
+	return $izlaz;
+}
+
+add_action(
+	'wp_head',
+	function () {
+		if ( ! is_page( 'cesta-pitanja' ) ) {
+			return;
+		}
+		$pitanja = lm_cp_pitanja( get_queried_object_id() );
+		if ( $pitanja ) {
+			$faq = array(
+				'@context'   => 'https://schema.org',
+				'@type'      => 'FAQPage',
+				'@id'        => get_permalink( get_queried_object_id() ) . '#pitanja',
+				'mainEntity' => array(),
+			);
+			foreach ( $pitanja as $q ) {
+				$faq['mainEntity'][] = array(
+					'@type'          => 'Question',
+					'name'           => $q[0],
+					'acceptedAnswer' => array(
+						'@type' => 'Answer',
+						'text'  => $q[1],
+					),
+				);
+			}
+			echo '<script type="application/ld+json">' . wp_json_encode( $faq, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
+		}
+		?>
+<style id="lm-cesta-pitanja">
+.entry-content h2.wp-block-heading{margin:34px 0 8px;font-size:22px}
+.entry-content .wp-block-details{margin:0;border-bottom:1px solid var(--lm-linija,#e7d7cc);padding:0}
+.entry-content .wp-block-details summary{cursor:pointer;list-style:none;position:relative;padding:15px 34px 15px 0;font-family:"Raleway",system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1.4;color:var(--lm-smedja,#6d4e39)}
+.entry-content .wp-block-details summary::-webkit-details-marker{display:none}
+.entry-content .wp-block-details summary::after{content:"";position:absolute;right:6px;top:50%;width:9px;height:9px;margin-top:-7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+.entry-content .wp-block-details[open] summary::after{transform:rotate(-135deg);margin-top:-2px}
+.entry-content .wp-block-details > p{margin:0 0 16px;line-height:1.65}
+</style>
+		<?php
 	},
 	30
 );
