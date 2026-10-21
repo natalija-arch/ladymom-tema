@@ -60,6 +60,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'mjerenje.php',
 		'kolacici.php',
 		'filteri-stil.php',
+		'mjerenje-porudzbine.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}
