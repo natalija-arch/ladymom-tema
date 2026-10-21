@@ -47,6 +47,24 @@ add_action( 'wp_head', function () {
 .elementor-element-lmhs000 .hotspot-content{border-radius:14px;box-shadow:0 12px 32px rgba(109,78,57,.2)}
 .elementor-element-lmhs000 .hotspot-content .wd-entities-title{font-size:17px}
 
+/* Blog: tri kompaktne kartice u jednom redu (slika lijevo, naslov desno), kao na telefonu.
+   Widget je u jednoj koloni sa velikim slikama, pa je sekcija bila visoka ~1400 px. */
+.elementor-element-38198c0 .wd-post-inner{display:flex!important;align-items:center;gap:16px}
+.elementor-element-38198c0 .wd-post-thumb{flex:0 0 40%;max-width:40%;margin:0!important;border-radius:12px;overflow:hidden}
+.elementor-element-38198c0 .wd-post-thumb img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;transition:transform .5s ease}
+.elementor-element-38198c0 .wd-post:hover .wd-post-thumb img{transform:scale(1.04)}
+.elementor-element-38198c0 .wd-post-thumb .wd-post-date{display:none}
+.elementor-element-38198c0 .wd-post-content{flex:1 1 auto;padding:0!important;text-align:left!important}
+.elementor-element-38198c0 .wd-post-title{font-size:16px!important;line-height:1.3!important;margin-bottom:6px!important}
+.elementor-element-38198c0 .wd-post-read-more{margin-top:0!important;text-align:left!important;justify-content:flex-start!important}
+@media (min-width:1025px){
+	.elementor-element-38198c0 .wd-blog-holder{grid-template-columns:repeat(3,minmax(0,1fr))!important;column-gap:28px!important;row-gap:20px!important}
+	.elementor-element-38198c0 .wd-post{margin-bottom:0}
+}
+@media (min-width:769px) and (max-width:1024px){
+	.elementor-element-38198c0 .wd-blog-holder{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:24px!important;row-gap:20px!important}
+}
+
 /* Škola: lista činjenica kao kompaktan blok */
 .elementor-element-lms0008{max-width:420px;margin-left:auto;margin-right:auto}
 
@@ -56,13 +74,9 @@ add_action( 'wp_head', function () {
 	.elementor-element-76d6c0d .wd-nav-tabs>li>a{font-size:13px!important;letter-spacing:.06em!important;padding-left:0!important;padding-right:0!important}
 	.elementor-element-lmo0001 .wd-btn-arrow .wd-arrow-inner,.elementor-element-lmb0001 .wd-btn-arrow .wd-arrow-inner,.elementor-element-lmc0001 .wd-btn-arrow .wd-arrow-inner{width:32px;height:32px}
 
-	/* Blog: slika lijevo, naslov desno */
-	.elementor-element-38198c0 .wd-post-inner{display:flex!important;align-items:center;gap:14px}
-	.elementor-element-38198c0 .wd-post-thumb{flex:0 0 38%;max-width:38%;margin:0!important;border-radius:12px;overflow:hidden}
-	.elementor-element-38198c0 .wd-post-thumb .wd-post-date{display:none}
-	.elementor-element-38198c0 .wd-post-content{flex:1 1 auto;padding:0!important;text-align:left!important}
-	.elementor-element-38198c0 .wd-post-title{font-size:16px!important;line-height:1.3!important;margin-bottom:6px!important}
-	.elementor-element-38198c0 .wd-post-read-more{margin-top:0!important}
+	/* Blog na telefonu: kartice jedna ispod druge, slika nešto uža */
+	.elementor-element-38198c0 .wd-post-inner{gap:14px}
+	.elementor-element-38198c0 .wd-post-thumb{flex-basis:38%;max-width:38%}
 	.elementor-element-38198c0 .wd-post{margin-bottom:16px}
 }
 </style>
