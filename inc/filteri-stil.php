@@ -50,7 +50,7 @@ add_action(
 		$boja = '#woodmart-woocommerce-layered-nav-7';
 		$css  = '';
 		foreach ( lm_filter_boje_bez_swatcha() as $naziv => $pozadina ) {
-			$css .= $boja . ' a[aria-label="Filtriraj: ' . esc_attr( $naziv ) . '"]::before{background:' . $pozadina . '}';
+			$css .= $boja . ' li:not(.wd-swatch-wrap) a.layered-nav-link[aria-label="Filtriraj: ' . esc_attr( $naziv ) . '"]::before{background:' . $pozadina . '}';
 		}
 		?>
 <style id="lm-filteri">
@@ -60,7 +60,7 @@ add_action(
 #woodmart-woocommerce-layered-nav-7 .layered-nav-link{flex:1 1 auto!important;width:auto!important;min-width:0;display:flex!important;align-items:center;gap:10px}
 #woodmart-woocommerce-layered-nav-7 .wd-swatch{width:22px!important;height:22px!important;min-width:22px;flex:0 0 22px!important;margin:0!important;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(109,78,57,.18)}
 #woodmart-woocommerce-layered-nav-7 .wd-swatch-bg{border-radius:50%}
-#woodmart-woocommerce-layered-nav-7 .layer-term-lable{font-size:15px;line-height:1.3;color:var(--lm-smedja,#6d4e39);white-space:normal}
+#woodmart-woocommerce-layered-nav-7 .layer-term-lable{margin:0!important;padding:0!important;font-size:15px;line-height:1.3;color:var(--lm-smedja,#6d4e39);white-space:normal}
 #woodmart-woocommerce-layered-nav-7 li:not(.wd-swatch-wrap) .layered-nav-link::before{content:"";flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:#f3e6d6;box-shadow:inset 0 0 0 1px rgba(109,78,57,.25)}
 #woodmart-woocommerce-layered-nav-7 .count{margin-left:auto!important}
 #woodmart-woocommerce-layered-nav-7 li.chosen .layer-term-lable,#woodmart-woocommerce-layered-nav-7 li.wd-active .layer-term-lable{font-weight:700}
@@ -71,7 +71,7 @@ add_action(
 #woodmart-woocommerce-layered-nav-8 .wd-swatches-filter{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important}
 #woodmart-woocommerce-layered-nav-8 .wd-swatches-filter>li{width:auto!important;max-width:none!important;margin:0!important;padding:0!important;position:relative}
 #woodmart-woocommerce-layered-nav-8 .layered-nav-link{display:block!important;width:100%!important}
-#woodmart-woocommerce-layered-nav-8 .wd-swatch{display:flex!important;align-items:center;justify-content:center;width:100%!important;height:58px!important;margin:0!important;padding:8px 10px;background:#fff;border:1px solid var(--lm-linija,#e7d7cc);border-radius:10px;transition:border-color .2s ease,box-shadow .2s ease}
+#woodmart-woocommerce-layered-nav-8 .wd-swatch{display:flex!important;align-items:center;justify-content:center;width:100%!important;max-width:none!important;min-width:0!important;height:58px!important;margin:0!important;padding:8px 10px;background:#fff;border:1px solid var(--lm-linija,#e7d7cc);border-radius:10px;transition:border-color .2s ease,box-shadow .2s ease}
 #woodmart-woocommerce-layered-nav-8 .wd-swatch img{width:auto!important;height:auto!important;max-width:100%!important;max-height:40px!important;object-fit:contain}
 #woodmart-woocommerce-layered-nav-8 .layered-nav-link:hover .wd-swatch{border-color:var(--lm-roze,#db9e99)}
 #woodmart-woocommerce-layered-nav-8 li.chosen .wd-swatch,#woodmart-woocommerce-layered-nav-8 li.wd-active .wd-swatch{border-color:var(--lm-roze-jaka,#a05c57);box-shadow:0 0 0 1px var(--lm-roze-jaka,#a05c57)}
