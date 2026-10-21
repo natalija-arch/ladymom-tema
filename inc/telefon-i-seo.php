@@ -127,8 +127,8 @@ function lm_meta_opis_proizvoda( $opis ) {
 	if ( $kat ) {
 		$tekst .= ' ' . $kat . ' u Lady Mom butiku za trudnice i mame u Podgorici i online.';
 	}
-	$tekst .= ' Besplatna dostava po Crnoj Gori za porudžbine od 100 €, plaćanje pouzećem ili karticom.';
-	return $tekst;
+	// Do 160 znakova: boja (kod artikala istog naziva) i rečenice o kupovini dok staju (seo-pravila.php).
+	return function_exists( 'lm_seo_opis_artikla' ) ? lm_seo_opis_artikla( $tekst, $p ) : $tekst;
 }
 add_filter( 'wpseo_metadesc', 'lm_meta_opis_proizvoda', 20 );
 add_filter( 'wpseo_opengraph_desc', 'lm_meta_opis_proizvoda', 20 );

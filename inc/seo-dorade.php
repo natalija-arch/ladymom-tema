@@ -97,15 +97,7 @@ function lm_default_artikli() {
 	}
 	return $ids;
 }
-add_filter( 'wpseo_robots', function ( $r ) {
-	if ( is_singular( 'product' ) && in_array( (int) get_queried_object_id(), lm_default_artikli(), true ) ) {
-		return 'noindex, follow';
-	}
-	return $r;
-} );
-add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', function ( $ids ) {
-	return array_merge( (array) $ids, lm_default_artikli() );
-} );
+// Noindex i sitemap: jedno pravilo za sve u seo-pravila.php (lm_seo_bez_indeksa_postovi()).
 
 /* 5) Meta opis proizvoda: cijele rečenice. */
 function lm_skrati_recenice( $t, $max ) {
@@ -144,7 +136,9 @@ function lm_meta_opis_proizvoda_recenice( $opis ) {
 	if ( '' === $tekst ) {
 		return $opis; // Bez opisa: lm_meta_opis_proizvoda() (telefon-i-seo.php).
 	}
-	return lm_skrati_recenice( $tekst, 100 ) . ' Besplatna dostava po Crnoj Gori od 100 €, plaćanje pouzećem ili karticom.';
+	$glavni = lm_skrati_recenice( $tekst, 110 );
+	// Do 160 znakova: boja (kod artikala istog naziva) i rečenice o kupovini dok staju (seo-pravila.php).
+	return function_exists( 'lm_seo_opis_artikla' ) ? lm_seo_opis_artikla( $glavni, $p ) : $glavni;
 }
 add_filter( 'wpseo_metadesc', 'lm_meta_opis_proizvoda_recenice', 25 );
 add_filter( 'wpseo_opengraph_desc', 'lm_meta_opis_proizvoda_recenice', 25 );
