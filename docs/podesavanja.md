@@ -233,3 +233,5 @@ Marko odobrio (lista „Lady Mom oglasi“, m3). Backup prije: All-in-One WP Mig
   - Meta `Contact` ide preko `FacebookSignals.trackEvent` (čuva se dok traje hold).
   - Clarity se učitava tek uz saglasnost za statistiku.
 - **Povratak**: deaktivirati Complianz i WP Consent API (kod u temi se sam isključi jer nema `wp_has_consent`); kolačić `wc_facebook_signals_state=held` kod posjetilaca dodatak tada i dalje poštuje, pa poslije deaktivacije treba vratiti i filter (ili ga ukloniti iz `inc/mjerenje.php`).
+- **Politika privatnosti (#3)**, 21.10. (Marko: „uradi“): pasus o kolačićima zamijenjen odjeljkom „Kolačići (cookies)“ (kategorije Neophodni / Statistika / Marketing sa imenima alata, Consent Mode, i `[cmplz-manage-consent]` za promjenu izbora, jer se na telefonu dugme „Kolačići“ ne prikazuje). Usput uklonjen pokvaren ugniježđeni link na okov.me. Stari tekst je u revizijama stranice.
+- Poruka WooCommerce-a u korpi sa količinom na stanju („imamo N na stanju“) ostaje kako jeste (Marko: „nemoj“, 21.10.).
