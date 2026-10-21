@@ -47,7 +47,7 @@ add_action(
 .cmplz-cookiebanner .cmplz-message,.cmplz-cookiebanner .cmplz-message p{font-size:13.5px!important;line-height:1.45!important}
 .cmplz-cookiebanner .cmplz-buttons{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
 .cmplz-cookiebanner .cmplz-buttons .cmplz-btn{width:auto!important;height:44px!important;min-height:44px!important;margin:0!important;padding:0 10px!important;font-size:13px!important}
-.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-view-preferences{grid-column:1 / -1;height:auto!important;min-height:0!important;padding:8px 0!important;border:0!important;box-shadow:none!important;color:var(--lm-smedja,#6d4e39)!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-view-preferences{grid-column:1 / -1;height:auto!important;min-height:0!important;padding:8px 0!important;border:0!important;box-shadow:none!important;background:transparent!important;color:var(--lm-smedja,#6d4e39)!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important;text-decoration:underline!important;text-underline-offset:3px}
 .cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-save-preferences{grid-column:1 / -1}
 .cmplz-cookiebanner .cmplz-links.cmplz-documents{margin:0!important}
 }

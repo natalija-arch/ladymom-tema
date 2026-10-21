@@ -259,6 +259,12 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'Free shipping'        => 'Besplatna dostava',
 			'%s Comment'           => '%s komentar',
 			'%s Comments'          => '%s komentara',
+			// „Često se kupuje uz“ (WoodMart FBT, pregled 21.10.2026, r10). U paketima je 2–4 artikla.
+			'Frequently bought together' => 'Često se kupuje uz',
+			'For %s item'          => 'Za %s artikal',
+			'For %s items'         => 'Za %s artikla',
+			'Select product variation' => 'Izaberite veličinu ili boju',
+			'Bundled product'      => 'Artikal iz paketa',
 			// Lista čekanja (WoodMart waitlist, pregled 21.10.2026, r6).
 			'This product is currently sold out.' => 'Trenutno nije na stanju.',
 			"No worries! Enter your email, and we'll let you know as soon as it's back in stock." => 'Ostavite email i javićemo vam čim stigne.',
