@@ -3,7 +3,8 @@
  * Lady Mom – emailovi (4/4) dodatni emailovi u novom dizajnu (18.10.2026; telefon i tamni režim 20.10.2026)
  *
  * Potvrda email adrese (WooCommerce), lista želja (WoodMart: ponovo na stanju,
- * na popustu, promotivni) i napuštena korpa (WoodMart). Do sada su išli na
+ * na popustu, promotivni), napuštena korpa (WoodMart) i lista čekanja (WoodMart:
+ * potvrda prijave, prijava potvrđena, ponovo na stanju; dodato 21.10.2026, r6). Do sada su išli na
  * engleskom u starom šablonu. Šabloni u woodmart-child/woocommerce/emails/
  * zovu lm_em_header() / lm_em_dodatni_body() / lm_em_footer().
  */
@@ -11,7 +12,12 @@
 defined( 'ABSPATH' ) || exit;
 
 function lm_em_dodatni_ids() {
-	return array( 'customer_verify_email', 'woodmart_back_in_stock_email', 'woodmart_on_sale_products_email', 'woodmart_promotional_email', 'woodmart_abandoned_cart_email' );
+	return array( 'customer_verify_email', 'woodmart_back_in_stock_email', 'woodmart_on_sale_products_email', 'woodmart_promotional_email', 'woodmart_abandoned_cart_email', 'woodmart_waitlist_confirm_subscription_email', 'woodmart_waitlist_subscribe_email', 'woodmart_waitlist_in_stock' );
+}
+
+/** Email liste čekanja (WoodMart waitlist, pregled 21.10.2026, r6). */
+function lm_em_je_lista_cekanja( $email ) {
+	return $email && is_object( $email ) && isset( $email->id ) && 0 === strpos( $email->id, 'woodmart_waitlist_' );
 }
 
 function lm_em_je_dodatni( $email ) {
@@ -20,6 +26,11 @@ function lm_em_je_dodatni( $email ) {
 
 /** Ime kupca iz WoodMart emaila (lista želja: $email->user, korpa: $email->user_name). */
 function lm_em_dodatni_ime( $email ) {
+	// Lista čekanja: WoodMart za goste daje „Customer“, pa ime uzimamo samo iz naloga sa tom adresom.
+	if ( lm_em_je_lista_cekanja( $email ) ) {
+		$u = ! empty( $email->recipient ) ? get_user_by( 'email', $email->recipient ) : false;
+		return ( $u && $u->first_name ) ? trim( $u->first_name ) : '';
+	}
 	if ( ! empty( $email->user ) && $email->user instanceof WP_User && $email->user->first_name ) {
 		return trim( $email->user->first_name );
 	}
@@ -52,6 +63,15 @@ function lm_em_dodatni_copy( $email ) {
 			$s_svoj = $s && $s !== $email->get_default_subject();
 			$h_svoj = $h && $h !== $email->get_default_heading();
 			return array( 's' => $s_svoj ? '' : 'Posebna ponuda za vas iz Lady Mom', 'h' => $h_svoj ? '' : 'Posebna ponuda za vas' . $iz . '.', 'pre' => '', 'txt' => '' );
+		case 'woodmart_waitlist_confirm_subscription_email':
+			return array( 's' => 'Potvrdite prijavu na listu čekanja', 'h' => 'Potvrdite prijavu' . $iz . '.', 'pre' => 'Jedan klik i javljamo vam čim artikal stigne.',
+				'txt' => 'Hvala što čekate ovaj artikal. Potvrdite email adresu i javićemo vam čim ponovo bude na stanju.' );
+		case 'woodmart_waitlist_subscribe_email':
+			return array( 's' => 'Na listi čekanja ste', 'h' => 'Na listi čekanja ste' . $iz . '.', 'pre' => 'Javićemo vam čim artikal ponovo bude na stanju.',
+				'txt' => 'Prijava je potvrđena. Čim artikal ponovo bude na stanju, poslaćemo vam email.' );
+		case 'woodmart_waitlist_in_stock':
+			return array( 's' => 'Artikal koji čekate je ponovo na stanju', 'h' => 'Ponovo je na stanju' . $iz . '.', 'pre' => 'Artikal sa vaše liste čekanja možete ponovo poručiti.',
+				'txt' => 'Artikal koji ste čekali ponovo je na stanju i možete ga poručiti.' );
 		case 'woodmart_abandoned_cart_email':
 			return array( 's' => 'Vaša korpa vas čeka' . $iz, 'h' => 'Vaša korpa vas čeka' . $iz . '.', 'pre' => 'Sačuvali smo artikle iz korpe. Porudžbinu završavate jednim klikom.',
 				'txt' => 'Ostavili ste nekoliko artikala u korpi. Sačuvali smo ih za vas, a porudžbinu možete završiti jednim klikom.' );
@@ -117,6 +137,26 @@ function lm_em_dodatni_body( $email, $vars = array() ) {
 			echo lm_em_red( '<div style="font-size:16px;line-height:1.6;color:#7a6250">' . wp_kses_post( $sadrzaj ) . '</div>', 14 );
 			break;
 
+		case 'woodmart_waitlist_confirm_subscription_email':
+		case 'woodmart_waitlist_subscribe_email':
+		case 'woodmart_waitlist_in_stock':
+			echo lm_em_hero( 'LISTA ČEKANJA', $h, $c['txt'] );
+			$p      = ( isset( $email->object ) && $email->object instanceof WC_Product ) ? $email->object : null;
+			$stigao = 'woodmart_waitlist_in_stock' === $email->id;
+			if ( $p ) {
+				echo lm_em_dodatni_lista( $stigao ? 'Ponovo na stanju' : 'Artikal koji čekate', lm_em_dodatni_red( $p, lm_em_dodatni_cijena( $p ) ) );
+			}
+			if ( 'woodmart_waitlist_confirm_subscription_email' === $email->id ) {
+				echo lm_em_red( lm_em_btn( ! empty( $email->confirm_url ) ? $email->confirm_url : ( $p ? $p->get_permalink() : home_url( '/' ) ), 'POTVRDI PRIJAVU' ), 26 );
+				echo lm_em_red( '<div style="font-size:14px;line-height:1.6;color:#8a7565">Link za potvrdu važi 2 dana. Ako se niste vi prijavili, samo zanemarite ovaj email.</div>', 22 );
+			} elseif ( $p ) {
+				echo lm_em_red( lm_em_btn( $p->get_permalink(), $stigao ? 'POGLEDAJ I PORUČI' : 'POGLEDAJ ARTIKAL', ! $stigao ), 26 );
+			}
+			if ( $stigao ) {
+				echo lm_em_red( '<div style="font-size:14px;line-height:1.6;color:#8a7565">Imate pitanje o veličini ili artiklu? Pišite nam na Viber ili WhatsApp: <a href="https://wa.me/38267030655" style="color:#8a4b47;font-weight:700;text-decoration:underline;white-space:nowrap">067 030 655</a>.</div>', 22 );
+			}
+			break;
+
 		case 'woodmart_abandoned_cart_email':
 			echo lm_em_hero( 'VAŠA KORPA', $h, $c['txt'] );
 			$obj    = isset( $email->object ) ? $email->object : null;
@@ -158,6 +198,10 @@ function lm_em_dodatni_razlog( $email, $vars = array() ) {
 	switch ( $email->id ) {
 		case 'customer_verify_email':
 			return array( 'Ovaj email ste dobili jer je ova adresa upisana na ' . $host . '.', '' );
+		case 'woodmart_waitlist_confirm_subscription_email':
+		case 'woodmart_waitlist_subscribe_email':
+		case 'woodmart_waitlist_in_stock':
+			return array( 'Ovaj email ste dobili jer ste se prijavili na listu čekanja na ' . $host . '.', isset( $vars['unsubscribe_link'] ) ? $vars['unsubscribe_link'] : '' );
 		case 'woodmart_abandoned_cart_email':
 			return array( 'Ovaj email ste dobili jer ste započeli porudžbinu na ' . $host . '.', isset( $vars['unsubscribe_link'] ) ? $vars['unsubscribe_link'] : '' );
 		default:

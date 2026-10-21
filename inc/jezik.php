@@ -260,7 +260,7 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'%s Comment'           => '%s komentar',
 			'%s Comments'          => '%s komentara',
 			// Lista čekanja (WoodMart waitlist, pregled 21.10.2026, r6).
-			'This product is currently sold out.' => 'Ovoga trenutno nema na stanju.',
+			'This product is currently sold out.' => 'Trenutno nije na stanju.',
 			"No worries! Enter your email, and we'll let you know as soon as it's back in stock." => 'Ostavite email i javićemo vam čim stigne.',
 			'Enter your email address' => 'Vaša email adresa',
 			'Add to waitlist'      => 'Javi mi kad stigne',
@@ -289,6 +289,7 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 			'Note: The confirmation period is 2 days.' => 'Link za potvrdu važi 2 dana.',
 			'If you did not request to join this waitlist, please ignore this message.' => 'Ako se niste vi prijavili, zanemarite ovu poruku.',
 			'Cheers'               => 'Pozdrav',
+			'Product image'        => 'Slika artikla',
 			'You must provide a valid email address to join the waitlist for this product.' => 'Upišite ispravnu email adresu.',
 			'This email is already registered in the waitlist for this product.' => 'Ova email adresa je već na listi čekanja za ovaj artikal.',
 			'You cannot register more than one email for one product.' => 'Za jedan artikal možete prijaviti samo jednu email adresu.',
