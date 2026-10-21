@@ -17,6 +17,8 @@
  *    saglasnost za statistiku.
  * 5. Meta piksel čeka saglasnost za marketing (zvanični „hold“ dodatka Meta for
  *    WooCommerce), kad je aktivan WP Consent API (Complianz).
+ * 6. GA4 begin_checkout na stranici plaćanja. Site Kit šalje samo add_to_cart i
+ *    purchase, pa se početak plaćanja u GA4 nije bilježio.
  *
  * @package woodmart-child
  */
@@ -294,4 +296,90 @@ add_action(
 		<?php
 	},
 	60
+);
+
+/*
+ * 6. GA4 begin_checkout na stranici plaćanja.
+ * Ide preko istog Google taga koji učitava Site Kit (gtag, uz Consent Mode), sa artiklima
+ * u obliku kao kod Site Kit-a: ID glavnog proizvoda, naziv, kategorija, varijanta, cijena,
+ * količina. Jednom po sadržaju korpe u sesiji pregledača, da se osvježavanje stranice ne
+ * broji ponovo. Za prijavljene administratore Site Kit ne učitava gtag, pa se ni ovo ne šalje.
+ */
+add_action(
+	'woocommerce_after_checkout_form',
+	function () {
+		if ( ! function_exists( 'WC' ) || ! WC()->cart || WC()->cart->is_empty() ) {
+			return;
+		}
+
+		$cist_tekst = function ( $tekst ) {
+			return html_entity_decode( wp_strip_all_tags( (string) $tekst ), ENT_QUOTES, 'UTF-8' );
+		};
+
+		$artikli = array();
+		$vrijednost = 0.0;
+		foreach ( WC()->cart->get_cart() as $stavka ) {
+			$proizvod = isset( $stavka['data'] ) ? $stavka['data'] : null;
+			if ( ! $proizvod instanceof WC_Product ) {
+				continue;
+			}
+			$glavni_id = $proizvod->is_type( 'variation' ) ? $proizvod->get_parent_id() : $proizvod->get_id();
+			$kolicina  = max( 1, (int) $stavka['quantity'] );
+			$cijena    = round( (float) $proizvod->get_price(), 2 );
+
+			$artikal = array(
+				'item_id'   => (string) $glavni_id,
+				'item_name' => $cist_tekst( $proizvod->get_title() ),
+				'price'     => $cijena,
+				'quantity'  => $kolicina,
+			);
+			$kategorije = wc_get_product_terms( $glavni_id, 'product_cat', array( 'number' => 1 ) );
+			if ( ! empty( $kategorije ) ) {
+				$artikal['item_category'] = $cist_tekst( $kategorije[0]->name );
+			}
+			if ( $proizvod->is_type( 'variation' ) ) {
+				$opis_varijante = array();
+				foreach ( (array) $proizvod->get_attributes() as $atribut => $vrsta ) {
+					if ( '' !== (string) $vrsta ) {
+						$opis_varijante[] = str_replace( 'attribute_', '', (string) $atribut ) . ': ' . $vrsta;
+					}
+				}
+				if ( $opis_varijante ) {
+					$artikal['item_variant'] = $cist_tekst( implode( ', ', $opis_varijante ) );
+				}
+			}
+
+			$artikli[]   = $artikal;
+			$vrijednost += $cijena * $kolicina;
+		}
+		if ( ! $artikli ) {
+			return;
+		}
+
+		$podaci = array(
+			'currency' => get_woocommerce_currency(),
+			'value'    => round( $vrijednost, 2 ),
+			'items'    => $artikli,
+		);
+		$kuponi = WC()->cart->get_applied_coupons();
+		if ( $kuponi ) {
+			$podaci['coupon'] = implode( ',', $kuponi );
+		}
+		?>
+<script id="lm-ga4-pocetak-placanja">
+(function () {
+	var podaci = <?php echo wp_json_encode( $podaci ); ?>;
+	var kljuc = <?php echo wp_json_encode( 'lm_bc_' . WC()->cart->get_cart_hash() ); ?>;
+	try { if (window.sessionStorage && window.sessionStorage.getItem(kljuc)) { return; } } catch (e) {}
+	function posalji() {
+		if (typeof window.gtag !== 'function') { return false; }
+		window.gtag('event', 'begin_checkout', podaci);
+		try { window.sessionStorage.setItem(kljuc, '1'); } catch (e) {}
+		return true;
+	}
+	if (!posalji()) { window.addEventListener('load', posalji); }
+})();
+</script>
+		<?php
+	}
 );

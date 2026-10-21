@@ -265,3 +265,12 @@ Provjera cijelog sitemapa (502 adrese) po SEO pravilima, pa popravke.
 - **Interni linkovi**: Politika privatnosti je linkovala `https://www.ladymom.me/` → `https://ladymom.me/`. Pogrešan link `/povratrobe-i-sredstava/` (radio preko preusmjerenja) ispravljen u Kontakt #4439, tabu „Dostava i povrat“ #28948, Načini plaćanja, Dostava i WoodMart blokovima; rezerva u opciji `lm_backup_povratrobe_21_10`.
 - **Provjereno**: nepostojeće adrese vraćaju pravi 404; `http://`, `www.` i stare adrese (/ready-mom/, /shop/, /shop-2/, /brand/…, /featured_item/, artikal Ready Mom, kategorija škole) vraćaju 301; robots.txt ne blokira OAI-SearchBot ni GPTBot; svaka adresa iz sitemapa vraća 200 bez preusmjerenja, sa canonical na sebe i jednim H1.
 - **Povratak**: izbaciti `seo-pravila.php` iz liste u `functions.php` (pa vratiti dva filtera za Default artikle u `seo-dorade.php` iz Git istorije).
+
+## Mjerenje početka plaćanja (21.10.2026, Marko: „sredi prvo sve što treba“ za oglase)
+- **GA4 `begin_checkout`**: `inc/mjerenje.php`, odjeljak 6. Site Kit šalje samo `add_to_cart` i `purchase` (provjereno u izvornom kodu Site Kit-a), pa se početak plaćanja u GA4 nije bilježio (0 od prelaska).
+  - Hook `woocommerce_after_checkout_form` (plaćanje je klasični `[woocommerce_checkout]`, stranica #9 `/placanje/`), preko Site Kit `gtag` i Consent Mode-a.
+  - Artikli kao kod Site Kit-a: `item_id` = ID glavnog proizvoda, naziv, prva kategorija, varijanta, cijena, količina; `value` = zbir cijena × količina; `coupon` ako postoji.
+  - Jednom po sadržaju korpe u sesiji pregledača (`sessionStorage` ključ `lm_bc_<cart hash>`).
+  - Povratak: obrisati odjeljak 6 iz `inc/mjerenje.php`.
+- **Meta `InitiateCheckout`**: dodatak ga ubacuje na `/placanje/`, ali Meta ga ne prima, jer je izvor ladymom.me u Meti svrstan u „Health & wellness condition“ (Events Manager → Datasets → Manage categories): neki standardni događaji se blokiraju, AddToCart i Purchase stižu samo preko Conversions API-ja. Ne rješava se kodom.
+- **Google Ads**: za licitiranje se broji samo kupovina iz GA4 („Lady Mom (web) purchase“); auto-tagging uključen. Stara konverzija „Begin checkout (Page load ladymom.me/checkout)“ ne radi od 17.10. (plaćanje je sada `/placanje/`), ali nije u ciljevima naloga.
