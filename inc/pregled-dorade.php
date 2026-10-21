@@ -2,6 +2,7 @@
 /**
  * Lady Mom – dorade iz pregleda sajta 21.10.2026 (stavke koje je Marko potvrdio u to-do listi).
  *
+ * r6   Lista čekanja (WoodMart waitlist): rasprodate varijante se mogu izabrati na stranici artikla.
  * r13  „sa PDV-om“ samo na stranici artikla, u korpi i na plaćanju (ne na karticama u listama).
  * r16  Korpa na telefonu: ljepljiva traka sa ukupnim iznosom i „Kreni na plaćanje“;
  *      na korpi i plaćanju bez donje WoodMart trake.
@@ -16,6 +17,22 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+/* ---------- r6: lista čekanja za rasprodate veličine ---------- */
+
+// WooCommerce sakriva rasprodate varijante (podešavanje „Sakrij artikle kojih nema na stanju“), pa
+// kupac ne može da izabere rasprodatu veličinu i WoodMart ne može da prikaže „Javi mi kad stigne“.
+// Samo u formi za izbor varijante na stranici artikla rasprodate varijante ostaju vidljive (kupiti
+// se ne mogu); u listama artikala, pretrazi i feed-u sve ostaje kao do sada.
+$GLOBALS['lm_varijante_sve'] = false;
+add_action( 'woocommerce_single_product_summary', function () { $GLOBALS['lm_varijante_sve'] = true; }, 29 );
+add_action( 'woocommerce_single_product_summary', function () { $GLOBALS['lm_varijante_sve'] = false; }, 31 );
+add_filter(
+	'pre_option_woocommerce_hide_out_of_stock_items',
+	function ( $v ) {
+		return ! empty( $GLOBALS['lm_varijante_sve'] ) ? 'no' : $v;
+	}
+);
 
 /* ---------- r13: „sa PDV-om“ ---------- */
 
