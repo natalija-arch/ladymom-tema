@@ -13,7 +13,10 @@
  *    (GA4: contact, generate_lead, sign_up; Meta: Contact). CF7 Lead za Metu
  *    šalje sam dodatak.
  * 4. Microsoft Clarity (mape klikova i snimci posjeta), projekat z173rgv3iv.
- *    Ne učitava se za prijavljene administratore.
+ *    Ne učitava se za prijavljene administratore. Uz traku za kolačiće čeka
+ *    saglasnost za statistiku.
+ * 5. Meta piksel čeka saglasnost za marketing (zvanični „hold“ dodatka Meta for
+ *    WooCommerce), kad je aktivan WP Consent API (Complianz).
  *
  * @package woodmart-child
  */
@@ -105,7 +108,15 @@ add_action(
 (function () {
 	function posalji(ga, meta, podaci) {
 		try { if (typeof window.gtag === 'function') { window.gtag('event', ga, podaci); } } catch (e) {}
-		try { if (meta && typeof window.fbq === 'function') { window.fbq('track', meta, podaci); } } catch (e) {}
+		try {
+			if (!meta) { return; }
+			// FacebookSignals čuva događaj dok kupac ne prihvati marketinške kolačiće.
+			if (window.FacebookSignals && typeof window.FacebookSignals.trackEvent === 'function') {
+				window.FacebookSignals.trackEvent(meta, podaci);
+			} else if (typeof window.fbq === 'function') {
+				window.fbq('track', meta, podaci);
+			}
+		} catch (e) {}
 	}
 	document.addEventListener('click', function (e) {
 		var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
@@ -136,24 +147,117 @@ add_action(
 
 /*
  * 4. Microsoft Clarity (zvanični kod sa clarity.microsoft.com).
+ * Sa trakom za kolačiće (WP Consent API) učitava se tek uz saglasnost za statistiku.
  */
 const LM_CLARITY_ID = 'z173rgv3iv';
 
 add_action(
-	'wp_head',
+	'wp_footer',
 	function () {
 		if ( is_admin() || current_user_can( 'manage_options' ) ) {
 			return;
 		}
 		?>
 <script id="lm-clarity">
-(function(c,l,a,r,i,t,y){
-	c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-	t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-	y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", <?php echo wp_json_encode( LM_CLARITY_ID ); ?>);
+(function () {
+	var ucitano = false;
+	function ucitaj() {
+		if (ucitano) { return; }
+		ucitano = true;
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+		})(window, document, "clarity", "script", <?php echo wp_json_encode( LM_CLARITY_ID ); ?>);
+	}
+	<?php if ( function_exists( 'wp_has_consent' ) ) : ?>
+	function provjeri() {
+		if (typeof window.wp_has_consent === 'function' && window.wp_has_consent('statistics')) { ucitaj(); }
+	}
+	document.addEventListener('wp_listen_for_consent_change', function (e) {
+		var d = (e && e.detail) || {};
+		if (d.statistics === 'allow') { ucitaj(); }
+	});
+	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', provjeri); } else { provjeri(); }
+	<?php else : ?>
+	ucitaj();
+	<?php endif; ?>
+})();
 </script>
 		<?php
 	},
-	20
+	60
+);
+
+/*
+ * 5. Meta piksel uz traku za kolačiće.
+ * Meta for WooCommerce ima zvanični mehanizam „hold“ (kolačić wc_facebook_signals_state
+ * i window.fbwcsignal): dok je zadržan, piksel se ne pokreće, a događaji se čuvaju i
+ * pošalju tek kad kupac prihvati marketinške kolačiće. Bez kolačića dodatak smatra da
+ * je saglasnost data, pa novog posjetioca ovdje zadržavamo dok ne odluči.
+ * Radi samo kad je aktivan WP Consent API (Complianz), inače se ništa ne mijenja.
+ */
+add_filter(
+	'facebook_signals_held',
+	function ( $zadrzano ) {
+		if ( $zadrzano || ! function_exists( 'wp_has_consent' ) || is_admin() ) {
+			return $zadrzano;
+		}
+		return ! isset( $_COOKIE['wc_facebook_signals_state'] );
+	}
+);
+
+add_action(
+	'wp_head',
+	function () {
+		if ( is_admin() || ! function_exists( 'wp_has_consent' ) ) {
+			return;
+		}
+		?>
+<script id="lm-meta-saglasnost">
+(function () {
+	var K = 'wc_facebook_signals_state';
+	if (!/(?:^|;\s*)wc_facebook_signals_state=/.test(document.cookie)) {
+		document.cookie = K + '=held;path=/;max-age=31536000;SameSite=Lax';
+	}
+})();
+</script>
+		<?php
+	},
+	0
+);
+
+add_action(
+	'wp_footer',
+	function () {
+		if ( is_admin() || ! function_exists( 'wp_has_consent' ) ) {
+			return;
+		}
+		?>
+<script id="lm-meta-saglasnost-promjena">
+(function () {
+	function stanje() {
+		var m = document.cookie.match(/(?:^|;\s*)wc_facebook_signals_state=([^;]*)/);
+		return m ? m[1] : null;
+	}
+	function uskladi(dozvoljeno) {
+		var s = window.fbwcsignal;
+		if (!s) { return; }
+		if (dozvoljeno && stanje() !== 'active') { s.release(); }
+		if (!dozvoljeno && stanje() !== 'held') { s.hold(); }
+	}
+	document.addEventListener('wp_listen_for_consent_change', function (e) {
+		var d = (e && e.detail) || {};
+		if (d.marketing === 'allow') { uskladi(true); }
+		if (d.marketing === 'deny') { uskladi(false); }
+	});
+	function provjeri() {
+		if (typeof window.wp_has_consent === 'function' && window.wp_has_consent('marketing')) { uskladi(true); }
+	}
+	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', provjeri); } else { provjeri(); }
+})();
+</script>
+		<?php
+	},
+	60
 );

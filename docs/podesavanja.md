@@ -218,3 +218,18 @@ Marko: „odradi sva podešavanja koja treba za sve ove platforme“ (Meta, Goog
 - Škola (lms0008): *List* sa 4 stavke (4 nedjelje i 8 predavanja, 6 stručnjaka, uživo ili online, partneri dobrodošli).
 - Brendovi (lmr0004): bez Bubbija (0 artikala), 3 logotipa na telefonu. Blog (38198c0): dizajn „Small images“, 3 članka, kategorije Savjeti za mame i Edukacija. Instagram: slike `woocommerce_thumbnail` umjesto pune veličine.
 - Razmaci sekcija na telefonu 34 px (bilo 42). Izgled: `inc/pocetna-dizajn.php` (samo početna i nacrt).
+
+## Traka za kolačiće i Consent Mode (21.10.2026)
+
+Marko odobrio (lista „Lady Mom oglasi“, m3). Backup prije: All-in-One WP Migration → Export → File (2 GB, ostao na serveru u Backups).
+
+- **Dodaci** (wordpress.org): Complianz 7.5.6 i WP Consent API 2.1.0. Bez registracije kod Complianz-a (website scan i cookiedatabase.org nisu uključeni).
+- **Complianz čarobnjak**: EU (GDPR), znači opt-in; zemlja ME; nalozi kupaca = da; statistika = Google Analytics (Site Kit); Consent Mode u Complianz-u = ne (radi ga Site Kit); treće strane = Google Maps (mapa na /kontakt/ čeka saglasnost za marketing); oglasni kodovi = da; dokumenti: politika kolačića i privatnosti = postojeća stranica „Politika privatnosti“ (#3).
+- **Integracija „Facebook for WooCommerce“ u Complianz-u isključena** (`complianz_options_integrations['facebook-for-woocommerce'] = 0`). Ona blokira svaki kod sa `fbq`, pa bi blokirala i naše GA4 događaje i fragmente dodatka. Umjesto toga koristimo zvanični „hold“ dodatka Meta for WooCommerce (vidi niže).
+- **Traka** (Complianz → Consent Banner, baner #1): crnogorski tekstovi (Kolačići na sajtu; Prihvati / Odbij / Podešavanja / Sačuvaj izbor; kategorije Neophodni, Statistika, Marketing; Podešavanja sakrivena), boje sajta (dugme #6d4e39, odbij #fdf2ec, prekidači #4a7a7d). Blokator kolačića uključen.
+- **Site Kit Consent Mode v2**: `googlesitekit_consent_mode` = enabled, regioni EU/EEA/UK/CH + **ME**. Saglasnost Site Kit čita preko WP Consent API-ja (Complianz).
+- **`inc/mjerenje.php`**:
+  - Meta piksel: filter `facebook_signals_held` (novi posjetilac bez kolačića `wc_facebook_signals_state` je zadržan) i rani kod u `wp_head` koji postavi kolačić na `held`. Na saglasnost za marketing (`wp_listen_for_consent_change`) poziva `fbwcsignal.release()`: dodatak tada pokrene piksel i pošalje sačuvane događaje; na povlačenje `fbwcsignal.hold()`. Sve radi samo kad postoji `wp_has_consent` (WP Consent API).
+  - Meta `Contact` ide preko `FacebookSignals.trackEvent` (čuva se dok traje hold).
+  - Clarity se učitava tek uz saglasnost za statistiku.
+- **Povratak**: deaktivirati Complianz i WP Consent API (kod u temi se sam isključi jer nema `wp_has_consent`); kolačić `wc_facebook_signals_state=held` kod posjetilaca dodatak tada i dalje poštuje, pa poslije deaktivacije treba vratiti i filter (ili ga ukloniti iz `inc/mjerenje.php`).
