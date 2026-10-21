@@ -32,7 +32,9 @@ add_action( 'template_redirect', function () {
 	$cilj = '/' . trim( (string) wp_parse_url( $url, PHP_URL_PATH ), '/' ) . '/';
 	$stare = array( '/ready-mom/', '/skola-za-trudnice-ready-mom-podgorica/', '/kategorija/skola-za-trudnice/' );
 	if ( $put !== $cilj && in_array( $put, $stare, true ) ) {
-		wp_safe_redirect( $url, 301 );
+		// UTM i ostali parametri idu dalje (Meta oglasi, QR kodovi, stari linkovi), inače GA4 ne zna izvor.
+		$upit = isset( $_SERVER['QUERY_STRING'] ) ? (string) wp_unslash( $_SERVER['QUERY_STRING'] ) : '';
+		wp_safe_redirect( '' !== $upit ? $url . ( false === strpos( $url, '?' ) ? '?' : '&' ) . $upit : $url, 301 );
 		exit;
 	}
 }, 0 );
