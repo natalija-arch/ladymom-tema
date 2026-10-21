@@ -7,8 +7,12 @@
  *   pretrage jedini rezultat je Ready Mom (#51472; adresa artikla vodi na stranicu škole).
  *   Artikal i dalje ostaje sakriven iz prodavnice i kategorija.
  * - U rezultatima pretrage artikli se slažu po relevantnosti; u kategorijama ostaje „Najpopularnije“.
+ *   Naprijed idu artikli koji u nazivu imaju traženu riječ (ili njen sinonim) kao cijelu riječ,
+ *   pa oni gdje je ona dio riječi, pa ostali („pojas“: prvo pojasevi, pa helanke „sa pojasom“).
  *
- * Česte greške u kucanju (haakka, spektra, body…) su u WoodMart podešavanju „Search synonyms“.
+ * Česte greške u kucanju (haakka, spektra, body…) su u WoodMart podešavanju „Search synonyms“
+ * (Theme Settings → General → Search). Oblik reda je „pogrešno = tačno, tačno 2“; red bez „=“
+ * WoodMart preskače.
  *
  * @package woodmart-child
  */
@@ -81,4 +85,70 @@ add_filter(
 		return $orderby;
 	},
 	20
+);
+
+/**
+ * Pojmovi po kojima se slažu rezultati: tražena riječ i njeni WoodMart sinonimi.
+ * Za pretragu sa više riječi bez sinonima vraća prazno: tu WordPress sam stavlja naprijed
+ * artikle sa cijelom frazom u nazivu.
+ *
+ * @param string $s Tekst pretrage.
+ * @return string[]
+ */
+function lm_pretraga_pojmovi( $s ) {
+	$s = trim( (string) $s );
+	if ( '' === $s ) {
+		return array();
+	}
+	$pojmovi = array( mb_strtolower( $s, 'UTF-8' ) );
+	$klasa   = '\XTS\Modules\Search\Query\Search_With_Synonyms';
+	if ( function_exists( 'woodmart_get_opt' ) && woodmart_get_opt( 'search_synonyms' ) && class_exists( $klasa ) ) {
+		$sinonimi = $klasa::get_instance();
+		$pojmovi  = array_merge( $pojmovi, $sinonimi->generate_new_terms( $sinonimi->get_original_terms( $s ) ) );
+	}
+	$pojmovi = array_values(
+		array_unique(
+			array_filter(
+				array_map( 'trim', $pojmovi ),
+				function ( $p ) {
+					return '' !== $p && '-' !== $p[0];
+				}
+			)
+		)
+	);
+	if ( 1 === count( $pojmovi ) && false !== strpos( $pojmovi[0], ' ' ) ) {
+		return array();
+	}
+	return $pojmovi;
+}
+
+// Redoslijed rezultata: cijela riječ u nazivu, pa dio riječi u nazivu, pa ostalo. Samo kad kupac nije sam izabrao redoslijed.
+add_filter(
+	'posts_search_orderby',
+	function ( $orderby, $query ) {
+		$padajuci = wp_doing_ajax() && isset( $_REQUEST['action'] ) && 'woodmart_ajax_search' === $_REQUEST['action']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! $padajuci && ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) ) {
+			return $orderby;
+		}
+		$izbor = $query->get( 'orderby' );
+		if ( $izbor && 'relevance' !== $izbor ) {
+			return $orderby;
+		}
+		$pojmovi = lm_pretraga_pojmovi( $query->get( 's' ) );
+		if ( ! $pojmovi ) {
+			return $orderby;
+		}
+		global $wpdb;
+		$naziv  = "CONCAT(' ', REPLACE(REPLACE(REPLACE(REPLACE({$wpdb->posts}.post_title, ',', ' '), '(', ' '), ')', ' '), '–', ' '), ' ')";
+		$cijela = array();
+		$dio    = array();
+		foreach ( $pojmovi as $p ) {
+			$cijela[] = $wpdb->prepare( "{$naziv} LIKE %s", '% ' . $wpdb->esc_like( $p ) . ' %' ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$dio[]    = $wpdb->prepare( "{$wpdb->posts}.post_title LIKE %s", '%' . $wpdb->esc_like( $p ) . '%' ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		}
+		$red = '(CASE WHEN ' . implode( ' OR ', $cijela ) . ' THEN 1 WHEN ' . implode( ' OR ', $dio ) . ' THEN 2 ELSE 3 END)';
+		return $orderby ? $red . ', ' . $orderby : $red;
+	},
+	10,
+	2
 );
