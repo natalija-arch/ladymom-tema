@@ -40,6 +40,15 @@ add_action( 'wp_head', function () {
 /* Strelice karusela: bijeli krug, da se ne stapaju sa slikom */
 .elementor-element-lmo0001 .wd-btn-arrow .wd-arrow-inner,.elementor-element-lmb0001 .wd-btn-arrow .wd-arrow-inner,.elementor-element-lmc0001 .wd-btn-arrow .wd-arrow-inner{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 2px 10px rgba(109,78,57,.14);color:var(--lm-smedja,#6d4e39)}
 
+/* Koala: tačka na pojasu u boji brenda, kartica zaobljena */
+.elementor-element-lmhs000 .hotspot-btn{background:var(--lm-roze-jaka,#a05c57)!important;width:26px!important;height:26px!important;box-shadow:0 0 0 3px rgba(255,255,255,.9),0 3px 12px rgba(0,0,0,.18)}
+.elementor-element-lmhs000 .hotspot-btn:after{width:8px!important;height:8px!important}
+.elementor-element-lmhs000 .hotspot-content{border-radius:14px;box-shadow:0 12px 32px rgba(109,78,57,.2)}
+.elementor-element-lmhs000 .hotspot-content .wd-entities-title{font-size:17px}
+
+/* Škola: lista činjenica kao kompaktan blok */
+.elementor-element-lms0008{max-width:420px;margin-left:auto;margin-right:auto}
+
 @media (max-width:768px){
 	.elementor-element-lmc0001 .wd-entities-title{font-size:14px!important}
 	.elementor-element-76d6c0d .wd-nav-tabs{gap:18px;flex-wrap:nowrap}
