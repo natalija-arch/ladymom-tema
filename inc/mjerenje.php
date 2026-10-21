@@ -190,6 +190,20 @@ add_action(
 );
 
 /*
+ * Site Kit Consent Mode: podrazumijevano „denied“ važi samo za EEA/UK/CH (fiksna lista
+ * u Site Kit-u). Dodajemo Crnu Goru, gdje su svi naši kupci (zvanični filter).
+ */
+add_filter(
+	'googlesitekit_consent_defaults',
+	function ( $podrazumijevano ) {
+		if ( isset( $podrazumijevano['region'] ) && is_array( $podrazumijevano['region'] ) && ! in_array( 'ME', $podrazumijevano['region'], true ) ) {
+			$podrazumijevano['region'][] = 'ME';
+		}
+		return $podrazumijevano;
+	}
+);
+
+/*
  * 5. Meta piksel uz traku za kolačiće.
  * Meta for WooCommerce ima zvanični mehanizam „hold“ (kolačić wc_facebook_signals_state
  * i window.fbwcsignal): dok je zadržan, piksel se ne pokreće, a događaji se čuvaju i
