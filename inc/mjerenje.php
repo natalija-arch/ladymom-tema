@@ -226,6 +226,35 @@ add_filter(
 );
 
 /*
+ * Statistika bez traženja pristanka (22.10.2026, Marko: „ublažiti za Crnu Goru,
+ * statistika bez traženja pristanka“). Posjetilac koji još nije birao dobija
+ * pristanak samo za statistiku (GA4, Clarity); marketing (Meta piksel, Google Ads)
+ * i dalje čeka „Prihvati“. „Odbij“ ili isključena Statistika u Podešavanjima
+ * upisuju „deny“ i to se poštuje. Site Kit (Consent Mode) i Clarity čitaju
+ * pristanak preko WP Consent API-ja, a Complianz ga čuva u kolačiću cmplz_statistics.
+ * Povratak: ukloniti ovaj blok (posjetioci kojima je već upisano „allow“ ostaju
+ * takvi dok ne promijene izbor ili kolačić ne istekne).
+ */
+add_action(
+	'wp_head',
+	function () {
+		if ( is_admin() || ! function_exists( 'wp_has_consent' ) || ! defined( 'CMPLZ_VERSION' ) ) {
+			return;
+		}
+		?>
+<script id="lm-statistika-podrazumijevano">
+(function () {
+	if (!/(?:^|;\s*)cmplz_statistics=/.test(document.cookie)) {
+		document.cookie = 'cmplz_statistics=allow;path=/;max-age=31536000;SameSite=Lax';
+	}
+})();
+</script>
+		<?php
+	},
+	0
+);
+
+/*
  * 5. Meta piksel uz traku za kolačiće.
  * Meta for WooCommerce ima zvanični mehanizam „hold“ (kolačić wc_facebook_signals_state
  * i window.fbwcsignal): dok je zadržan, piksel se ne pokreće, a događaji se čuvaju i
