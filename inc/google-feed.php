@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const LM_FEED_TRANSIENT = 'lm_google_feed_v1';
+const LM_FEED_TRANSIENT = 'lm_google_feed_v2';
 
 add_action( 'init', function () {
 	if ( ! isset( $_GET['lm_feed'] ) || 'google' !== $_GET['lm_feed'] ) { // phpcs:ignore WordPress.Security.NonceVerification
@@ -35,6 +35,39 @@ foreach ( array( 'woocommerce_update_product', 'woocommerce_update_product_varia
 	} );
 }
 unset( $lm_hook );
+// Nove nabavne cijene (mjesečni ERP izvoz) mijenjaju razred marže.
+add_action( 'update_option_lm_nabavne_cijene', function () {
+	delete_transient( LM_FEED_TRANSIENT );
+} );
+
+/**
+ * Razred marže za custom_label_0 (Markova odluka 22.10.2026, stavka m7).
+ *
+ * Nabavne cijene bez PDV-a su u opciji `lm_nabavne_cijene` (autoload off), po SKU-u
+ * (barkod), iz ERP izvoza. Nijesu u Gitu ni u feedu: feed je javan, pa se šalje samo
+ * neutralna oznaka. Marža se računa na trenutnu cijenu (akcijsku kad je akcija) bez PDV-a:
+ * a ≥ 50 %, b 35–50 %, c < 35 %, n = nema nabavne cijene.
+ */
+function lm_feed_razred_marze( $p ) {
+	static $nab = null;
+	if ( null === $nab ) {
+		$o   = get_option( 'lm_nabavne_cijene' );
+		$nab = ( is_array( $o ) && ! empty( $o['c'] ) && is_array( $o['c'] ) ) ? $o['c'] : array();
+	}
+	$sku = trim( (string) $p->get_sku() );
+	if ( '' === $sku || ! isset( $nab[ $sku ] ) || (float) $nab[ $sku ] <= 0 ) {
+		return 'n';
+	}
+	$neto = (float) wc_get_price_excluding_tax( $p, array( 'price' => $p->get_price() ) );
+	if ( $neto <= 0 ) {
+		return 'n';
+	}
+	$marza = ( $neto - (float) $nab[ $sku ] ) / $neto;
+	if ( $marza >= 0.5 ) {
+		return 'a';
+	}
+	return $marza >= 0.35 ? 'b' : 'c';
+}
 
 /** Vrijednost za XML. */
 function lm_feed_x( $s ) {
@@ -240,6 +273,7 @@ function lm_feed_stavka( $p, $roditelj = null ) {
 		$r .= '<g:gender>' . $pol_uzrast[0] . "</g:gender>\n";
 		$r .= '<g:age_group>' . $pol_uzrast[1] . "</g:age_group>\n";
 	}
+	$r .= '<g:custom_label_0>' . lm_feed_razred_marze( $p ) . "</g:custom_label_0>\n";
 	$r .= "</item>\n";
 	return $r;
 }
