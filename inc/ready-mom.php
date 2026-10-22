@@ -10,8 +10,9 @@
  * - Sve „škola“ veze na sajtu (traka na vrhu, mobilni meni, početna, slajd, O nama,
  *   Kontakt) vode na stranicu škole. Stare adrese preusmjerava inc/seo-dorade.php.
  * - 21.10.2026 (SEO): H1 „Škola za trudnice Ready Mom“, sadržaj članka o školi spojen ovdje, česta pitanja.
- * - 22.10.2026 (AI pretrage): „Program“ i „Česta pitanja“ počinju rečenicom koja sama kaže šta, koliko,
- *   gdje i koliko košta (klasa .lm-rm-uvod), da se može citirati i izvan stranice.
+ * - 22.10.2026 (AI pretrage): „Šta je Ready Mom?“, „Program“, „Česta pitanja“ i „Prijavite se“ počinju
+ *   rečenicom koja sama kaže šta, koliko, gdje i koliko košta (klasa .lm-rm-uvod), da se može citirati
+ *   i izvan stranice; „Kada upisati“ počinje cijelom rečenicom.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -106,8 +107,9 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-blok">
 		<h2>Šta je Ready Mom?</h2>
+		<p class="lm-rm-uvod">Ready Mom je škola za trudnice u Podgorici koja vas priprema za porođaj i prve mjesece sa bebom: četiri nedjelje, osam predavanja i šest stručnjaka, uživo ili online.</p>
 		<p>Trudnoća donosi mnogo pitanja. Kako da znam da je porođaj počeo? Šta da ponesem u porodilište? Kako da podojim bebu i šta da radim kad beba plače, a ne znam zašto? U Ready Mom školi za trudnice na ta pitanja odgovaraju stručnjaci koji se time bave svaki dan.</p>
-		<p>Ready Mom je program od četiri nedjelje i osam predavanja, koja drži šest stručnjaka. Vodi vas redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
+		<p>Program vas vodi redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
 	</section>
 
 	<section class="lm-rm-blok">
@@ -129,7 +131,7 @@ add_shortcode( 'lm_ready_mom', function () {
 		</div>
 		<div class="lm-rm-kartica">
 			<h2>Kada upisati školu za trudnice</h2>
-			<p>Najbolje u drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje. Tada vam je sve aktuelno, a imate vremena da naučeno primijenite: da <a href="<?php echo esc_url( home_url( '/sta-spakovati-u-porodiliste/' ) ); ?>">spakujete torbu za porodilište</a>, nabavite <a href="<?php echo esc_url( home_url( '/kategorija/prodavnica/mame/oprema/dojenje/' ) ); ?>">opremu za dojenje</a> i pripremite dom za bebu. Grupe se popunjavaju, pa se prijavite na vrijeme.</p>
+			<p>Školu za trudnice najbolje je upisati u drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje. Tada vam je sve aktuelno, a imate vremena da naučeno primijenite: da <a href="<?php echo esc_url( home_url( '/sta-spakovati-u-porodiliste/' ) ); ?>">spakujete torbu za porodilište</a>, nabavite <a href="<?php echo esc_url( home_url( '/kategorija/prodavnica/mame/oprema/dojenje/' ) ); ?>">opremu za dojenje</a> i pripremite dom za bebu. Grupe se popunjavaju, pa se prijavite na vrijeme.</p>
 		</div>
 	</section>
 
@@ -146,6 +148,7 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-kraj">
 		<h2>Prijavite se za narednu grupu</h2>
+		<p class="lm-rm-uvod">Prijava za školu Ready Mom košta <?php echo wp_kses_post( wp_strip_all_tags( $cijena ) ); ?> i plaća se karticom na sajtu ili gotovinom, a poslije prijave vas zovemo sa terminom naredne grupe.</p>
 		<div class="lm-rm-kupi lm-rm-kupi-centar">
 			<span class="lm-rm-cijena"><?php echo wp_kses_post( $cijena ); ?></span>
 			<a class="lm-rm-dugme" href="<?php echo $prijava; // phpcs:ignore ?>">Prijavi se i plati</a>
@@ -192,6 +195,7 @@ add_action( 'wp_head', function () {
 .lm-rm-blok h2,.lm-rm-kraj h2{font-size:28px;margin:0 0 14px}
 .lm-rm-blok p{font-size:16px;line-height:1.7;margin:0}
 .lm-rm-blok .lm-rm-uvod{margin:0 0 16px}
+.lm-rm-kraj .lm-rm-uvod{max-width:620px;margin:0 auto 18px;font-size:16px;line-height:1.7}
 .lm-rm-predavaci{margin:0;padding:0;list-style:none;display:grid;gap:10px}
 .lm-rm-predavaci li{margin:0;padding:14px 18px;border:1px solid #f3e7e0;border-radius:12px;display:flex;flex-direction:column;gap:3px}
 .lm-rm-predavaci strong{color:#6d4e39;font-size:16px}

@@ -63,6 +63,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'filteri-stil.php',
 		'mjerenje-porudzbine.php',
 		'clarity-podaci.php',
+		'ai-botovi.php',
 		'pretraga.php',
 		'kategorije-dugmad.php',
 		'pregled-dorade.php',
