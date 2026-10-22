@@ -176,7 +176,7 @@ add_action( 'wp_head', function () {
 	if ( function_exists( 'lm_rm_predavanja' ) ) {
 		$predavaci = array();
 		foreach ( lm_rm_predavanja() as $pr ) {
-			$predavaci[] = array( '@type' => 'Person', 'name' => $pr[1], 'jobTitle' => $pr[2] );
+			$predavaci[] = array_filter( array( '@type' => 'Person', 'name' => $pr[1], 'jobTitle' => $pr[2], 'image' => ! empty( $pr[5] ) ? wp_get_attachment_url( $pr[5] ) : '' ) );
 		}
 		$kurs['syllabusSections'] = array();
 		foreach ( lm_rm_predavanja() as $pr ) {

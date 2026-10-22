@@ -48,16 +48,17 @@ add_action( 'template_redirect', function () {
 
 /**
  * Predavanja (Natalijin raspored oktobarske grupe, 22.10.2026; datumi se ne prikazuju).
- * [tema, predavač, zvanje, struka (kratko), pitanja na koja predavanje odgovara]
+ * [tema, predavač, zvanje, struka (kratko), pitanja na koja predavanje odgovara, ID slike predavača]
+ * Slike su isječene sa Natalijinih letaka (23.10.2026).
  */
 function lm_rm_predavanja() {
 	return array(
-		array( 'Spremna za porođaj: šta se dešava?', 'Prim. dr Gordana Globarević Vukćević', 'specijalista ginekologije i akušerstva', 'Ginekolog', array( 'Da li trudnoća teče kako treba i kada treba da se zabrinete?', 'Kako prepoznati početak porođaja?', 'Prirodni porođaj, carski rez i epidural: kada i kako?', 'Kako donositi informisane odluke sa ljekarima?' ) ),
-		array( 'Od prvog bola do bebe u naručju', 'Tanja Lazarević', 'ginekološko-akušerska sestra, babica', 'Babica', array( 'Kada je porođaj zaista počeo i kada krenuti u porodilište?', 'Šta se dešava kad uđete u porodilište, korak po korak?', 'Kako babica vodi porođaj i pomaže bebi da dođe na svijet?', 'Šta očekivati u prvim satima nakon rođenja?' ) ),
-		array( 'Zlatni sat i dojenje bez mitova', 'Milica Đoković Vojinović', 'pedijatrijska sestra', 'Pedijatrijska sestra', array( 'Zašto je „zlatni sat“ važan za bebu i mamu?', 'Pravilan hvat: kako znati da beba dobro sisa?', 'Kako prepoznati da beba dobija dovoljno mlijeka?', 'Šta raditi kod bola, ragada ili zastoja mlijeka?' ) ),
-		array( 'Novorođenče okom pedijatra: šta je normalno?', 'Slađana Račić', 'specijalista pedijatrije', 'Pedijatar', array( 'Koji su obavezni pregledi i vakcine u prvim mjesecima?', 'Kako izgleda normalan rast, san i ishrana bebe?', 'Koji znaci traže hitnu pedijatrijsku pomoć?' ) ),
-		array( 'Prvi dani sa bebom kod kuće', 'Dragana Marković', 'patronažna sestra', 'Patronažna sestra', array( 'Kako uspostaviti rutinu u prvim nedjeljama?', 'Šta patronažna sestra provjerava u kućnim posjetama?', 'Kako pronaći mir i sigurnost u novoj svakodnevici?', 'Šta je zaista važno u njezi bebe i mame?' ) ),
-		array( 'Kako ostati tim: nas dvoje i beba', 'mr Željka Stevović', 'psihoterapeut transakcione analize', 'Psihoterapeut', array( 'Zašto mama i tata ne prolaze isti put ka roditeljstvu?', 'Kako tata može biti prava podrška tokom trudnoće?', 'Kako ostati tim kad dođu umor i stres?', 'Šta se dešava sa odnosom kad beba dođe kući?' ) ),
+		array( 'Spremna za porođaj: šta se dešava?', 'Prim. dr Gordana Globarević Vukćević', 'specijalista ginekologije i akušerstva', 'Ginekolog', array( 'Da li trudnoća teče kako treba i kada treba da se zabrinete?', 'Kako prepoznati početak porođaja?', 'Prirodni porođaj, carski rez i epidural: kada i kako?', 'Kako donositi informisane odluke sa ljekarima?' ) , 51549 ),
+		array( 'Od prvog bola do bebe u naručju', 'Tanja Lazarević', 'ginekološko-akušerska sestra, babica', 'Babica', array( 'Kada je porođaj zaista počeo i kada krenuti u porodilište?', 'Šta se dešava kad uđete u porodilište, korak po korak?', 'Kako babica vodi porođaj i pomaže bebi da dođe na svijet?', 'Šta očekivati u prvim satima nakon rođenja?' ) , 51550 ),
+		array( 'Zlatni sat i dojenje bez mitova', 'Milica Đoković Vojinović', 'pedijatrijska sestra', 'Pedijatrijska sestra', array( 'Zašto je „zlatni sat“ važan za bebu i mamu?', 'Pravilan hvat: kako znati da beba dobro sisa?', 'Kako prepoznati da beba dobija dovoljno mlijeka?', 'Šta raditi kod bola, ragada ili zastoja mlijeka?' ) , 51551 ),
+		array( 'Novorođenče okom pedijatra: šta je normalno?', 'Slađana Račić', 'specijalista pedijatrije', 'Pedijatar', array( 'Koji su obavezni pregledi i vakcine u prvim mjesecima?', 'Kako izgleda normalan rast, san i ishrana bebe?', 'Koji znaci traže hitnu pedijatrijsku pomoć?' ) , 51552 ),
+		array( 'Prvi dani sa bebom kod kuće', 'Dragana Marković', 'patronažna sestra', 'Patronažna sestra', array( 'Kako uspostaviti rutinu u prvim nedjeljama?', 'Šta patronažna sestra provjerava u kućnim posjetama?', 'Kako pronaći mir i sigurnost u novoj svakodnevici?', 'Šta je zaista važno u njezi bebe i mame?' ) , 51553 ),
+		array( 'Kako ostati tim: nas dvoje i beba', 'mr Željka Stevović', 'psihoterapeut transakcione analize', 'Psihoterapeut', array( 'Zašto mama i tata ne prolaze isti put ka roditeljstvu?', 'Kako tata može biti prava podrška tokom trudnoće?', 'Kako ostati tim kad dođu umor i stres?', 'Šta se dešava sa odnosom kad beba dođe kući?' ) , 51554 ),
 	);
 }
 
@@ -154,7 +155,10 @@ add_shortcode( 'lm_ready_mom', function () {
 			<li>
 				<p class="lm-rm-br"><?php echo esc_html( ( $i + 1 ) . '. predavanje · ' . $pr[3] ); ?></p>
 				<h3><?php echo esc_html( $pr[0] ); ?></h3>
-				<p class="lm-rm-ko"><strong><?php echo esc_html( $pr[1] ); ?></strong>, <?php echo esc_html( $pr[2] ); ?></p>
+				<div class="lm-rm-ko">
+					<?php echo ! empty( $pr[5] ) ? wp_get_attachment_image( $pr[5], 'thumbnail', false, array( 'class' => 'lm-rm-lice', 'loading' => 'lazy', 'alt' => $pr[1] ) ) : ''; // phpcs:ignore ?>
+					<p><strong><?php echo esc_html( $pr[1] ); ?></strong><br><?php echo esc_html( $pr[2] ); ?></p>
+				</div>
 				<ul><?php foreach ( $pr[4] as $pit ) : ?><li><?php echo esc_html( $pit ); ?></li><?php endforeach; ?></ul>
 			</li>
 			<?php endforeach; ?>
@@ -249,7 +253,8 @@ add_action( 'wp_head', function () {
 .lm-rm-program>li{margin:0;padding:18px 20px;border:1px solid #f3e7e0;border-radius:14px;background:#fff}
 .lm-rm-br{margin:0 0 4px!important;font-size:12px!important;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a05c57}
 .lm-rm-program h3{margin:0 0 6px;font-size:19px;line-height:1.3}
-.lm-rm-ko{margin:0 0 8px!important;font-size:15px!important;line-height:1.5!important}
+.lm-rm-ko{display:flex;align-items:center;gap:12px;margin:0 0 10px}.lm-rm-ko p{margin:0!important;font-size:15px!important;line-height:1.45!important}
+.lm-rm-lice{width:64px!important;height:64px!important;flex:0 0 64px;border-radius:50%;object-fit:cover}
 .lm-rm-program ul{margin:0;padding-left:18px}
 .lm-rm-program ul li{margin:0 0 3px;font-size:14.5px;line-height:1.5}
 .lm-rm-blok .lm-rm-napomena{margin-top:14px;font-size:14.5px}
