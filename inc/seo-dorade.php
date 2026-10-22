@@ -159,7 +159,7 @@ add_action( 'wp_head', function () {
 		'@type'             => 'Course',
 		'@id'               => $url . '#kurs',
 		'name'              => 'Škola za trudnice Ready Mom',
-		'description'       => 'Priprema za porođaj i prve mjesece sa bebom: program od 4 nedjelje, 8 predavanja sa 6 stručnjaka (ginekolog, babica, pedijatri, patronažna sestra, psihoterapeut). Uživo u Podgorici ili online.',
+		'description'       => 'Priprema za porođaj i prve mjesece sa bebom: program od 2 nedjelje, 6 predavanja sa 6 stručnjaka (ginekolog, babica, pedijatrijska sestra, pedijatar, patronažna sestra, psihoterapeut). Uživo u Podgorici ili online.',
 		'url'               => $url,
 		'inLanguage'        => 'sr-Latn-ME',
 		'provider'          => array( '@type' => 'Organization', 'name' => 'Lady Mom', 'url' => home_url( '/' ) ),
@@ -171,6 +171,21 @@ add_action( 'wp_head', function () {
 	);
 	if ( $slika ) {
 		$kurs['image'] = $slika;
+	}
+	// Predavači i trajanje (23.10.2026): 6 predavanja po sat i po, za dvije nedjelje.
+	if ( function_exists( 'lm_rm_predavanja' ) ) {
+		$predavaci = array();
+		foreach ( lm_rm_predavanja() as $pr ) {
+			$predavaci[] = array( '@type' => 'Person', 'name' => $pr[1], 'jobTitle' => $pr[2] );
+		}
+		$kurs['syllabusSections'] = array();
+		foreach ( lm_rm_predavanja() as $pr ) {
+			$kurs['syllabusSections'][] = array( '@type' => 'Syllabus', 'name' => $pr[0], 'description' => implode( ' ', $pr[4] ) );
+		}
+		foreach ( $kurs['hasCourseInstance'] as $k => $inst ) {
+			$kurs['hasCourseInstance'][ $k ]['courseWorkload'] = 'PT9H';
+			$kurs['hasCourseInstance'][ $k ]['instructor']     = $predavaci;
+		}
 	}
 	$faq = array( '@context' => 'https://schema.org', '@type' => 'FAQPage', '@id' => $url . '#pitanja', 'mainEntity' => array() );
 	foreach ( lm_rm_pitanja() as $q ) {

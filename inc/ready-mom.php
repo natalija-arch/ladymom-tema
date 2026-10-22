@@ -10,6 +10,8 @@
  * - Sve „škola“ veze na sajtu (traka na vrhu, mobilni meni, početna, slajd, O nama,
  *   Kontakt) vode na stranicu škole. Stare adrese preusmjerava inc/seo-dorade.php.
  * - 21.10.2026 (SEO): H1 „Škola za trudnice Ready Mom“, sadržaj članka o školi spojen ovdje, česta pitanja.
+ * - 23.10.2026 (Marko): program traje 2 nedjelje, 6 predavanja, 6 stručnjaka (ranije 4 / 8 / 6); predavači po imenu
+ *   i teme iz Natalijinog rasporeda (bez datuma), pokloni i pogodnosti partnera (lm_rm_predavanja(), lm_rm_partneri()).
  * - 22.10.2026 (AI pretrage): „Šta je Ready Mom?“, „Program“, „Česta pitanja“ i „Prijavite se“ počinju
  *   rečenicom koja sama kaže šta, koliko, gdje i koliko košta (klasa .lm-rm-uvod), da se može citirati
  *   i izvan stranice; „Kada upisati“ počinje cijelom rečenicom.
@@ -45,6 +47,37 @@ add_action( 'template_redirect', function () {
 } );
 
 /**
+ * Predavanja (Natalijin raspored oktobarske grupe, 22.10.2026; datumi se ne prikazuju).
+ * [tema, predavač, zvanje, struka (kratko), pitanja na koja predavanje odgovara]
+ */
+function lm_rm_predavanja() {
+	return array(
+		array( 'Spremna za porođaj: šta se dešava?', 'Prim. dr Gordana Globarević Vukćević', 'specijalista ginekologije i akušerstva', 'Ginekolog', array( 'Da li trudnoća teče kako treba i kada treba da se zabrinete?', 'Kako prepoznati početak porođaja?', 'Prirodni porođaj, carski rez i epidural: kada i kako?', 'Kako donositi informisane odluke sa ljekarima?' ) ),
+		array( 'Od prvog bola do bebe u naručju', 'Tanja Lazarević', 'ginekološko-akušerska sestra, babica', 'Babica', array( 'Kada je porođaj zaista počeo i kada krenuti u porodilište?', 'Šta se dešava kad uđete u porodilište, korak po korak?', 'Kako babica vodi porođaj i pomaže bebi da dođe na svijet?', 'Šta očekivati u prvim satima nakon rođenja?' ) ),
+		array( 'Zlatni sat i dojenje bez mitova', 'Milica Đoković Vojinović', 'pedijatrijska sestra', 'Pedijatrijska sestra', array( 'Zašto je „zlatni sat“ važan za bebu i mamu?', 'Pravilan hvat: kako znati da beba dobro sisa?', 'Kako prepoznati da beba dobija dovoljno mlijeka?', 'Šta raditi kod bola, ragada ili zastoja mlijeka?' ) ),
+		array( 'Novorođenče okom pedijatra: šta je normalno?', 'Slađana Račić', 'specijalista pedijatrije', 'Pedijatar', array( 'Koji su obavezni pregledi i vakcine u prvim mjesecima?', 'Kako izgleda normalan rast, san i ishrana bebe?', 'Koji znaci traže hitnu pedijatrijsku pomoć?' ) ),
+		array( 'Prvi dani sa bebom kod kuće', 'Dragana Marković', 'patronažna sestra', 'Patronažna sestra', array( 'Kako uspostaviti rutinu u prvim nedjeljama?', 'Šta patronažna sestra provjerava u kućnim posjetama?', 'Kako pronaći mir i sigurnost u novoj svakodnevici?', 'Šta je zaista važno u njezi bebe i mame?' ) ),
+		array( 'Kako ostati tim: nas dvoje i beba', 'mr Željka Stevović', 'psihoterapeut transakcione analize', 'Psihoterapeut', array( 'Zašto mama i tata ne prolaze isti put ka roditeljstvu?', 'Kako tata može biti prava podrška tokom trudnoće?', 'Kako ostati tim kad dođu umor i stres?', 'Šta se dešava sa odnosom kad beba dođe kući?' ) ),
+	);
+}
+
+/** Pokloni i pogodnosti partnera za polaznice (Natalijin pregled „Svi pokloni naših partnera“). [partner, pogodnost] */
+function lm_rm_partneri() {
+	return array(
+		array( 'Lady Mom', '20 % popusta na kupovinu u prodavnici' ),
+		array( 'Vegapharm', 'savjeti farmaceuta o gvožđu i njezi porodilje i bebe, 10 % popusta na 10 kupovina' ),
+		array( 'NLB banka', 'poklon predavanje „Medena štednja“ i posebne pogodnosti banke' ),
+		array( 'Uniqa osiguranje', '10–30 % popusta na sve vrste osiguranja' ),
+		array( 'Bio Save', '500 € popusta na pakete čuvanja matičnih ćelija' ),
+		array( 'MediKid', 'prvi pedijatrijski pregled bebe besplatno' ),
+		array( 'Oblak i sunce', '10–20 % popusta u prodavnici' ),
+		array( 'Viva Walk', '15 % popusta na barefoot obuću' ),
+		array( 'Origo', '10 % popusta na prvu kupovinu' ),
+		array( 'Anastasija Milić', '20 % popusta na trudničko i 10 % na newborn fotografisanje' ),
+	);
+}
+
+/**
  * Česta pitanja na stranici škole (i u podacima za Google, inc/seo-dorade.php).
  * Samo činjenice koje su već potvrđene na stranici; termin, cijena i mjesto iz istog izvora.
  */
@@ -53,8 +86,9 @@ function lm_rm_pitanja() {
 	$p      = $id ? wc_get_product( $id ) : null;
 	$cijena = $p ? wp_strip_all_tags( wc_price( wc_get_price_to_display( $p ) ) ) : '129,00 €';
 	return array(
-		array( 'Koliko traje škola za trudnice Ready Mom?', 'Četiri nedjelje. Za to vrijeme je osam predavanja.' ),
-		array( 'Ko drži predavanja?', 'Šest stručnjaka: ginekolog, babica, dva pedijatra, patronažna sestra i psihoterapeut. Svaku temu objašnjava osoba koja se njome bavi svaki dan.' ),
+		array( 'Koliko traje škola za trudnice Ready Mom?', 'Dvije nedjelje. Za to vrijeme je šest predavanja, po tri nedjeljno, uveče od 18:30 do 20:00.' ),
+		array( 'Ko drži predavanja?', 'Šest stručnjaka: ginekolog prim. dr Gordana Globarević Vukćević, babica Tanja Lazarević, pedijatrijska sestra Milica Đoković Vojinović, pedijatar Slađana Račić, patronažna sestra Dragana Marković i psihoterapeut mr Željka Stevović. Svaku temu objašnjava osoba koja se njome bavi svaki dan.' ),
+		array( 'Šta polaznice dobijaju od partnera programa?', 'Poklone i popuste partnera: 20 % popusta u Lady Mom prodavnici, besplatan prvi pedijatrijski pregled bebe u MediKid-u, 500 € popusta na čuvanje matičnih ćelija u Bio Save-u, popuste Uniqa osiguranja, Viva Walk-a, Oblaka i sunca, Origa i fotografkinje Anastasije Milić, savjete farmaceuta Vegapharma i poklon predavanje NLB banke „Medena štednja“.' ),
 		array( 'Kada je najbolje upisati školu za trudnice?', 'U drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje.' ),
 		array( 'Može li partner da dođe na predavanja?', 'Da, partneri su dobrodošli.' ),
 		array( 'Mogu li pratiti školu ako nisam iz Podgorice?', 'Da. Program možete pratiti online, iz bilo kog grada.' ),
@@ -88,10 +122,10 @@ add_shortcode( 'lm_ready_mom', function () {
 		<div class="lm-rm-hero-tekst">
 			<p class="lm-rm-nad">Podgorica i online</p>
 			<h1 class="lm-rm-naslov">Škola za trudnice Ready Mom</h1>
-			<p class="lm-rm-pod">Priprema za porođaj i prve mjesece sa bebom: osam predavanja sa šest stručnjaka, uživo u Podgorici ili online.</p>
+			<p class="lm-rm-pod">Priprema za porođaj i prve mjesece sa bebom: šest predavanja sa šest stručnjaka za dvije nedjelje, uživo u Podgorici ili online.</p>
 			<ul class="lm-rm-cinjenice">
-				<li><strong>4</strong> nedjelje</li>
-				<li><strong>8</strong> predavanja</li>
+				<li><strong>2</strong> nedjelje</li>
+				<li><strong>6</strong> predavanja</li>
 				<li><strong>6</strong> stručnjaka</li>
 				<li>uživo ili <strong>online</strong></li>
 			</ul>
@@ -107,20 +141,34 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-blok">
 		<h2>Šta je Ready Mom?</h2>
-		<p class="lm-rm-uvod">Ready Mom je škola za trudnice u Podgorici koja vas priprema za porođaj i prve mjesece sa bebom: četiri nedjelje, osam predavanja i šest stručnjaka, uživo ili online.</p>
+		<p class="lm-rm-uvod">Ready Mom je škola za trudnice u Podgorici koja vas priprema za porođaj i prve mjesece sa bebom: dvije nedjelje, šest predavanja i šest stručnjaka, uživo ili online.</p>
 		<p>Trudnoća donosi mnogo pitanja. Kako da znam da je porođaj počeo? Šta da ponesem u porodilište? Kako da podojim bebu i šta da radim kad beba plače, a ne znam zašto? U Ready Mom školi za trudnice na ta pitanja odgovaraju stručnjaci koji se time bave svaki dan.</p>
 		<p>Program vas vodi redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
 	</section>
 
-	<section class="lm-rm-blok">
+	<section class="lm-rm-blok lm-rm-sir">
 		<h2>Program: ko drži predavanja i šta se uči</h2>
-		<p class="lm-rm-uvod">Ready Mom traje četiri nedjelje i ima osam predavanja, uživo u Podgorici ili online, a drži ih šest stručnjaka: ginekolog, babica, dva pedijatra, patronažna sestra i psihoterapeut.</p>
-		<ul class="lm-rm-predavaci">
-			<li><strong>Ginekolog</strong><span>posljednji trimestar, znaci porođaja i kada krenuti u porodilište</span></li>
-			<li><strong>Babica</strong><span>tok porođaja, disanje, položaji i šta vas čeka u porodilištu</span></li>
-			<li><strong>Pedijatri</strong><span>prvi pregledi, njega novorođenčeta, san, kolike i kada se javiti ljekaru</span></li>
-			<li><strong>Patronažna sestra</strong><span>prvi dani kod kuće, kupanje, pupak i dojenje u praksi</span></li>
-			<li><strong>Psihoterapeut</strong><span>emocije u trudnoći i nakon porođaja, podrška partnera i briga o sebi</span></li>
+		<p class="lm-rm-uvod">Ready Mom traje dvije nedjelje i ima šest predavanja, uživo u Podgorici ili online, a drži ih šest stručnjaka: ginekolog, babica, pedijatrijska sestra, pedijatar, patronažna sestra i psihoterapeut.</p>
+		<ol class="lm-rm-program">
+			<?php foreach ( lm_rm_predavanja() as $i => $pr ) : ?>
+			<li>
+				<p class="lm-rm-br"><?php echo esc_html( ( $i + 1 ) . '. predavanje · ' . $pr[3] ); ?></p>
+				<h3><?php echo esc_html( $pr[0] ); ?></h3>
+				<p class="lm-rm-ko"><strong><?php echo esc_html( $pr[1] ); ?></strong>, <?php echo esc_html( $pr[2] ); ?></p>
+				<ul><?php foreach ( $pr[4] as $pit ) : ?><li><?php echo esc_html( $pit ); ?></li><?php endforeach; ?></ul>
+			</li>
+			<?php endforeach; ?>
+		</ol>
+		<p class="lm-rm-napomena">Svako predavanje traje sat i po, od 18:30 do 20:00, a na kraju je vrijeme za vaša pitanja.</p>
+	</section>
+
+	<section class="lm-rm-blok lm-rm-sir lm-rm-pokloni">
+		<h2>Pokloni i pogodnosti partnera</h2>
+		<p class="lm-rm-uvod">Uz program, polaznice Ready Mom škole dobijaju poklone i popuste partnera programa.</p>
+		<ul class="lm-rm-partneri">
+			<?php foreach ( lm_rm_partneri() as $pa ) : ?>
+			<li><strong><?php echo esc_html( $pa[0] ); ?></strong><span><?php echo esc_html( $pa[1] ); ?></span></li>
+			<?php endforeach; ?>
 		</ul>
 	</section>
 
@@ -137,7 +185,7 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-blok lm-rm-pitanja">
 		<h2>Česta pitanja o školi za trudnice</h2>
-		<p class="lm-rm-uvod">Škola za trudnice Ready Mom košta <?php echo wp_kses_post( wp_strip_all_tags( $cijena ) ); ?> za cijeli program od četiri nedjelje, a predavanja se drže uživo u prostoru Family Nest u Podgorici (Branka Deletića bb) ili online.</p>
+		<p class="lm-rm-uvod">Škola za trudnice Ready Mom košta <?php echo wp_kses_post( wp_strip_all_tags( $cijena ) ); ?> za cijeli program od dvije nedjelje i šest predavanja, a predavanja se drže uživo u prostoru Family Nest u Podgorici (Branka Deletića bb) ili online.</p>
 		<?php foreach ( lm_rm_pitanja() as $q ) : ?>
 		<details>
 			<summary><?php echo esc_html( $q[0] ); ?></summary>
@@ -192,10 +240,22 @@ add_action( 'wp_head', function () {
 .lm-rm-k-wa svg{color:#25a35a}.lm-rm-k-vb svg{color:#7360f2}.lm-rm-k-tel svg{color:#a05c57}
 .lm-rm-hero-slika img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:220px 220px 14px 14px}
 .lm-rm-blok{max-width:760px;margin:0 auto;padding:26px 0}
+.lm-rm-blok.lm-rm-sir{max-width:960px}.lm-rm-sir>h2,.lm-rm-sir>.lm-rm-uvod{max-width:760px}
 .lm-rm-blok h2,.lm-rm-kraj h2{font-size:28px;margin:0 0 14px}
 .lm-rm-blok p{font-size:16px;line-height:1.7;margin:0}
 .lm-rm-blok .lm-rm-uvod{margin:0 0 16px}
 .lm-rm-kraj .lm-rm-uvod{max-width:620px;margin:0 auto 18px;font-size:16px;line-height:1.7}
+.lm-rm-program{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.lm-rm-program>li{margin:0;padding:18px 20px;border:1px solid #f3e7e0;border-radius:14px;background:#fff}
+.lm-rm-br{margin:0 0 4px!important;font-size:12px!important;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a05c57}
+.lm-rm-program h3{margin:0 0 6px;font-size:19px;line-height:1.3}
+.lm-rm-ko{margin:0 0 8px!important;font-size:15px!important;line-height:1.5!important}
+.lm-rm-program ul{margin:0;padding-left:18px}
+.lm-rm-program ul li{margin:0 0 3px;font-size:14.5px;line-height:1.5}
+.lm-rm-blok .lm-rm-napomena{margin-top:14px;font-size:14.5px}
+.lm-rm-partneri{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lm-rm-partneri li{margin:0;padding:12px 16px;border-radius:12px;background:#fdf2ec;display:flex;flex-direction:column;gap:2px;font-size:14.5px;line-height:1.5}
+.lm-rm-partneri strong{color:#6d4e39;font-size:15.5px}
 .lm-rm-predavaci{margin:0;padding:0;list-style:none;display:grid;gap:10px}
 .lm-rm-predavaci li{margin:0;padding:14px 18px;border:1px solid #f3e7e0;border-radius:12px;display:flex;flex-direction:column;gap:3px}
 .lm-rm-predavaci strong{color:#6d4e39;font-size:16px}
@@ -208,6 +268,7 @@ add_action( 'wp_head', function () {
 .lm-rm-kraj{margin:34px auto 0;padding:36px 24px;text-align:center;border-top:1px solid #f3e7e0}
 .lm-rm-kraj .lm-rm-kontakt{justify-content:center}
 @media (max-width:900px){.lm-rm-hero{grid-template-columns:1fr;gap:24px;padding-top:18px}.lm-rm-hero-slika{order:-1}.lm-rm-hero-slika img{border-radius:160px 160px 12px 12px}.lm-rm-naslov{font-size:34px}.lm-rm-dvije{grid-template-columns:1fr}}
+@media (max-width:700px){.lm-rm-program,.lm-rm-partneri{grid-template-columns:1fr}}
 @media (max-width:520px){.lm-rm-dugme{width:100%}.lm-rm-kupi{gap:10px}.lm-rm-k{flex:1 1 auto;justify-content:center}.lm-rm-blok h2,.lm-rm-kraj h2{font-size:23px}}
 /* Telefon (pregled 21.10., r11): cijena i „Prijavi se i plati“ u prvom ekranu – niža slika, dugme prije činjenica */
 @media (max-width:520px){.lm-rm{padding-top:0}.lm-rm-hero{gap:14px;padding:4px 0 26px}.lm-rm-hero-slika img{aspect-ratio:16/9;border-radius:120px 120px 12px 12px}.lm-rm-hero-tekst{display:flex;flex-direction:column}.lm-rm-hero-tekst>.lm-rm-nad{order:1;margin-bottom:6px}.lm-rm-hero-tekst>.lm-rm-naslov{order:2;font-size:30px;margin-bottom:8px}.lm-rm-hero-tekst>.lm-rm-pod{order:3;font-size:16px;margin-bottom:14px}.lm-rm-hero-tekst>.lm-rm-kupi{order:4}.lm-rm-hero-tekst>.lm-rm-mala{order:5;margin:8px 0 14px}.lm-rm-hero-tekst>.lm-rm-cinjenice{order:6;margin-bottom:16px}.lm-rm-hero-tekst>.lm-rm-kontakt{order:7}}
