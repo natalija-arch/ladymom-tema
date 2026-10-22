@@ -360,7 +360,7 @@ Urađeno:
 - **Slike artikala i kategorija** (`inc/brzina.php`, `inc/prodaja-i-brend.php`): za `woocommerce_thumbnail` `sizes="(max-width: 767px) 50vw, (max-width: 1024px) 34vw, 300px"` (bilo „100vw do 430 px“, pa je telefon uzimao 768×1024 za pločicu od ~140 px); na početnoj su sve te slike lijene (dobijaju i `sizes="auto"`).
 - **Pristupačnost** (100 i na telefonu i na desktopu): tekst „Pretraga“ u dugmetu pretrage samo vizuelno sakriven (`inc/ui-dorade.php`); poruke u gornjoj traci na telefonu visine 24 px i bez preklapanja u smjeni (`@keyframes lmTop`); oznake na karticama (`.product-label`, `.onsale`, `.lm-badge-top`…) slovo `--lm-smedja-tamna` (kontrast 4,53:1); pločice kategorija (`inc/pristupacnost.php`, novo): slika bez duplog linka, link preko pločice dobija ime kategorije umjesto „Product category slug“.
 
-Rezultat (PageSpeed, ~19:16): telefon 62, LCP 6,0 s (prije 9,4–10,4 s), pristupačnost 100; desktop 73–?, LCP 0,6 s, pristupačnost 100. Prije LCP-a se na telefonu skida 1,1 MB umjesto 1,5 MB; desktop slika i slajdovi 2–4 više ne.
+Rezultat (PageSpeed, dva prolaza poslije objave): telefon 62 i 79, LCP 6,0 s i 2,6 s (prije 54–61, LCP 9,4–10,4 s), pristupačnost 100; desktop 73 i 99, LCP 0,6–0,8 s, pristupačnost 100. Telefon i dalje skače ~15 poena između prolaza (najviše zbog TBT-a, tj. skripti). Prije LCP-a se na telefonu skida 1,1 MB umjesto 1,5 MB; desktop slika i slajdovi 2–4 više ne.
 
 Ostaje (Markova odluka):
 - Google tag, Meta piksel i Clarity učitati tek na prvu interakciju ili par sekundi poslije učitavanja (LiteSpeed „JS Delayed Includes“). Najveći dobitak na telefonu, ali posjete bez ijednog dodira se ne bi brojale.
