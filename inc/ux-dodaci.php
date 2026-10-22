@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 add_action( 'woocommerce_single_product_summary', function () {
 	$items = array(
 		array( 'M3 7h11v9H3zM14 10h4l3 3v3h-7', 'Besplatna dostava za porudžbine od 100 €' ),
-		array( 'M12 7v5l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z', 'Dostava na teritoriji Crne Gore za 1–3 radna dana' ),
+		array( 'M12 7v5l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z', 'Dostavljamo samo na teritoriji Crne Gore, za 1–3 radna dana' ),
 		array( 'M4 12a8 8 0 0 1 14-5l2-2v6h-6l2-2a5 5 0 1 0 1 6', 'Povrat ili zamjena u roku od 14 dana' ),
 		array( 'M3 6h18v12H3zM3 10h18', 'Plaćanje pouzećem ili karticom (Visa, Mastercard)' ),
 	);
