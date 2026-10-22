@@ -347,3 +347,23 @@ Razlog: od trake za kolačiće (21.10. ~16h) GA4 je pao sa ~200 na ~11 sesija dn
 - **`inc/google-feed.php`**: svaka stavka dobija `<g:custom_label_0>` sa razredom marže na trenutnu cijenu (akcijsku kad je akcija) bez PDV-a: `a` ≥ 50 %, `b` 35–50 %, `c` < 35 %, `n` bez nabavne cijene. Oznake su neutralne jer je feed javan. Ključ keša feeda je `lm_google_feed_v2`; keš se briše i kad se opcija promijeni.
 - **Mjesečno**: novi ERP izvoz se upisuje u istu opciju (stavka z4); bez toga novi artikli dobijaju `n`.
 - Po stanju 22.10.: 252 artikla `a`, 82 `b`, 35 `c`, 3 `n` (od 372 u feedu). Za Shopping kampanju (k3) podjela grupa proizvoda po custom_label_0.
+
+## Brzina i pristupačnost početne (22.10.2026 uveče, Marko: „odradi ova tri“)
+Mjerenje (stavka r27, 18:10) je pokazalo telefon 54–61, desktop 78–98, pristupačnost 88. Provjera kroz PageSpeed izvještaje (podaci za svaki prolaz) i privremene varijante početne (`?lmx=…`, fajl `inc/test-brzina.php`, uklonjen istog dana) pokazala je:
+- Prvi slajd **ne čeka** JavaScript slajdera (prvobitna pretpostavka je bila pogrešna). PageSpeed-ov telefon prvi kadar prikaže tek na ~1,35 s ili ~2,4 s od početka, u svakoj varijanti (i bez kritičnog CSS-a, i sa pravom `<img>` slikom, i bez gornje trake). Zato se u LCP računa sve što krene prije toga.
+- Varijanta **bez ijedne skripte** dala je telefon **89** (LCP 2,8 s). Najveći teret su skripte: spojeni JS sajta 213 KB, Google tag 192 KB, Meta piksel 116 KB, Clarity; uz to su krenuli i REST pozivi Contact Form 7 (1,4–2,4 s na serveru) i `get_refreshed_fragments`.
+- Telefon je skidao i **desktop sliku slajdera** (118 KB, visok prioritet): `<link rel=preload media=…>` je bio ispisan prije `<meta name="viewport">`, pa je telefon media upit ocijenio na širini 980 px. To važi i za prave telefone, ne samo za PageSpeed.
+
+Urađeno:
+- **Preload prve slike**: WoodMart-ovo podešavanje **Preload LCP image** (Theme Settings → Performance, `preload_lcp_image` = uključeno); za početnu #3228 slike desktop #35991 i telefon #35995, vrsta „background“, veličina „full“ (post meta `_woodmart_preload_image*` i Elementor page settings `wd__woodmart_preload_image*`). WoodMart ga ispisuje poslije viewport-a. Sopstveni preload iz `inc/prodaja-i-brend.php` uklonjen. Rezerva: opcija `lm_backup_lcp_22_10`. Sliku Marko mijenja dugmetom „LCP“ u admin traci.
+- **Slajdovi 2–4** (`inc/brzina.php`): pozadina tek kad slajd dobije `woodmart-loaded` (WoodMart-ovo pravilo iz `el-slider-block.css`, ovdje i za Elementor slajder; stil sa `data-no-optimize`, da ga LiteSpeed ne prebaci u CSS koji stiže kasnije). WoodMart klasu dodaje na prvi dodir/skrol i pri promjeni slajda; skripta je dodaje svim slajdovima 2 s poslije `load`.
+- **Slike artikala i kategorija** (`inc/brzina.php`, `inc/prodaja-i-brend.php`): za `woocommerce_thumbnail` `sizes="(max-width: 767px) 50vw, (max-width: 1024px) 34vw, 300px"` (bilo „100vw do 430 px“, pa je telefon uzimao 768×1024 za pločicu od ~140 px); na početnoj su sve te slike lijene (dobijaju i `sizes="auto"`).
+- **Pristupačnost** (100 i na telefonu i na desktopu): tekst „Pretraga“ u dugmetu pretrage samo vizuelno sakriven (`inc/ui-dorade.php`); poruke u gornjoj traci na telefonu visine 24 px i bez preklapanja u smjeni (`@keyframes lmTop`); oznake na karticama (`.product-label`, `.onsale`, `.lm-badge-top`…) slovo `--lm-smedja-tamna` (kontrast 4,53:1); pločice kategorija (`inc/pristupacnost.php`, novo): slika bez duplog linka, link preko pločice dobija ime kategorije umjesto „Product category slug“.
+
+Rezultat (PageSpeed, ~19:16): telefon 62, LCP 6,0 s (prije 9,4–10,4 s), pristupačnost 100; desktop 73–?, LCP 0,6 s, pristupačnost 100. Prije LCP-a se na telefonu skida 1,1 MB umjesto 1,5 MB; desktop slika i slajdovi 2–4 više ne.
+
+Ostaje (Markova odluka):
+- Google tag, Meta piksel i Clarity učitati tek na prvu interakciju ili par sekundi poslije učitavanja (LiteSpeed „JS Delayed Includes“). Najveći dobitak na telefonu, ali posjete bez ijednog dodira se ne bi brojale.
+- HTML početne i kategorija keširati na Cloudflare-u (Cache Rule sa izuzetkom za korpu, plaćanje, nalog i prijavljene). Stvarni kupci imaju TTFB 1,2 s.
+- Spori nekeširani zahtjevi na serveru (CF7 REST 1,4–2,4 s, admin-ajax do 5 s): object cache na hostingu.
+- `inc/test-brzina.php` je ostao na serveru (objava ne briše fajlove), ne učitava se; može se obrisati u cPanel-u.
