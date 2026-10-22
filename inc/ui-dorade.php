@@ -85,12 +85,13 @@ body #slide-35678 .wd-slide-bg{background-color:var(--lm-tirkiz-footer)!importan
 @media (min-width:1200px){.lm-topbar a+a{margin-left:26px;padding-left:26px;border-left:1px solid rgba(255,255,255,.4)}}
 @media (max-width:1199.98px){
 .header-banner .lm-topbar{display:grid}
-.lm-topbar a{grid-area:1/1;align-self:center;justify-self:center;font-size:12.5px;opacity:0;visibility:hidden;animation:lmTop 12s infinite both}
+.lm-topbar a{grid-area:1/1;align-self:center;justify-self:center;display:inline-flex;align-items:center;min-height:24px;font-size:12.5px;opacity:0;visibility:hidden;animation:lmTop 12s infinite both}
 .lm-topbar a:nth-child(2){animation-delay:4s}
 .lm-topbar a:nth-child(3){animation-delay:8s}
 .lm-topbar:hover a,.lm-topbar:focus-within a{animation-play-state:paused}
 }
-@keyframes lmTop{0%{opacity:0;visibility:hidden;transform:translateY(6px)}4%,33.3%{opacity:1;visibility:visible;transform:none}37%,100%{opacity:0;visibility:hidden;transform:translateY(-6px)}}
+/* poruke se ne preklapaju: prethodna nestane prije nego što se pojavi sljedeća (link od 24px, pristupačnost 22.10.) */
+@keyframes lmTop{0%{opacity:0;visibility:hidden;transform:translateY(6px)}4%,30%{opacity:1;visibility:visible;transform:none}33.2%{opacity:0;visibility:visible;transform:translateY(-6px)}33.3%,100%{opacity:0;visibility:hidden;transform:translateY(-6px)}}
 @media (max-width:1199.98px) and (prefers-reduced-motion:reduce){
 .lm-topbar a{animation:none;opacity:0;visibility:hidden}
 .lm-topbar a:first-child{opacity:1;visibility:visible}
@@ -158,7 +159,8 @@ html body form.searchform{position:relative}
 html body form.searchform input.s{height:54px!important;min-height:0!important;padding-right:62px!important}
 html body form.searchform .searchsubmit{position:absolute!important;top:50%!important;right:6px!important;bottom:auto!important;transform:translateY(-50%);width:42px!important;height:42px!important;min-width:42px!important;max-width:42px!important;flex:none!important;min-height:0!important;padding:0!important;margin:0!important;border-radius:50%!important;font-size:0!important;line-height:0!important;background:var(--lm-roze-jaka,#a05c57)!important;display:flex!important;align-items:center;justify-content:center}
 html body form.searchform .searchsubmit:hover,html body form.searchform .searchsubmit:focus-visible{background-color:var(--lm-roze-jaka-hover,#8a4b47)!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.6-3.6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:center!important;background-size:19px 19px!important;color:#fff!important}
-html body form.searchform .searchsubmit>span{display:none!important}
+/* tekst „Pretraga“ ostaje za čitače ekrana (naziv dugmeta), samo se ne vidi (pristupačnost 22.10.) */
+html body form.searchform .searchsubmit>span{display:block!important;position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;font-size:12px!important;line-height:1!important}
 html body form.searchform .searchsubmit{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.6-3.6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:center!important;background-size:19px 19px!important}
 html body form.searchform .searchsubmit::after{content:none!important}
 html body form.searchform .searchsubmit::before{color:#fff!important}

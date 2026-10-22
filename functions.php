@@ -68,7 +68,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'kategorije-dugmad.php',
 		'pregled-dorade.php',
 		'povezani-proizvodi.php',
-		'test-brzina.php',
+		'pristupacnost.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}

@@ -41,3 +41,45 @@ add_filter( 'pre_wp_get_loading_optimization_attributes', function ( $pre, $tag,
 	}
 	return $pre;
 }, 10, 3 );
+
+/*
+ * Slike artikala i kategorija (22.10.2026, PageSpeed „Improve image delivery“, ~260 KB na telefonu).
+ * WordPress za veličinu woocommerce_thumbnail (430 px) piše sizes="(max-width: 430px) 100vw, 430px",
+ * pa je telefon (412 px, gustina ekrana 1,75–3) birao 768×1024 za pločicu široku 136–190 px.
+ * Pločica je na telefonu najviše pola ekrana, na tabletu trećina, a na računaru oko 300 px, pa
+ * pregledač sad bira 430 px (ili 600 px na ekranima veće gustine). Odnosi se na karusele, prodavnicu,
+ * kategorije i povezane artikle; velika slika na stranici artikla ima drugu veličinu i ne mijenja se.
+ */
+add_filter( 'wp_calculate_image_sizes', function ( $sizes, $size ) {
+	if ( is_admin() || ! is_array( $size ) || empty( $size[0] ) || ! function_exists( 'wc_get_image_size' ) ) {
+		return $sizes;
+	}
+	$sl = wc_get_image_size( 'woocommerce_thumbnail' );
+	if ( ! empty( $sl['width'] ) && (int) $size[0] === (int) $sl['width'] ) {
+		return '(max-width: 767px) 50vw, (max-width: 1024px) 34vw, 300px';
+	}
+	return $sizes;
+}, 10, 2 );
+
+/*
+ * Slajder na početnoj: pozadine slajdova 2–4 se ne skidaju odmah (22.10.2026).
+ * Slajdovi su pravljeni u Elementoru, pa se pozadina svakog slajda ispisuje bez uslova i telefon je
+ * odmah, zajedno sa prvom slikom, skidao i ostale tri (~150 KB). WoodMart za svoj blok-slajder već
+ * ima pravilo „pozadina tek kad slajd dobije klasu woodmart-loaded“ (el-slider-block.css), a
+ * njegova skripta tu klasu dodaje na prvi dodir, skrol ili pomjeranje miša i pri promjeni slajda.
+ * Ovdje se isto pravilo primjenjuje i na Elementor slajder, a dvije sekunde poslije učitavanja
+ * stranice svi slajdovi dobijaju klasu, da bi slika bila spremna prije prve smjene (6 s).
+ * data-no-optimize: LiteSpeed stil ostavlja u zaglavlju, umjesto da ga prebaci u CSS koji stiže kasnije.
+ */
+add_action( 'wp_head', function () {
+	if ( is_admin() || ! is_front_page() ) {
+		return;
+	}
+	echo '<style id="lm-slajdovi-lijeno" data-no-optimize="1">.wd-slider .wd-slide:not(.woodmart-loaded):not(:first-child)>.wd-slide-bg{background-image:none!important}</style>' . "\n";
+}, 30 );
+add_action( 'wp_footer', function () {
+	if ( is_admin() || ! is_front_page() ) {
+		return;
+	}
+	echo '<script id="lm-slajdovi-lijeno-js">window.addEventListener("load",function(){setTimeout(function(){document.querySelectorAll(".wd-slider .wd-slide").forEach(function(s){s.classList.add("woodmart-loaded");});},2000);});</script>' . "\n";
+}, 60 );
