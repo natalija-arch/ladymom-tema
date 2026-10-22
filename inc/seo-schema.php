@@ -38,5 +38,11 @@ add_filter( 'wpseo_schema_organization', function ( $data ) {
 	$data['areaServed'] = array( '@type' => 'Country', 'name' => 'Crna Gora' );
 	$data['sameAs']     = array( 'https://www.facebook.com/ladymom.me', 'https://www.instagram.com/ladymom.me' );
 	$data['hasMap']     = 'https://www.google.com/maps/search/?api=1&query=Lady+Mom+prodavnica+za+trudnice+i+mame&query_place_id=ChIJU0tXHcnrTRMRuXXUSvfb4b8';
+	// Lokacija butika na mapi (22.10.2026): koordinate iz Google profila istog mjesta (place_id iz hasMap).
+	$data['geo']        = array(
+		'@type'     => 'GeoCoordinates',
+		'latitude'  => 42.440672,
+		'longitude' => 19.2304,
+	);
 	return $data;
 } );

@@ -10,6 +10,8 @@
  * - Sve „škola“ veze na sajtu (traka na vrhu, mobilni meni, početna, slajd, O nama,
  *   Kontakt) vode na stranicu škole. Stare adrese preusmjerava inc/seo-dorade.php.
  * - 21.10.2026 (SEO): H1 „Škola za trudnice Ready Mom“, sadržaj članka o školi spojen ovdje, česta pitanja.
+ * - 22.10.2026 (AI pretrage): „Program“ i „Česta pitanja“ počinju rečenicom koja sama kaže šta, koliko,
+ *   gdje i koliko košta (klasa .lm-rm-uvod), da se može citirati i izvan stranice.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -110,6 +112,7 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-blok">
 		<h2>Program: ko drži predavanja i šta se uči</h2>
+		<p class="lm-rm-uvod">Ready Mom traje četiri nedjelje i ima osam predavanja, uživo u Podgorici ili online, a drži ih šest stručnjaka: ginekolog, babica, dva pedijatra, patronažna sestra i psihoterapeut.</p>
 		<ul class="lm-rm-predavaci">
 			<li><strong>Ginekolog</strong><span>posljednji trimestar, znaci porođaja i kada krenuti u porodilište</span></li>
 			<li><strong>Babica</strong><span>tok porođaja, disanje, položaji i šta vas čeka u porodilištu</span></li>
@@ -132,6 +135,7 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-blok lm-rm-pitanja">
 		<h2>Česta pitanja o školi za trudnice</h2>
+		<p class="lm-rm-uvod">Škola za trudnice Ready Mom košta <?php echo wp_kses_post( wp_strip_all_tags( $cijena ) ); ?> za cijeli program od četiri nedjelje, a predavanja se drže uživo u prostoru Family Nest u Podgorici (Branka Deletića bb) ili online.</p>
 		<?php foreach ( lm_rm_pitanja() as $q ) : ?>
 		<details>
 			<summary><?php echo esc_html( $q[0] ); ?></summary>
@@ -187,6 +191,7 @@ add_action( 'wp_head', function () {
 .lm-rm-blok{max-width:760px;margin:0 auto;padding:26px 0}
 .lm-rm-blok h2,.lm-rm-kraj h2{font-size:28px;margin:0 0 14px}
 .lm-rm-blok p{font-size:16px;line-height:1.7;margin:0}
+.lm-rm-blok .lm-rm-uvod{margin:0 0 16px}
 .lm-rm-predavaci{margin:0;padding:0;list-style:none;display:grid;gap:10px}
 .lm-rm-predavaci li{margin:0;padding:14px 18px;border:1px solid #f3e7e0;border-radius:12px;display:flex;flex-direction:column;gap:3px}
 .lm-rm-predavaci strong{color:#6d4e39;font-size:16px}
