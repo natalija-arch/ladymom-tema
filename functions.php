@@ -44,6 +44,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'telefon-i-seo.php',
 		'pocetna-tabovi.php',
 		'google-feed.php',
+		'meta-katalog.php',
 		'google-prijava.php',
 		'nalog-uz-porudzbinu.php',
 		'naslov-traka.php',

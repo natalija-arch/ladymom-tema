@@ -367,3 +367,10 @@ Ostaje (Markova odluka):
 - HTML početne i kategorija keširati na Cloudflare-u (Cache Rule sa izuzetkom za korpu, plaćanje, nalog i prijavljene). Stvarni kupci imaju TTFB 1,2 s.
 - Spori nekeširani zahtjevi na serveru (CF7 REST 1,4–2,4 s, admin-ajax do 5 s): object cache na hostingu.
 - `inc/test-brzina.php` je ostao na serveru (objava ne briše fajlove), ne učitava se; može se obrisati u cPanel-u.
+
+## Meta katalog – brend, veličina, boja, opis (22.10.2026)
+- `inc/meta-katalog.php`, filter `facebook_for_woocommerce_integration_prepare_product` (Meta for WooCommerce). Mijenja samo podatke koji idu Meti, ne proizvode.
+- Brend iz `product_brand` glavnog proizvoda (varijante su išle kao „Lady Mom“).
+- Veličina (`pa_velicina`) i boja (`pa_boja`, bez „Default“) varijante – dodatak prepoznaje samo `size`/`color`.
+- Opis kao u Google feedu (`lm_feed_opis`), bez HTML-a i HTML znakova; pol/uzrast i Google kategorija kao u feedu; `custom_label_0` = razred marže (a/b/c/n).
+- Meta podatke osvježava pri sljedećoj sinhronizaciji proizvoda (izmjena iz ERP-a ili Meta for WooCommerce → Sync).
