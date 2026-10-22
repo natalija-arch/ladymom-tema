@@ -244,9 +244,19 @@ add_action(
 		?>
 <script id="lm-statistika-podrazumijevano">
 (function () {
-	if (!/(?:^|;\s*)cmplz_statistics=/.test(document.cookie)) {
-		document.cookie = 'cmplz_statistics=allow;path=/;max-age=31536000;SameSite=Lax';
+	// Complianz čuva izbor u cmplz_statistics, a WP Consent API (iz kojeg čitaju
+	// Site Kit i Clarity) u wp_consent_statistics. Postavljamo oba, osim ako je
+	// posjetilac statistiku odbio.
+	function vrijednost(ime) {
+		var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + ime + '=([^;]*)'));
+		return m ? m[1] : null;
 	}
+	var c = vrijednost('cmplz_statistics');
+	var w = vrijednost('wp_consent_statistics');
+	if (c === 'deny' || w === 'deny') { return; }
+	var trajanje = ';path=/;max-age=31536000;SameSite=Lax';
+	if (c === null) { document.cookie = 'cmplz_statistics=allow' + trajanje; }
+	if (w === null) { document.cookie = 'wp_consent_statistics=allow' + trajanje; }
 })();
 </script>
 		<?php
