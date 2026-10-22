@@ -374,3 +374,13 @@ Ostaje (Markova odluka):
 - Veličina (`pa_velicina`) i boja (`pa_boja`, bez „Default“) varijante – dodatak prepoznaje samo `size`/`color`.
 - Opis kao u Google feedu (`lm_feed_opis`), bez HTML-a i HTML znakova; pol/uzrast i Google kategorija kao u feedu; `custom_label_0` = razred marže (a/b/c/n).
 - Meta podatke osvježava pri sljedećoj sinhronizaciji proizvoda (izmjena iz ERP-a ili Meta for WooCommerce → Sync).
+
+## Škola: 2 nedjelje, 6 predavanja, 6 stručnjaka; predavači i pokloni partnera (23.10.2026)
+Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT“): škola traje **2 nedjelje, 6 predavanja, 6 stručnjaka**, cijena 129 €, predavači po imenu, **bez datuma**, bez advokata, bez e-knjige. Ovo mijenja odluku od 22.10. (4 / 8 / 6).
+- **Stranica škole** (`inc/ready-mom.php`): brojke u naslovu, činjenicama, uvodima i čestim pitanjima. Novi „Program“: 6 kartica (tema, predavač i zvanje, pitanja sa Natalijinih letaka) iz `lm_rm_predavanja()`; napomena „sat i po, 18:30–20:00“. Novi odjeljak „Pokloni i pogodnosti partnera“ iz `lm_rm_partneri()` (Lady Mom 20 %, Vegapharm, NLB „Medena štednja“, Uniqa 10–30 %, Bio Save 500 €, MediKid besplatan prvi pregled, Oblak i sunce, Viva Walk 15 %, Origo 10 %, Anastasija Milić). Novo pitanje „Šta polaznice dobijaju od partnera programa?“.
+- **Šema Course** (`inc/seo-dorade.php`): opis 2 / 6 / 6, `syllabusSections` za 6 predavanja, `instructor` (6 osoba) i `courseWorkload` PT9H u oba CourseInstance-a.
+- **Baza** (rezerva svega: opcija `lm_backup_skola_23_10`): artikal #51472 (opis i kratki opis), Česta pitanja #51528, početna #3228 (lista u kartici škole, Elementor + post_content), Yoast opis #51473 i #35708, nacrti bloga #35708, #51499–#51503.
+- **Meni na telefonu**: „6 predavanja sa 6 stručnjaka, uživo ili online…“ u WoodMart Custom CSS, u generisanom `2026/10/xts-theme_settings_default-1792622911.css` (staro: `.prije-23-10`) i u 5 fajlova LiteSpeed kritičnog CSS-a.
+- **Slajd 4**: `lm-slajd4-skola-desktop-v6.webp` (#51547, „6 · 6 · 2“) i `lm-slajd4-skola-mobilni-v6.webp` (#51548, „6 predavanja · 6 stručnjaka · uživo i online“), sastavljeni od v5 i v4 bez novog teksta (GD, isti font). Rezerva v5: `lm_backup_slajd4_v5`.
+- Slike predavača sa letaka nijesu dodate: Drive linkovi iz Natalijinog foldera traže prijavu, pa ih server ne može preuzeti.
+- Ostaje van sajta: Google Ads oglas i callouts za školu („8 predavanja“, „Program od 4 nedjelje“) treba promijeniti u Google Ads-u.
