@@ -11,7 +11,8 @@
  * - Dan je kalendarski dan po vremenu sajta (Europe/Podgorica); `hour_bucket` je Unix sat (UTC).
  * - Opcija po danu `lm_ai_botovi_d_GGGGMMDD` (bez autoload), spisak dana `lm_ai_botovi_dani`, 400 dana.
  * - Broje se provjereni botovi (kategorije verified_ai_crawler i verified_search_engine). Botovi koji
- *   se samo predstavljaju kao AI ili Google (unverified_bot) idu zbirno u red „Lažni botovi“.
+ *   se predstavljaju kao poznati botovi, a dodatak ih ne može potvrditi (unverified_bot), idu zbirno u red
+ *   „Neprovjereni botovi“.
  * - GPTBot i CCBot server hostinga odbija prije WordPress-a (403), pa ih u ovoj statistici nema.
  * - Samo čita statistiku dodatka; podešavanja zaštite se ne mijenjaju.
  *
@@ -48,7 +49,7 @@ function lm_ai_botovi_vazne() {
 /** Naziv grupe za jedan red statistike. */
 function lm_ai_botovi_grupa( $bot, $kategorija ) {
 	if ( 'unverified_bot' === $kategorija ) {
-		return 'Lažni botovi';
+		return 'Neprovjereni botovi';
 	}
 	foreach ( lm_ai_botovi_grupe() as $naziv => $tokeni ) {
 		if ( in_array( $bot, $tokeni, true ) ) {
@@ -222,8 +223,8 @@ function lm_ai_botovi_html( $dani ) {
 		function ( $a, $b ) use ( $zbir, $vazne ) {
 			$va = in_array( $a, $vazne, true );
 			$vb = in_array( $b, $vazne, true );
-			if ( 'Lažni botovi' === $a || 'Lažni botovi' === $b ) {
-				return 'Lažni botovi' === $a ? 1 : -1;
+			if ( 'Neprovjereni botovi' === $a || 'Neprovjereni botovi' === $b ) {
+				return 'Neprovjereni botovi' === $a ? 1 : -1;
 			}
 			if ( $va !== $vb ) {
 				return $va ? -1 : 1;
@@ -248,7 +249,7 @@ function lm_ai_botovi_html( $dani ) {
 		$z = lm_ai_botovi_zbir( array( $d ) );
 		$o = 0;
 		foreach ( $z as $g => $v ) {
-			if ( 'Lažni botovi' !== $g ) {
+			if ( 'Neprovjereni botovi' !== $g ) {
 				$o += $v['odbijeno'];
 			}
 		}
@@ -265,7 +266,7 @@ function lm_ai_botovi_html( $dani ) {
 	if ( $nepotpuni ) {
 		$html .= '<p style="color:#777">* Nepotpun dan (statistika dodatka počinje tek tog dana).</p>';
 	}
-	$html .= '<p style="color:#777">GPTBot (OpenAI, treniranje modela) i CCBot (Common Crawl) server hostinga odbija prije sajta, pa ih ovdje nema; na ChatGPT pretragu to ne utiče. „Lažni botovi“ se samo predstavljaju kao AI ili Google, a ne dolaze sa njihovih adresa. Detalji: Alati → AI botovi.</p>';
+	$html .= '<p style="color:#777">GPTBot (OpenAI, treniranje modela) i CCBot (Common Crawl) server hostinga odbija prije sajta, pa ih ovdje nema; na ChatGPT pretragu to ne utiče. „Neprovjereni botovi“ se predstavljaju kao poznati botovi, ali ne dolaze sa njihovih potvrđenih adresa (mogu biti i lažni). Detalji: Alati → AI botovi.</p>';
 	$html .= '</div>';
 	return $html;
 }
