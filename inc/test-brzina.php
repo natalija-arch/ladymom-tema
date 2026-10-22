@@ -37,6 +37,10 @@ add_filter(
 			}
 		} elseif ( 'nojs' === $v ) {
 			$html = preg_replace( '#<script\b(?![^>]*application/ld\+json)[^>]*>.*?</script>#is', '', $html );
+		} elseif ( 'syncss' === $v ) {
+			// bez kritičnog CSS-a: cijeli CSS kao običan stylesheet (kao prije 20.10.)
+			$html = preg_replace( '#<style id="litespeed-ccss">.*?</style>#s', '', $html );
+			$html = preg_replace( '#<link rel="preload" data-asynced="1" data-optimized="2" as="style" onload="[^"]*" href="([^"]+)"\s*/?>#', '<link rel="stylesheet" href="$1" />', $html );
 		} elseif ( 'notop' === $v ) {
 			$html = str_replace( '</head>', '<style id="lm-test-top">.lm-topbar a{animation:none!important;opacity:1!important;visibility:visible!important;transform:none!important}@media (max-width:1199.98px){.lm-topbar a+a{display:none!important}}</style></head>', $html );
 		}
