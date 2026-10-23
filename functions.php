@@ -36,6 +36,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'prevodi-2.php',
 		'viber-ios.php',
 		'erp.php',
+		'erp-uzbuna.php',
 		'brendovi.php',
 		'aktivni-termini.php',
 		'zastite.php',
