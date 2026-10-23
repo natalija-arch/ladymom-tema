@@ -166,7 +166,8 @@ add_filter( 'rest_request_before_callbacks', function ( $response, $handler, $re
  * Uključeno dok je opcija `lm_erp_log` = 1 i dok ne prođe datum u `lm_erp_log_do`
  * (UNIX vrijeme). Bilježe se samo izmjene artikala i varijanti (POST/PUT/PATCH/DELETE
  * na /wc/vN/products…), sa tijelom zahtjeva i kratkim odgovorom. Porudžbine, kupci
- * i ključevi se ne bilježe. Fajl je van public_html: ~/lm-erp-log/GGGG-MM-DD.log.
+ * i ključevi se ne bilježe. Fajl je van public_html: ~/lm-erp-log/GGGG-MM-DD.log (raniji dani .log.gz).
+ * 24.10.2026: `lm_erp_log_do` produžen do 30.11.2026 u 23:59 (Podgorica).
  */
 function lm_erp_log_aktivan() {
 	if ( ! get_option( 'lm_erp_log' ) ) {
@@ -190,10 +191,37 @@ function lm_erp_log_upisi( $red ) {
 		return;
 	}
 	$fajl = $dir . '/' . wp_date( 'Y-m-d' ) . '.log';
-	if ( file_exists( $fajl ) && filesize( $fajl ) > 30 * MB_IN_BYTES ) {
+	$novi = ! file_exists( $fajl );
+	if ( ! $novi && filesize( $fajl ) > 30 * MB_IN_BYTES ) {
 		return;
 	}
 	file_put_contents( $fajl, $red . "\n", FILE_APPEND | LOCK_EX );
+	if ( $novi ) {
+		lm_erp_log_sazmi( $dir, basename( $fajl ) );
+	}
+}
+
+/**
+ * Logovi prethodnih dana se sažimaju u .log.gz (24.10.2026; log je produžen do 30.11.).
+ * Dan je do 30 MB teksta, sažeto oko desetak puta manje. Podaci ostaju, samo u sažetom fajlu.
+ */
+function lm_erp_log_sazmi( $dir, $danas ) {
+	if ( ! function_exists( 'gzencode' ) ) {
+		return;
+	}
+	foreach ( (array) glob( $dir . '/????-??-??.log' ) as $f ) {
+		if ( basename( $f ) === $danas || ! is_file( $f ) ) {
+			continue;
+		}
+		$sadrzaj = file_get_contents( $f );
+		if ( false === $sadrzaj ) {
+			continue;
+		}
+		$gz = gzencode( $sadrzaj, 6 );
+		if ( false !== $gz && false !== file_put_contents( $f . '.gz', $gz, LOCK_EX ) && filesize( $f . '.gz' ) === strlen( $gz ) ) {
+			unlink( $f ); // phpcs:ignore -- sažeta kopija je upisana i provjerena
+		}
+	}
 }
 
 add_filter( 'rest_post_dispatch', function ( $response, $server, $request ) {

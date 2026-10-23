@@ -77,6 +77,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
 		'erp-uzbuna.php',
 		'brendovi.php',
 		'aktivni-termini.php',
+		'kes.php',
 		'zastite.php',
 		'server-veza.php',
 		'slike-webp.php',

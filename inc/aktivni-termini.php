@@ -108,11 +108,30 @@ function lm_aktivni_termini_obrisi() {
 		$staro = get_option( 'lm_aktivni_termini_otisak', '' );
 		delete_transient( 'lm_aktivni_termini' );
 		$novo   = lm_aktivni_termini_svjeze();
-		$otisak = md5( wp_json_encode( array( array_keys( $novo['product_cat'] ), array_keys( $novo['product_brand'] ), ! empty( $novo['akcija'] ) ) ) );
+		$skup   = array( 'product_cat' => array_keys( $novo['product_cat'] ), 'product_brand' => array_keys( $novo['product_brand'] ), 'akcija' => ! empty( $novo['akcija'] ) );
+		$otisak = md5( wp_json_encode( array( $skup['product_cat'], $skup['product_brand'], $skup['akcija'] ) ) );
 		if ( $otisak !== $staro ) {
+			$prije = get_option( 'lm_aktivni_termini_skup', array() );
 			update_option( 'lm_aktivni_termini_otisak', $otisak, false );
+			update_option( 'lm_aktivni_termini_skup', $skup, false );
 			if ( '' !== $staro ) {
-				do_action( 'litespeed_purge_all' );
+				// 24.10.2026: stranice termina koji su se upalili ili ugasili odmah, cijeli keš (meniji)
+				// najviše jednom u 30 minuta (inc/kes.php).
+				$adrese = array();
+				foreach ( array( 'product_cat', 'product_brand' ) as $tax ) {
+					$bilo = isset( $prije[ $tax ] ) ? (array) $prije[ $tax ] : array();
+					foreach ( array_merge( array_diff( $skup[ $tax ], $bilo ), array_diff( $bilo, $skup[ $tax ] ) ) as $tid ) {
+						$link = get_term_link( (int) $tid, $tax );
+						if ( ! is_wp_error( $link ) ) {
+							$adrese[] = $link;
+						}
+					}
+				}
+				if ( function_exists( 'lm_kes_obrisi_sve' ) ) {
+					lm_kes_obrisi_sve( 'kategorije i brendovi sa artiklima', array_slice( $adrese, 0, 40 ) );
+				} else {
+					do_action( 'litespeed_purge_all' );
+				}
 			}
 		}
 	} );
