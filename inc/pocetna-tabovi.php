@@ -5,7 +5,12 @@
  *
  * WoodMart prvi tab šalje sa stranicom, a ostale traži od servera tek na klik
  * (admin-ajax, oko 1,3 s, bez keša). Ova skripta te iste zahtjeve pošalje tiho,
- * kad se stranica već učitala, pa je klik trenutan.
+ * pa je klik trenutan.
+ *
+ * Od 24.10.2026 (n45) zahtjevi idu tek kad se sekcija sa tabovima približi ekranu
+ * (~800 px ispod vidljivog dijela), a ne odmah poslije učitavanja: posjeta koja ne
+ * dođe do tabova ne šalje dva nekešna zahtjeva serveru. Bez IntersectionObserver-a
+ * (stari pregledači) radi kao ranije.
  *
  * Sadržaj je uvijek svjež: server ga pravi pri svakom otvaranju početne, kao i do
  * sada na klik – novi artikli na akciji se pojavljuju odmah. Ako zahtjev u pozadini
@@ -66,9 +71,20 @@ add_action( 'wp_footer', function () {
         });
       });
     }
-    // Poslije učitavanja stranice, kad pregledač nema preča posla.
-    if (window.requestIdleCallback) requestIdleCallback(ucitaj, { timeout: 2500 });
-    else setTimeout(ucitaj, 1200);
+    function poslije(){
+      // Kad pregledač nema preča posla.
+      if (window.requestIdleCallback) requestIdleCallback(ucitaj, { timeout: 2500 });
+      else setTimeout(ucitaj, 1200);
+    }
+    var sekcije = document.querySelectorAll('.wd-products-tabs');
+    if (!sekcije.length) return;
+    if (!('IntersectionObserver' in window)) { poslije(); return; }
+    var io = new IntersectionObserver(function(unosi){
+      for (var i = 0; i < unosi.length; i++) {
+        if (unosi[i].isIntersecting) { io.disconnect(); poslije(); return; }
+      }
+    }, { rootMargin: '800px 0px 800px 0px' });
+    sekcije.forEach(function(s){ io.observe(s); });
   }
   if (document.readyState === 'complete') kreni();
   else window.addEventListener('load', kreni);

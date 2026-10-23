@@ -90,8 +90,32 @@ add_action( 'wp_footer', function () {
  * prelazio limit od 256 MB i padao sa „kritičnom greškom“. Zbog toga Elementor MCP
  * (Claude) nije mogao da se poveže („Request timed out“). Samo za REST zahtjeve limit
  * se podiže na 512 MB; obične stranice ostaju na 256 MB.
+ *
+ * Od 24.10.2026 (n45) samo za REST zahtjeve sa prijavom: kolačić prijavljenog korisnika
+ * (admin, Elementor), Authorization zaglavlje (MCP, aplikacijske lozinke, ERP preko
+ * WooCommerce ključeva) ili consumer_key. Gosti i botovi (npr. na /wp-json/) ostaju na 256 MB.
+ * Provjera ne zavisi od toga kad WordPress odredi korisnika, pa ne može da zakine ERP ni MCP.
  */
+function lm_rest_sa_prijavom() {
+	foreach ( array( 'HTTP_AUTHORIZATION', 'REDIRECT_HTTP_AUTHORIZATION', 'PHP_AUTH_USER' ) as $k ) {
+		if ( ! empty( $_SERVER[ $k ] ) ) {
+			return true;
+		}
+	}
+	if ( isset( $_GET['consumer_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		return true;
+	}
+	foreach ( array_keys( (array) $_COOKIE ) as $k ) {
+		if ( 0 === strpos( (string) $k, 'wordpress_logged_in_' ) ) {
+			return true;
+		}
+	}
+	return false;
+}
 add_action( 'rest_api_init', function () {
+	if ( ! lm_rest_sa_prijavom() ) {
+		return;
+	}
 	if ( wp_convert_hr_to_bytes( ini_get( 'memory_limit' ) ) < 512 * MB_IN_BYTES ) {
 		@ini_set( 'memory_limit', '512M' ); // phpcs:ignore WordPress.PHP.IniSet
 	}
