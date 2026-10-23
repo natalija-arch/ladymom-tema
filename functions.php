@@ -87,6 +87,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
 		'meta-katalog.php',
 		'google-prijava.php',
 		'nalog-uz-porudzbinu.php',
+		'molba-za-ocjenu.php',
 		'naslov-traka.php',
 		'bez-default.php',
 		'jedna-opcija.php',
