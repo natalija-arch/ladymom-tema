@@ -415,6 +415,9 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - Isti fajl: CLS 0,89 (PageSpeed mobilni) – bočna traka sa filterima je do učitavanja punog CSS-a (LiteSpeed async) stajala iznad proizvoda; sad je od početka sakrivena lijevo kao kod WoodMart-a (`:not(.wd-opened)`).
 - `inc/kolacici.php`: traka za kolačiće na telefonu bez naslova/logotipa, manji tekst i dugmad (~200 px umjesto 308). Pravila pristanka ista.
 - Oba `<style>` imaju `data-no-optimize="1"`: LiteSpeed CSS Combine je inline stilove prebacivao u kombinovani CSS koji stiže asinhrono, pa bi pravila važila tek posle učitavanja (provjereno 23.10. na stranici za goste). Svaki novi stil koji mora važiti od prvog prikaza treba ovaj atribut.
+- Do učitavanja punog CSS-a dugme „nazad“ je bilo iznad naslova, a „Prikaži po“ ispod filtera (proizvodi ~100 px niže pa skok); sad odmah u WoodMart-ovom izgledu za telefon. Proba: srcdoc stranice za goste bez punog CSS-a pa sa njim, prvi proizvodi na istom mjestu (±1 px).
+- Rezultat (PageSpeed mobilni, nosiljke, 23.10. ~20 h): CLS 0,89 → 0,37 → 0. LCP ostaje ~8 s (sljedeća stavka). Na telefonu (390×844) prvi red proizvoda sa cijenama na prvom ekranu; panel sa filterima se otvara normalno.
+- 23.10. ~20 h sajt je ~15 s vraćao „Error establishing a database connection“ – poklopilo se sa preimenovanjem baze (sekcija ispod), pa se sam vratio.
 
 ## 23.10.2026 – čišćenje starog sajta i preimenovanje baze
 
