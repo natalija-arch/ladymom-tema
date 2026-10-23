@@ -18,7 +18,7 @@ add_action(
 			return;
 		}
 		?>
-<style id="lm-kolacici">
+<style id="lm-kolacici" data-no-optimize="1">
 /* Kategorije (traka i stranica) */
 .cmplz-cookiebanner .cmplz-categories .cmplz-category,.cmplz-manage-consent-container .cmplz-category{background:var(--lm-krem,#fdf2ec)!important;border:1px solid var(--lm-linija,#e7d7cc);border-radius:10px!important;overflow:hidden}
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header,.cmplz-manage-consent-container .cmplz-category .cmplz-category-header{background:transparent!important;padding:12px 14px!important;align-items:center}

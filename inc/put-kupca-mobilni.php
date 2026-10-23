@@ -15,6 +15,9 @@
  * Rezultat u probi (390×844): prvi red proizvoda sa cijenama je na prvom ekranu.
  * Povratak: ukloniti ovaj fajl iz liste u functions.php.
  *
+ * data-no-optimize: LiteSpeed inače prebaci ovaj stil u CSS koji stiže kasnije (kao u inc/brzina.php),
+ * pa bi se pravila primijenila tek posle učitavanja i stranica bi opet skočila.
+ *
  * Traka za kolačiće je u inc/kolacici.php.
  *
  * @package woodmart-child
@@ -32,7 +35,7 @@ add_action(
 			return;
 		}
 		?>
-<style id="lm-put-kupca-mobilni">
+<style id="lm-put-kupca-mobilni" data-no-optimize="1">
 @media (max-width:768.98px){
 body .wd-page-title{padding-top:12px!important;padding-bottom:12px!important;min-height:0!important}
 body .wd-page-title h1,body .wd-page-title .page-title,body .wd-page-title .entry-title{font-size:22px!important;line-height:1.25!important;margin:0!important}
