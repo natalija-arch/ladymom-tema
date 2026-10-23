@@ -415,3 +415,10 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - Isti fajl: CLS 0,89 (PageSpeed mobilni) – bočna traka sa filterima je do učitavanja punog CSS-a (LiteSpeed async) stajala iznad proizvoda; sad je od početka sakrivena lijevo kao kod WoodMart-a (`:not(.wd-opened)`).
 - `inc/kolacici.php`: traka za kolačiće na telefonu bez naslova/logotipa, manji tekst i dugmad (~200 px umjesto 308). Pravila pristanka ista.
 - Oba `<style>` imaju `data-no-optimize="1"`: LiteSpeed CSS Combine je inline stilove prebacivao u kombinovani CSS koji stiže asinhrono, pa bi pravila važila tek posle učitavanja (provjereno 23.10. na stranici za goste). Svaki novi stil koji mora važiti od prvog prikaza treba ovaj atribut.
+
+## 23.10.2026 – čišćenje starog sajta i preimenovanje baze
+
+- **Baza živog sajta preimenovana**: `ladymomm_dev` → `ladymomm_sajt` (i korisnik baze `ladymomm_dev` → `ladymomm_sajt`), cPanel UAPI `Mysql/rename_database` + `rename_user`, `wp-config.php` DB_NAME/DB_USER izmijenjeni. Prekid ~2 s. Kopija starog wp-config: `/home/ladymomm/backup-konfig/wp-config.php.prije-preimenovanja-23-10`.
+- **Premješteno u `/home/ladymomm/_za_brisanje/`** (van public_html, ne servira se; trajno briše Marko): `stari_sajt`, `public_html/staging` (stara WP Staging kopija), `public_html/staging.ladymom.me`, `public_html/wordpress` (prazan), `public_html/dev` (prazan), dva All-in-One backup-a dev sajta (13. i 14.10.). Backup produkcije od 21.10. ostaje u ai1wm-backups.
+- Ostaje Marku: baza `ladymomm_prod` + korisnik `ladymomm_prod` (stari sajt), Softaculous zapisi dvije „ladymom.me/staging“ instalacije (Remove from Softaculous), folder `_za_brisanje`.
+- cPanel Cron Jobs: prvi red (`https://ladymom.me/wp-cron.php?doing_wp_cron`) nema komandu (wget/curl), pa ne radi ništa; WP-Cron radi preko posjeta.
