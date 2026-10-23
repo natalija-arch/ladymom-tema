@@ -13,6 +13,8 @@
  * r22  Najviše 10 revizija po stranici/članku.
  * r17  Stranica „Česta pitanja“: podaci za Google (FAQPage) iz blokova „Details“ i izgled pitanja.
  * r26  Podaci o dostavi i povratu u ponudi artikla (schema.org) za Google.
+ * r9   Tab „Recenzije (0)“ se ne prikazuje dok artikal nema nijednu odobrenu recenziju
+ *      (Markovo odobrenje 23.10.2026, analiza kupovina: prazan tab ne uliva povjerenje).
  *
  * @package woodmart-child
  */
@@ -405,4 +407,20 @@ add_action(
 		<?php
 	},
 	30
+);
+
+/* ---------- r9: prazan tab „Recenzije (0)“ ---------- */
+
+// Tab sa recenzijama se prikazuje tek kad artikal ima bar jednu odobrenu recenziju.
+// Recenzije ostaju uključene u WooCommerce-u; dok artikal nema nijednu, na njemu nema ni forme za ocjenu.
+add_filter(
+	'woocommerce_product_tabs',
+	function ( $tabovi ) {
+		global $product;
+		if ( isset( $tabovi['reviews'] ) && $product instanceof WC_Product && (int) $product->get_review_count() < 1 ) {
+			unset( $tabovi['reviews'] );
+		}
+		return $tabovi;
+	},
+	98
 );

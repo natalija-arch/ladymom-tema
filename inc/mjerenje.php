@@ -19,6 +19,9 @@
  *    WooCommerce), kad je aktivan WP Consent API (Complianz).
  * 6. GA4 begin_checkout na stranici plaćanja. Site Kit šalje samo add_to_cart i
  *    purchase, pa se početak plaćanja u GA4 nije bilježio.
+ * 7. GA4 view_item i add_to_cart na stranici artikla. Site Kit add_to_cart šalje samo
+ *    za dugmad u listama artikala; „Dodaj u korpu“ na samom artiklu (WoodMart AJAX) nije
+ *    slao ništa, pa GA4 nije vidio dodavanja u korpu (analiza 23.10.2026).
  *
  * @package woodmart-child
  */
@@ -421,4 +424,99 @@ add_action(
 </script>
 		<?php
 	}
+);
+
+/*
+ * 7. GA4 view_item i add_to_cart na stranici artikla (Marko, 23.10.2026: „odradi b“).
+ * Site Kit šalje add_to_cart samo kad dugme ima data-product_id (liste artikala). Na samom
+ * artiklu WoodMart dodaje u korpu AJAX-om i događaj added_to_cart dobija dugme bez
+ * data-product_id, pa Site Kit ne šalje ništa (provjereno 23.10.). view_item Site Kit ne šalje.
+ * Artikal je u istom obliku kao kod begin_checkout (6): ID glavnog proizvoda, naziv, kategorija,
+ * varijanta (atribut: vrijednost), cijena sa PDV-om, količina. Ide preko Site Kit-ovog gtag-a
+ * (Consent Mode važi i ovdje); za prijavljene administratore gtag se ne učitava.
+ */
+add_action(
+	'wp_footer',
+	function () {
+		if ( is_admin() || ! function_exists( 'is_product' ) || ! is_product() ) {
+			return;
+		}
+		$proizvod = wc_get_product( get_queried_object_id() );
+		if ( ! $proizvod instanceof WC_Product ) {
+			return;
+		}
+
+		$cist_tekst = function ( $tekst ) {
+			return html_entity_decode( wp_strip_all_tags( (string) $tekst ), ENT_QUOTES, 'UTF-8' );
+		};
+
+		$artikal = array(
+			'item_id'   => (string) $proizvod->get_id(),
+			'item_name' => $cist_tekst( $proizvod->get_title() ),
+			'price'     => round( (float) wc_get_price_to_display( $proizvod ), 2 ),
+		);
+		$kategorije = wc_get_product_terms( $proizvod->get_id(), 'product_cat', array( 'number' => 1 ) );
+		if ( ! empty( $kategorije ) ) {
+			$artikal['item_category'] = $cist_tekst( $kategorije[0]->name );
+		}
+		$brend = wp_get_post_terms( $proizvod->get_id(), 'product_brand', array( 'fields' => 'names' ) );
+		if ( $brend && ! is_wp_error( $brend ) ) {
+			$artikal['item_brand'] = $cist_tekst( $brend[0] );
+		}
+		?>
+<script id="lm-ga4-artikal">
+(function () {
+	var artikal = <?php echo wp_json_encode( $artikal ); ?>;
+	var valuta = <?php echo wp_json_encode( get_woocommerce_currency() ); ?>;
+	var varijanta = null;
+	function kopija(o) { var n = {}; for (var k in o) { if (Object.prototype.hasOwnProperty.call(o, k)) { n[k] = o[k]; } } return n; }
+	function zaokruzi(x) { return Math.round(x * 100) / 100; }
+	function posalji(ime, podaci) {
+		if (typeof window.gtag !== 'function') { return false; }
+		try { window.gtag('event', ime, podaci); } catch (e) {}
+		return true;
+	}
+
+	// Pregled artikla, jednom po učitavanju stranice.
+	var stavka = kopija(artikal);
+	stavka.quantity = 1;
+	var pregled = { currency: valuta, value: artikal.price, items: [stavka] };
+	if (!posalji('view_item', pregled)) {
+		window.addEventListener('load', function () { posalji('view_item', pregled); });
+	}
+
+	// Dodavanje u korpu sa samog artikla (dugme u formi ili ljepljiva traka, koja klikne isto dugme).
+	var vezano = false;
+	function vezi() {
+		var $ = window.jQuery;
+		if (vezano || !$) { return; }
+		vezano = true;
+		$(document.body).on('found_variation', 'form.variations_form', function (e, v) { varijanta = v || null; });
+		$(document.body).on('reset_data', 'form.variations_form', function () { varijanta = null; });
+		$(document.body).on('added_to_cart', function (e, fragmenti, hash, $dugme) {
+			// Dugmad u listama (data-product_id) šalje Site Kit; ovdje samo forma artikla.
+			if (!$dugme || !$dugme.length || $dugme.data('product_id')) { return; }
+			var $forma = $dugme.closest('form.cart');
+			if (!$forma.length) { return; }
+			var kolicina = parseInt($forma.find('input.qty').val(), 10) || 1;
+			var s = kopija(artikal);
+			s.quantity = kolicina;
+			if (varijanta && !isNaN(parseFloat(varijanta.display_price))) {
+				s.price = zaokruzi(parseFloat(varijanta.display_price));
+			}
+			var opis = [];
+			$forma.find('select[name^="attribute_"]').each(function () {
+				if (this.value) { opis.push(this.name.replace('attribute_', '') + ': ' + this.value); }
+			});
+			if (opis.length) { s.item_variant = opis.join(', '); }
+			posalji('add_to_cart', { currency: valuta, value: zaokruzi(s.price * kolicina), items: [s] });
+		});
+	}
+	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', vezi); } else { vezi(); }
+	window.addEventListener('load', vezi);
+})();
+</script>
+		<?php
+	},
+	60
 );
