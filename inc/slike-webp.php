@@ -38,14 +38,17 @@ if ( ! function_exists( 'lm_em_slika_url' ) ) {
 }
 
 /**
- * Odloženo učitavanje slika artikala u listama (18.10.2026).
- * WordPress `loading="lazy"` ne dodaje slikama artikala jer se liste prikazuju
- * izvan glavne petlje, pa telefon odmah skida i slike niže na stranici.
- * Prve 4 slike (prvi red) se učitavaju odmah; ostale i druga slika na hover čekaju.
+ * Učitavanje slika artikala u listama (18.10.2026, dopunjeno 24.10.2026).
+ * – Na kategorijama, brendovima, prodavnici i pretrazi prve 4 slike artikala (prvi red na računaru,
+ *   prva dva reda na telefonu) učitavaju se odmah, a prva dobija visok prioritet, jer je ona
+ *   najveći element prvog ekrana (PageSpeed „LCP request discovery“). WordPress im je sam
+ *   dodavao loading="lazy", pa ih je telefon tražio tek poslije stilova i skripti.
+ * – Ostale slike artikala i druga slika (na hover) čekaju (loading="lazy").
+ * – Na ostalim stranicama (početna, artikal) liste su ispod prvog ekrana i sve čekaju.
  */
 add_filter( 'wp_get_attachment_image_attributes', function ( $attr, $attachment, $size ) {
 	static $broj = 0;
-	if ( is_admin() || wp_doing_ajax() || isset( $attr['loading'] ) ) {
+	if ( is_admin() || wp_doing_ajax() ) {
 		return $attr;
 	}
 	if ( 'woocommerce_thumbnail' !== $size && ! ( is_string( $size ) && false !== strpos( (string) ( $attr['class'] ?? '' ), 'woocommerce_thumbnail' ) ) ) {
@@ -55,11 +58,21 @@ add_filter( 'wp_get_attachment_image_attributes', function ( $attr, $attachment,
 	$hover = in_array( 'woodmart_hover_image', array_column( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 12 ), 'function' ), true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 	if ( $hover ) {
 		$attr['loading'] = 'lazy';
+		unset( $attr['fetchpriority'] );
 		return $attr;
 	}
 	++$broj;
-	if ( $broj > 4 ) {
-		$attr['loading'] = 'lazy';
+	$lista = function_exists( 'is_shop' ) && ( is_shop() || is_product_taxonomy() || ( is_search() && 'product' === get_query_var( 'post_type' ) ) );
+	if ( $lista && $broj <= 4 ) {
+		unset( $attr['loading'] );
+		if ( 1 === $broj ) {
+			$attr['fetchpriority'] = 'high';
+		} else {
+			unset( $attr['fetchpriority'] );
+		}
+		return $attr;
 	}
+	$attr['loading'] = 'lazy';
+	unset( $attr['fetchpriority'] );
 	return $attr;
 }, 20, 3 );
