@@ -28,7 +28,9 @@ add_filter(
 		if ( ! is_array( $data ) ) {
 			return $data;
 		}
-		$p = wc_get_product( $id );
+		// Dodatak filteru za varijantu šalje ID glavnog proizvoda; ID same varijante je u external_variant_id.
+		$vid = ! empty( $data['external_variant_id'] ) ? (int) $data['external_variant_id'] : (int) $id;
+		$p   = wc_get_product( $vid ) ?: wc_get_product( $id );
 		if ( ! $p ) {
 			return $data;
 		}
