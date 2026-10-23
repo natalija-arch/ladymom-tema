@@ -248,7 +248,8 @@ add_filter( 'wp_get_attachment_image_attributes', function ( $attr, $attachment 
 		return $attr;
 	}
 	$alt = trim( (string) ( $attr['alt'] ?? '' ) );
-	if ( '' !== $alt && ! preg_match( '/^[\w\s().\-]+\.(jpe?g|png|webp|gif|avif)$/iu', $alt ) ) {
+	// Prazan alt, ime fajla ili samo broj (ERP slikama upisuje redni broj: „1“, „2“) → naziv artikla.
+	if ( '' !== $alt && ! preg_match( '/^[\w\s().\-]+\.(jpe?g|png|webp|gif|avif)$/iu', $alt ) && ! preg_match( '/^\d{1,3}$/', $alt ) ) {
 		return $attr;
 	}
 	$p = null;
