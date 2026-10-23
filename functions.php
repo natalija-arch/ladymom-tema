@@ -58,6 +58,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'placanje-provjere.php',
 		'prodavnica-dorade.php',
 		'placanje-telefon.php',
+		'placanje-uslovi.php',
 		'dugmad-stil.php',
 		'seo-dorade.php',
 		'seo-pravila.php',
