@@ -8,9 +8,10 @@
  * pa je klik trenutan.
  *
  * Od 24.10.2026 (n45) zahtjevi idu tek kad se sekcija sa tabovima približi ekranu
- * (~800 px ispod vidljivog dijela), a ne odmah poslije učitavanja: posjeta koja ne
- * dođe do tabova ne šalje dva nekešna zahtjeva serveru. Bez IntersectionObserver-a
- * (stari pregledači) radi kao ranije.
+ * (~300 px ispod vidljivog dijela), a ne odmah poslije učitavanja: posjeta koja ne
+ * dođe do tabova ne šalje dva nekešna zahtjeva serveru (Clarity: oko trećine posjeta
+ * ne skroluje ni četvrtinu stranice). Ako kupac klikne tab dok odgovor još stiže, čeka
+ * se taj isti zahtjev. Bez IntersectionObserver-a (stari pregledači) radi kao ranije.
  *
  * Sadržaj je uvijek svjež: server ga pravi pri svakom otvaranju početne, kao i do
  * sada na klik – novi artikli na akciji se pojavljuju odmah. Ako zahtjev u pozadini
@@ -83,7 +84,7 @@ add_action( 'wp_footer', function () {
       for (var i = 0; i < unosi.length; i++) {
         if (unosi[i].isIntersecting) { io.disconnect(); poslije(); return; }
       }
-    }, { rootMargin: '800px 0px 800px 0px' });
+    }, { rootMargin: '300px 0px 300px 0px' });
     sekcije.forEach(function(s){ io.observe(s); });
   }
   if (document.readyState === 'complete') kreni();
