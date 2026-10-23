@@ -11,13 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Da li je vrijednost „Default“. */
-// lm_je_default() je od 24.10.2026 u inc/zajednicko.php (koriste je i feed i SEO). Ova kopija ostaje
-// samo za vrijeme prelaska (objava kopira fajlove jedan po jedan) i uklanja se u sljedećoj objavi.
-if ( ! function_exists( 'lm_je_default' ) ) {
-	function lm_je_default( $v ) {
-		return 'default' === strtolower( trim( wp_strip_all_tags( (string) $v ) ) );
-	}
-}
+// lm_je_default() je od 24.10.2026 u inc/zajednicko.php (koriste je i feed i SEO).
 
 // Tabela „Dodatne informacije“.
 add_filter( 'woocommerce_display_product_attributes', function ( $redovi ) {

@@ -26,16 +26,6 @@ add_filter( 'image_editor_output_format', function ( $formati ) {
 } );
 
 // lm_em_slika_url() (slika za email) je od 24.10.2026 u inc/zajednicko.php, da emailovi ne zavise od ovog fajla.
-// Ova kopija ostaje samo za vrijeme prelaska i uklanja se u sljedećoj objavi.
-if ( ! function_exists( 'lm_em_slika_url' ) ) {
-	function lm_em_slika_url( $attachment_id ) {
-		$url = wp_get_attachment_image_url( $attachment_id, 'thumbnail' );
-		if ( $url && preg_match( '/\.webp(\?|$)/i', $url ) ) {
-			$url = wp_get_attachment_image_url( $attachment_id, 'full' );
-		}
-		return $url;
-	}
-}
 
 /**
  * Učitavanje slika artikala u listama (18.10.2026, dopunjeno 24.10.2026).
