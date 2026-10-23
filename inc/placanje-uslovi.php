@@ -17,8 +17,13 @@ add_action( 'wp_footer', function () {
 	}
 	?>
 <style id="lm-uslovi-css">
-.lm-uslovi-greska{outline:2px solid #c0392b;outline-offset:6px;border-radius:4px}
-.lm-uslovi-poruka{display:block;color:#c0392b;font-size:13px;margin:8px 0 0}
+/* Ujednačen tekst oko uslova (23.10.): privatnost, uslovi, upozorenje i „plaćanje je zaštićeno“ istom veličinom i fontom */
+.woocommerce-checkout .woocommerce-privacy-policy-text,.woocommerce-checkout .woocommerce-privacy-policy-text p{font-size:13px!important;line-height:1.5!important}
+.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper .form-row label.checkbox,.woocommerce-checkout .woocommerce-terms-and-conditions-checkbox-text,.woocommerce-checkout .woocommerce-terms-and-conditions-link{font-size:13px!important;line-height:1.5!important}
+.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper .woocommerce-invalid label,.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper .woocommerce-invalid .woocommerce-terms-and-conditions-checkbox-text{color:var(--lm-smedja,#6d4e39)!important}
+.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper .woocommerce-invalid .woocommerce-terms-and-conditions-link{color:var(--lm-smedja,#6d4e39)!important}
+.lm-uslovi-greska{outline:1px solid #c0392b;outline-offset:6px;border-radius:4px}
+.lm-uslovi-poruka{display:block;color:#c0392b;font-size:13px;line-height:1.5;margin:6px 0 0}
 </style>
 <script id="lm-uslovi-js">
 (function () {
