@@ -15,11 +15,46 @@ require_once __DIR__ . '/inc/kopija-zastita.php';
 
 /**
  * Lady Mom – prilagođeni kod sajta (inc/).
- * Ranije je bio u dodatku Code Snippets. Učitava se samo kad je opcija
- * lm_tema_kod = 1, da se kod ne bi izvršio dva puta dok su snippeti aktivni.
+ * Od 24.10.2026 se učitava uvijek (ranije samo uz opciju lm_tema_kod, dok su radili snippeti;
+ * snippeti su ugašeni 14.10.). Uslov je da je WooCommerce aktivan, jer kod računa na njegove funkcije.
+ * – zajednicko.php ide prvi: funkcije koje koristi više fajlova.
+ * – Ako fajl nedostaje ili ima grešku, ostali se ipak učitaju; admin vidi upozorenje, a na
+ *   natalija@ladymom.me stiže email (najviše jednom u 12 sati).
  */
-if ( get_option( 'lm_tema_kod' ) ) {
+function lm_tema_javi_neucitano( $spisak ) {
+	$GLOBALS['lm_tema_neucitano'] = $spisak;
+	add_action( 'admin_notices', function () {
+		if ( ! current_user_can( 'manage_options' ) || empty( $GLOBALS['lm_tema_neucitano'] ) ) {
+			return;
+		}
+		echo '<div class="notice notice-error"><p><strong>Lady Mom: dio koda sajta nije učitan.</strong> Sajt radi bez tog dijela dok se greška ne ispravi u repozitorijumu ladymom-tema.</p><ul style="list-style:disc;margin-left:20px">';
+		foreach ( $GLOBALS['lm_tema_neucitano'] as $f => $r ) {
+			echo '<li><code>' . esc_html( $f ) . '</code>: ' . esc_html( $r ) . '</li>';
+		}
+		echo '</ul></div>';
+	} );
+	add_action( 'init', function () {
+		$spisak = $GLOBALS['lm_tema_neucitano'];
+		$kljuc  = 'lm_tema_nije_ucitano_' . md5( wp_json_encode( $spisak ) );
+		if ( get_transient( $kljuc ) ) {
+			return;
+		}
+		set_transient( $kljuc, 1, 12 * HOUR_IN_SECONDS );
+		error_log( 'Lady Mom tema: nije učitano: ' . wp_json_encode( $spisak, JSON_UNESCAPED_UNICODE ) ); // phpcs:ignore
+		$redovi = array();
+		foreach ( $spisak as $f => $r ) {
+			$redovi[] = '- ' . $f . ': ' . $r;
+		}
+		wp_mail( 'natalija@ladymom.me', '[Sajt] Dio koda sajta nije učitan', "Na " . home_url( '/' ) . " sljedeći dijelovi prilagođenog koda nijesu učitani:\n\n" . implode( "\n", $redovi ) . "\n\nSajt radi bez njih. Ispravka ide kroz repozitorijum ladymom-tema (Claude). Ovaj email stiže najviše jednom u 12 sati za istu grešku." );
+	} );
+}
+
+$lm_nije_ucitano = array();
+if ( ! class_exists( 'WooCommerce' ) ) {
+	$lm_nije_ucitano['WooCommerce'] = 'dodatak nije aktivan, pa se prilagođeni kod (inc/) ne učitava';
+} else {
 	foreach ( array(
+		'zajednicko.php',
 		'jezik.php',
 		'besplatna-dostava.php',
 		'h1-naslovi.php',
@@ -77,7 +112,20 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'pristupacnost.php',
 		'put-kupca-mobilni.php',
 	) as $lm_fajl ) {
-		require_once __DIR__ . '/inc/' . $lm_fajl;
+		$lm_put = __DIR__ . '/inc/' . $lm_fajl;
+		if ( ! is_readable( $lm_put ) ) {
+			$lm_nije_ucitano[ $lm_fajl ] = 'fajl ne postoji na serveru';
+			continue;
+		}
+		try {
+			require_once $lm_put;
+		} catch ( \Throwable $lm_greska ) {
+			$lm_nije_ucitano[ $lm_fajl ] = $lm_greska->getMessage() . ' (red ' . $lm_greska->getLine() . ')';
+		}
 	}
-	unset( $lm_fajl );
+	unset( $lm_fajl, $lm_put, $lm_greska );
 }
+if ( $lm_nije_ucitano ) {
+	lm_tema_javi_neucitano( $lm_nije_ucitano );
+}
+unset( $lm_nije_ucitano );

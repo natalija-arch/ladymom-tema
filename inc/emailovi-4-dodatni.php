@@ -242,7 +242,7 @@ add_filter( 'woocommerce_email_styles', function ( $css, $email = null ) {
 
 /** Šablon: zajednički za sve dodatne emailove. Vraća false ako ne može (pada na original). */
 function lm_em_dodatni_sablon( $email, $vars ) {
-	if ( ! lm_em_je_dodatni( $email ) || ! function_exists( 'lm_em_header' ) ) {
+	if ( ! lm_em_je_dodatni( $email ) || ! function_exists( 'lm_em_header' ) || ( function_exists( 'lm_em_sve_ucitano' ) && ! lm_em_sve_ucitano() ) ) {
 		return false;
 	}
 	$GLOBALS['lm_em_razlog'] = lm_em_dodatni_razlog( $email, $vars );

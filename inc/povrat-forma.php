@@ -355,7 +355,7 @@ function lm_povrat_obradi() {
  * Vraća '' ako okvir emailova nije učitan, pa se šalje stari tekst.
  */
 function lm_povrat_email_html( $za_butik, $d ) {
-	if ( ! function_exists( 'lm_em_header' ) || ! function_exists( 'lm_em_dovrsi' ) ) {
+	if ( ! function_exists( 'lm_em_sve_ucitano' ) || ! lm_em_sve_ucitano() ) {
 		return '';
 	}
 	$host  = wp_parse_url( home_url(), PHP_URL_HOST );

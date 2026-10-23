@@ -17,6 +17,9 @@ function lm_em_admin_ids() {
 	return array( 'new_order', 'cancelled_order', 'failed_order' );
 }
 function lm_em_handles( $email ) {
+	if ( function_exists( 'lm_em_sve_ucitano' ) && ! lm_em_sve_ucitano() ) {
+		return false; // neki dio emailova nije učitan: WooCommerce šablon umjesto pola emaila
+	}
 	return $email && is_object( $email ) && isset( $email->id ) && ( in_array( $email->id, lm_em_ids(), true ) || in_array( $email->id, lm_em_admin_ids(), true ) ) && function_exists( 'lm_em_body' );
 }
 function lm_em_media( $k ) {
