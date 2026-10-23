@@ -389,3 +389,9 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - **Dostava samo po Crnoj Gori** (Marko „da“, 23.10.): na artiklu (traka povjerenja, `inc/ux-dodaci.php`) „Dostavljamo samo na teritoriji Crne Gore, za 1–3 radna dana“; u footeru (WoodMart → Footer → Copyrights) dodato „Dostava samo na teritoriji Crne Gore.“ Rezerva: `lm_backup_copyrights_23_10`. Razlog: oko 9 % posjeta je iz Srbije (Google pretraga proizvoda po imenu).
 - Google Ads „Search – Brend Lady Mom“ (24387569899): Locations → Location options prebačeno na „Presence: People in or regularly in your included locations“ (23.10., iz Markovog Chrome-a; Windsor API tu opciju nema). Sve kampanje sada ciljaju samo ljude u Crnoj Gori.
 - 23.10.: ispravka – filter za varijantu dobija ID glavnog proizvoda, pa se varijanta čita iz `external_variant_id` (veličina, boja i razred marže po varijanti). Brend i opis su se već osvježili u Meta katalogu.
+
+## 23.10.2026 – REST indeks i Elementor MCP
+
+- `/wp-json/` je vraćao 500 (PHP: „Allowed memory size of 268435456 bytes exhausted“ u class-wp-rest-server.php). Elementor MCP zato nije mogao da se poveže.
+- `inc/brzina.php`: na `rest_api_init` memory_limit 512M (samo REST zahtjevi).
+- Za Marka: OPcache nije uključen (cPanel → Select PHP Version → Extensions → opcache). MCP konfiguracija u Claude Desktop mora pokazivati na ladymom.me, ne dev.ladymom.me.

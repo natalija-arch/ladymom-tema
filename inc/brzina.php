@@ -83,3 +83,16 @@ add_action( 'wp_footer', function () {
 	}
 	echo '<script id="lm-slajdovi-lijeno-js">window.addEventListener("load",function(){setTimeout(function(){document.querySelectorAll(".wd-slider .wd-slide").forEach(function(s){s.classList.add("woodmart-loaded");});},2000);});</script>' . "\n";
 }, 60 );
+
+/*
+ * REST i MCP (23.10.2026): sajt već na početku zahtjeva troši ~190–215 MB (22 dodatka,
+ * OPcache na serveru nije uključen), pa je indeks /wp-json/ (982 rute, ~2 MB odgovora)
+ * prelazio limit od 256 MB i padao sa „kritičnom greškom“. Zbog toga Elementor MCP
+ * (Claude) nije mogao da se poveže („Request timed out“). Samo za REST zahtjeve limit
+ * se podiže na 512 MB; obične stranice ostaju na 256 MB.
+ */
+add_action( 'rest_api_init', function () {
+	if ( wp_convert_hr_to_bytes( ini_get( 'memory_limit' ) ) < 512 * MB_IN_BYTES ) {
+		@ini_set( 'memory_limit', '512M' ); // phpcs:ignore WordPress.PHP.IniSet
+	}
+}, 0 );
