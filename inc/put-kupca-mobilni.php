@@ -42,6 +42,14 @@ body .wd-page-title h1,body .wd-page-title .page-title,body .wd-page-title .entr
 body .term-description{display:none!important}
 body .shop-loop-head .wd-breadcrumbs,body .woocommerce-result-count{display:none!important}
 body .shop-loop-head{margin-bottom:10px!important;padding-top:0!important}
+/* Do učitavanja punog CSS-a (PageSpeed 23.10. posle prve izmjene: CLS još 0,37) dugme „nazad“ je stajalo
+   iznad naslova, a „Prikaži po“ (broj proizvoda) ispod filtera, pa su proizvodi bili ~100 px niže i onda
+   skočili. Ovdje odmah dobijaju izgled koji im WoodMart daje na telefonu. */
+body .wd-page-title .wd-back-btn{display:none!important}
+body .wd-page-title .wd-title-wrapp{display:flex;align-items:center}
+body .shop-loop-head{display:flex;flex-direction:column}
+body .shop-loop-head .wd-shop-tools{display:flex;align-items:center}
+body .wd-products-per-page,body .wd-products-shop-view{display:none!important}
 }
 /* Pomjeranje stranice (CLS 0,89 na telefonu, PageSpeed 23.10.): LiteSpeed puni CSS učitava
    naknadno, pa je bočna traka sa filterima prvo stajala iznad proizvoda, a onda je WoodMart
