@@ -50,6 +50,18 @@ add_action(
 .cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-view-preferences{grid-column:1 / -1;height:auto!important;min-height:0!important;padding:8px 0!important;border:0!important;box-shadow:none!important;background:transparent!important;color:var(--lm-smedja,#6d4e39)!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important;text-decoration:underline!important;text-underline-offset:3px}
 .cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-save-preferences{grid-column:1 / -1}
 .cmplz-cookiebanner .cmplz-links.cmplz-documents{margin:0!important}
+/* Put kupca (23.10., Clarity): traka je zauzimala 308 px i pokrivala proizvode. Bez naslova i logotipa,
+   X ostaje u uglu, manji tekst i dugmad – oko 200 px. Tekst, dugmad i pravila pristanka su isti. */
+.cmplz-cookiebanner.cmplz-show{padding:10px 12px 8px!important;row-gap:6px!important}
+.cmplz-cookiebanner .cmplz-header{position:absolute!important;top:4px;right:6px;margin:0!important;width:auto!important}
+.cmplz-cookiebanner .cmplz-header .cmplz-logo,.cmplz-cookiebanner .cmplz-header .cmplz-title,.cmplz-cookiebanner .cmplz-divider{display:none!important}
+.cmplz-cookiebanner .cmplz-close svg{width:14px!important;height:14px!important}
+.cmplz-cookiebanner .cmplz-body{margin:0!important}
+.cmplz-cookiebanner .cmplz-message,.cmplz-cookiebanner .cmplz-message p{font-size:12.5px!important;line-height:1.4!important;margin:0!important;padding-right:18px}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn{height:38px!important;min-height:38px!important}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-view-preferences{height:auto!important;min-height:0!important;padding:2px 0!important;font-size:12.5px!important}
+.cmplz-cookiebanner .cmplz-links.cmplz-documents ul{margin:0!important;padding:0!important}
+.cmplz-cookiebanner .cmplz-links.cmplz-documents a{font-size:11.5px!important}
 }
 </style>
 		<?php

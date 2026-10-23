@@ -74,6 +74,7 @@ if ( get_option( 'lm_tema_kod' ) ) {
 		'pregled-dorade.php',
 		'povezani-proizvodi.php',
 		'pristupacnost.php',
+		'put-kupca-mobilni.php',
 	) as $lm_fajl ) {
 		require_once __DIR__ . '/inc/' . $lm_fajl;
 	}

@@ -408,3 +408,9 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - Search Console (Merchant listings) je javljao nekritičnu grešku „Missing field returnFees (in offers.hasMerchantReturnPolicy)“ na 30 artikala.
 - `inc/pregled-dorade.php` (`lm_schema_dostava_povrat`): u `hasMerchantReturnPolicy` dodato `returnFees` = `ReturnFeesCustomerResponsibility`, jer stranica „Povrat robe i sredstava“ kaže da kupac snosi direktne troškove vraćanja robe. Ako se uslovi promijene (besplatan povrat), vrijednost ide na `FreeReturn`.
 - U Search Console pokrenuta validacija (Validate fix).
+
+## Put kupca na telefonu (23.10.2026)
+- Clarity 23.10.: 58 % posjeta iz Instagram aplikacije; na kategorijama prvi ekran bez ijednog proizvoda (naslov, opis, putanja, broj rezultata + traka za kolačiće 308 px); 36 % ne skroluje ni četvrtinu.
+- `inc/put-kupca-mobilni.php` (prodavnica, kategorije, brendovi, do 768 px): manji naslov, bez opisa/putanje/broja rezultata na vrhu (ostaju u HTML-u).
+- Isti fajl: CLS 0,89 (PageSpeed mobilni) – bočna traka sa filterima je do učitavanja punog CSS-a (LiteSpeed async) stajala iznad proizvoda; sad je od početka sakrivena lijevo kao kod WoodMart-a (`:not(.wd-opened)`).
+- `inc/kolacici.php`: traka za kolačiće na telefonu bez naslova/logotipa, manji tekst i dugmad (~200 px umjesto 308). Pravila pristanka ista.
