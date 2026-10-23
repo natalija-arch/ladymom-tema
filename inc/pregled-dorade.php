@@ -306,6 +306,8 @@ function lm_schema_dostava_povrat( $cijena ) {
 			'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
 			'merchantReturnDays'   => 14,
 			'returnMethod'         => 'https://schema.org/ReturnByMail',
+			// Uslovi povrata: kupac snosi direktne troškove vraćanja robe (Search Console traži returnFees).
+			'returnFees'           => 'https://schema.org/ReturnFeesCustomerResponsibility',
 		),
 	);
 }

@@ -402,3 +402,9 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - **Backup**: JetBackup 5 na hostingu pravi inkrementalni backup cijelog naloga (fajlovi + baze) otprilike svaka 2 dana na eksterni „Storage 4“; 62 tačke vraćanja (23.10.). Vraćanje: cPanel → JetBackup 5 → Restore & Download.
 - **Staging**: Softaculous → WordPress Management vidi instalaciju ladymom.me i ima opciju Staging. Nije napravljen (prije toga isključiti emailove, ERP i Meta sinhronizaciju na kopiji); čeka Markovu odluku.
 - **Zaštita kopija** (`inc/kopija-zastita.php`, učitava se uvijek iz `functions.php`): kad `home` nije `https://ladymom.me` – bez emailova (`pre_wp_mail`), `DISABLE_WP_CRON`, blokirani spoljni HTTP pozivi, front samo za admina (ostali 403), noindex, bez Google taga i Meta piksela, crvena admin traka „KOPIJA SAJTA“.
+
+## 23.10.2026 – Search Console: returnFees u povratu
+
+- Search Console (Merchant listings) je javljao nekritičnu grešku „Missing field returnFees (in offers.hasMerchantReturnPolicy)“ na 30 artikala.
+- `inc/pregled-dorade.php` (`lm_schema_dostava_povrat`): u `hasMerchantReturnPolicy` dodato `returnFees` = `ReturnFeesCustomerResponsibility`, jer stranica „Povrat robe i sredstava“ kaže da kupac snosi direktne troškove vraćanja robe. Ako se uslovi promijene (besplatan povrat), vrijednost ide na `FreeReturn`.
+- U Search Console pokrenuta validacija (Validate fix).
