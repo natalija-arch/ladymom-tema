@@ -401,3 +401,4 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - **OPcache** uključen 23.10. (cPanel → Select PHP Version → Extensions → opcache, 128 MB). Memorija na početku zahtjeva pala sa ~216 MB na ~94 MB.
 - **Backup**: JetBackup 5 na hostingu pravi inkrementalni backup cijelog naloga (fajlovi + baze) otprilike svaka 2 dana na eksterni „Storage 4“; 62 tačke vraćanja (23.10.). Vraćanje: cPanel → JetBackup 5 → Restore & Download.
 - **Staging**: Softaculous → WordPress Management vidi instalaciju ladymom.me i ima opciju Staging. Nije napravljen (prije toga isključiti emailove, ERP i Meta sinhronizaciju na kopiji); čeka Markovu odluku.
+- **Zaštita kopija** (`inc/kopija-zastita.php`, učitava se uvijek iz `functions.php`): kad `home` nije `https://ladymom.me` – bez emailova (`pre_wp_mail`), `DISABLE_WP_CRON`, blokirani spoljni HTTP pozivi, front samo za admina (ostali 403), noindex, bez Google taga i Meta piksela, crvena admin traka „KOPIJA SAJTA“.

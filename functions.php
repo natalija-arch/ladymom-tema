@@ -10,6 +10,9 @@ function woodmart_child_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'woodmart_child_enqueue_styles', 10010 );
 
+// Zaštita kopija sajta (staging): uvijek se učitava, na ladymom.me ne radi ništa.
+require_once __DIR__ . '/inc/kopija-zastita.php';
+
 /**
  * Lady Mom – prilagođeni kod sajta (inc/).
  * Ranije je bio u dodatku Code Snippets. Učitava se samo kad je opcija
