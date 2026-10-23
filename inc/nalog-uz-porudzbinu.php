@@ -7,7 +7,8 @@
  * - Gost popuni adresu kao i do sada. Kad porudžbina nastane:
  *   ako za taj email nema naloga, nalog se napravi sam (WooCommerce šalje email
  *   sa linkom za postavljanje lozinke), a porudžbina i ranije porudžbine sa istim
- *   emailom se vežu za nalog; ako nalog postoji, porudžbina se samo veže za njega.
+ *   emailom se vežu za nalog; ako nalog postoji, porudžbina se veže za njega tek kad se
+ *   kupac prijavi (24.10.2026).
  * - Ništa se ne šalje ERP-u drugačije: mijenja se samo kupac na porudžbini na sajtu.
  */
 
@@ -50,6 +51,18 @@ function lm_nalog_uz_porudzbinu( $order ) {
 		if ( user_can( $uid, 'edit_shop_orders' ) ) {
 			return;
 		}
+		// 24.10.2026: za postojeći nalog porudžbina gosta se veže tek kad se vlasnik naloga
+		// prijavi (dokaz da je nalog njegov). Ranije se vezivala odmah, samo po emailu, pa je
+		// neko mogao ubaciti porudžbinu u tuđi nalog. Do prijave ostaje porudžbina gosta.
+		if ( get_current_user_id() !== (int) $uid ) {
+			if ( (int) $order->get_meta( '_lm_veza_ceka' ) !== (int) $uid ) {
+				$order->update_meta_data( '_lm_veza_ceka', (int) $uid );
+				$order->save();
+				update_user_meta( $uid, '_lm_ceka_veza', 1 );
+				$order->add_order_note( 'Za ovaj email već postoji nalog na sajtu. Porudžbina se veže za taj nalog kad se kupac prijavi.' );
+			}
+			return;
+		}
 	}
 
 	$order->set_customer_id( $uid );
@@ -76,6 +89,35 @@ function lm_nalog_uz_porudzbinu( $order ) {
 		$order->add_order_note( 'Kupcu je automatski napravljen nalog na sajtu; link za lozinku je poslat emailom.' );
 	}
 }
+
+/**
+ * Prijavljeni kupac (bilo kojim načinom: lozinka, Google): porudžbine gosta sa njegovim emailom
+ * koje čekaju vezu (`_lm_veza_ceka`) vežu se za nalog. Provjera ide samo kad korisnik ima
+ * oznaku `_lm_ceka_veza`, pa običan zahtjev nema dodatni upit.
+ */
+add_action( 'init', function () {
+	$uid = get_current_user_id();
+	if ( ! $uid || ! get_user_meta( $uid, '_lm_ceka_veza', true ) || ! function_exists( 'wc_get_orders' ) ) {
+		return;
+	}
+	delete_user_meta( $uid, '_lm_ceka_veza' );
+	$korisnik = wp_get_current_user();
+	$ids      = wc_get_orders( array(
+		'limit'      => 50,
+		'return'     => 'ids',
+		'meta_query' => array( array( 'key' => '_lm_veza_ceka', 'value' => (string) $uid ) ), // phpcs:ignore
+	) );
+	foreach ( $ids as $id ) {
+		$o = wc_get_order( $id );
+		if ( ! $o || $o->get_customer_id() || 0 !== strcasecmp( trim( $o->get_billing_email() ), trim( $korisnik->user_email ) ) ) {
+			continue;
+		}
+		$o->set_customer_id( $uid );
+		$o->delete_meta_data( '_lm_veza_ceka' );
+		$o->save();
+		$o->add_order_note( 'Porudžbina je vezana za nalog kupca poslije prijave.' );
+	}
+}, 20 );
 
 function lm_vrati_yes() {
 	return 'yes';
