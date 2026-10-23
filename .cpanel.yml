@@ -1,8 +1,6 @@
 ---
+# Objava child teme na ladymom.me: sve radi bin/objava.sh (provjera PHP sintakse prije kopiranja,
+# functions.php posljednji, fajlovi kojih nema u repozitorijumu se sklanjaju). Vidi README.
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/ladymomm/public_html/wp-content/themes/woodmart-child/
-    - /bin/mkdir -p $DEPLOYPATH/inc $DEPLOYPATH/woocommerce/emails
-    - /bin/cp style.css functions.php $DEPLOYPATH
-    - /bin/cp inc/*.php $DEPLOYPATH/inc/
-    - /bin/cp woocommerce/emails/*.php $DEPLOYPATH/woocommerce/emails/
+    - /bin/bash bin/objava.sh

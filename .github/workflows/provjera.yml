@@ -1,5 +1,6 @@
 # Provjera PHP sintakse prije nego što server povuče izmjene.
-# Objavu na dev radi cron na serveru (vidi README), jer zaštita hostinga ne pušta GitHub do cPanel API-ja.
+# Objavu na ladymom.me radi cron na serveru (vidi README), jer zaštita hostinga ne pušta GitHub do cPanel API-ja.
+# Objava na serveru (bin/objava.sh) i sama provjerava sintaksu prije kopiranja.
 name: Provjera koda
 
 on:
@@ -15,3 +16,10 @@ jobs:
       - name: PHP provjera sintakse
         run: |
           for f in functions.php inc/*.php woocommerce/emails/*.php; do php -l "$f"; done
+      - name: Skripta za objavu i spisak fajlova
+        run: |
+          bash -n bin/objava.sh
+          # Svaki fajl iz spiska u functions.php mora postojati u inc/.
+          for f in $(grep -oE "^\s+'[a-z0-9-]+\.php'," functions.php | tr -d "', \t"); do
+            test -f "inc/$f" || { echo "Nema fajla inc/$f iz functions.php"; exit 1; }
+          done
