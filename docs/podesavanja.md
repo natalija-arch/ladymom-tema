@@ -414,3 +414,4 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - `inc/put-kupca-mobilni.php` (prodavnica, kategorije, brendovi, do 768 px): manji naslov, bez opisa/putanje/broja rezultata na vrhu (ostaju u HTML-u).
 - Isti fajl: CLS 0,89 (PageSpeed mobilni) – bočna traka sa filterima je do učitavanja punog CSS-a (LiteSpeed async) stajala iznad proizvoda; sad je od početka sakrivena lijevo kao kod WoodMart-a (`:not(.wd-opened)`).
 - `inc/kolacici.php`: traka za kolačiće na telefonu bez naslova/logotipa, manji tekst i dugmad (~200 px umjesto 308). Pravila pristanka ista.
+- Oba `<style>` imaju `data-no-optimize="1"`: LiteSpeed CSS Combine je inline stilove prebacivao u kombinovani CSS koji stiže asinhrono, pa bi pravila važila tek posle učitavanja (provjereno 23.10. na stranici za goste). Svaki novi stil koji mora važiti od prvog prikaza treba ovaj atribut.
