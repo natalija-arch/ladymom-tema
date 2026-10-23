@@ -33,12 +33,7 @@ function lm_cod_vrsta_korpe() {
 	if ( ! WC()->cart->needs_shipping() ) {
 		return 'bez_dostave';
 	}
-	foreach ( (array) WC()->session->get( 'chosen_shipping_methods', array() ) as $m ) {
-		if ( is_string( $m ) && 0 === strpos( $m, 'local_pickup' ) ) {
-			return 'butik';
-		}
-	}
-	return '';
+	return lm_je_preuzimanje( WC()->session->get( 'chosen_shipping_methods', array() ) ) ? 'butik' : '';
 }
 
 /** Ista provjera za već napravljenu porudžbinu. */
@@ -46,16 +41,10 @@ function lm_cod_vrsta_porudzbine( $order ) {
 	if ( ! $order instanceof WC_Order ) {
 		return '';
 	}
-	$metode = $order->get_shipping_methods();
-	if ( ! $metode ) {
+	if ( ! $order->get_shipping_methods() ) {
 		return 'bez_dostave';
 	}
-	foreach ( $metode as $s ) {
-		if ( 0 === strpos( $s->get_method_id(), 'local_pickup' ) ) {
-			return 'butik';
-		}
-	}
-	return '';
+	return lm_porudzbina_preuzimanje( $order ) ? 'butik' : '';
 }
 
 add_filter( 'woocommerce_gateway_title', function ( $naziv, $id ) {

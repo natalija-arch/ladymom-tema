@@ -29,7 +29,8 @@ if ( lm_je_kopija() ) {
 	}
 
 	add_filter( 'pre_wp_mail', function ( $null, $atts ) {
-		error_log( '[LM kopija] email nije poslat: ' . ( is_array( $atts['to'] ) ? implode( ',', $atts['to'] ) : $atts['to'] ) . ' – ' . $atts['subject'] );
+		// Bez adresa primalaca (lični podaci u logu); dovoljni su broj primalaca i naslov.
+		error_log( '[LM kopija] email nije poslat (' . count( (array) $atts['to'] ) . ' primalac/a): ' . $atts['subject'] );
 		return true;
 	}, 1, 2 );
 

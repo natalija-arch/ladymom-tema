@@ -19,7 +19,7 @@ add_filter( 'woocommerce_package_rates', function ( $rates ) {
 	}
 	// Licno preuzimanje (ako se doda) ostaje kao opcija.
 	foreach ( $rates as $rate_id => $rate ) {
-		if ( in_array( $rate->method_id, array( 'local_pickup', 'pickup_location' ), true ) ) {
+		if ( lm_je_metoda_preuzimanja( $rate->method_id ) ) {
 			$free[ $rate_id ] = $rate;
 		}
 	}

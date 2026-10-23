@@ -233,12 +233,7 @@ foreach ( lm_em_dodatni_ids() as $lm_em_did ) {
 }
 unset( $lm_em_did );
 
-add_filter( 'woocommerce_email_styles', function ( $css, $email = null ) {
-	if ( $email && lm_em_je_dodatni( $email ) ) {
-		return 'img{border:0;outline:none;text-decoration:none}a{color:#a05c57}';
-	}
-	return $css;
-}, 99, 2 );
+// Stil emailova (i za dodatne) je u inc/emailovi-1-tekstovi.php.
 
 /** Šablon: zajednički za sve dodatne emailove. Vraća false ako ne može (pada na original). */
 function lm_em_dodatni_sablon( $email, $vars ) {

@@ -38,7 +38,13 @@ function lm_em_payment_html( $order, $stage ) {
 
 function lm_em_delivery_html( $order ) {
 	$free = (float) $order->get_shipping_total() <= 0;
-	$txt  = '1–3 radna dana · ' . ( $free ? 'besplatno, porudžbina je preko 100 €' : esc_html( lm_em_money( $order, (float) $order->get_shipping_total() + (float) $order->get_shipping_tax() ) ) );
+	if ( $free ) {
+		// Prag iz WooCommerce podešavanja; ako je dostava besplatna iz drugog razloga (npr. kupon), piše samo „besplatno“.
+		$prag      = lm_dostava_prag();
+		$artikli   = (float) $order->get_total() - (float) $order->get_shipping_total() - (float) $order->get_shipping_tax();
+		$besplatno = $artikli >= $prag - 0.005 ? 'besplatno za porudžbine od ' . lm_dostava_tekst( $prag ) : 'besplatno';
+	}
+	$txt  = '1–3 radna dana · ' . ( $free ? esc_html( $besplatno ) : esc_html( lm_em_money( $order, (float) $order->get_shipping_total() + (float) $order->get_shipping_tax() ) ) );
 	return lm_em_label( 'DOSTAVA' ) . '<div style="font-size:15px;font-weight:700;color:#6d4e39;margin:0 0 4px">Kurirska služba The Vault d.o.o.</div><div style="font-size:14px;line-height:1.5">' . $txt . '</div>';
 }
 
@@ -130,6 +136,41 @@ function lm_em_addresses( $order ) {
 	return '<tr><td class="lm-px" style="padding:28px 40px 0;' . lm_em_font() . 'color:#7a6250">' . lm_em_dvije_kolone( $left, $right, 12 ) . '</td></tr>';
 }
 
+/**
+ * Akcije WooCommerce-a oko tabele porudžbine (24.10.2026). Preko njih dodaci i banke dodaju
+ * svoje podatke u email (npr. uputstvo za uplatu ili dodatna polja porudžbine). Ono što dodaci
+ * ispišu ide u poseban okvir, da ne pokvari raspored emaila. Bankart u emailove ne dodaje ništa
+ * (provjereno 24.10.: na ovim akcijama su samo WooCommerce order_meta i WoodMart lijeno učitavanje).
+ *
+ * WoodMart na before/after_order_table gasi i pali svoje lijeno učitavanje slika; „pali“ ga i kad
+ * je u podešavanjima isključeno (kao ovdje), pa bi ostalo uključeno do kraja zahtjeva (npr. na
+ * stranici potvrde porudžbine, ako se email šalje u istom zahtjevu). Naši emailovi slike ne crtaju
+ * preko wp_get_attachment_image(), pa se ta dva poziva ovdje preskaču.
+ */
+function lm_em_akcije_dodataka( $hook, $o, $email, $za_admina ) {
+	if ( ! $o instanceof WC_Order ) {
+		return '';
+	}
+	$sklonjeno = array();
+	foreach ( array( 'woodmart_lazy_loading_force_init', 'woodmart_lazy_loading_force_deinit' ) as $f ) {
+		$prio = has_action( $hook, $f );
+		if ( false !== $prio ) {
+			remove_action( $hook, $f, $prio );
+			$sklonjeno[ $f ] = $prio;
+		}
+	}
+	ob_start();
+	try {
+		do_action( $hook, $o, $za_admina, false, $email );
+	} finally {
+		$html = trim( (string) ob_get_clean() );
+		foreach ( $sklonjeno as $f => $prio ) {
+			add_action( $hook, $f, $prio );
+		}
+	}
+	return '' === trim( wp_strip_all_tags( $html ) ) ? '' : lm_em_red( lm_em_box( $html ), 22 );
+}
+
 function lm_em_body( $email, $vars = array() ) {
 	$o  = ( isset( $vars['order'] ) && is_a( $vars['order'], 'WC_Order' ) ) ? $vars['order'] : lm_em_order( $email );
 	$id = $email->id;
@@ -144,6 +185,7 @@ function lm_em_body( $email, $vars = array() ) {
 	$labels = $p ? array( 'Primljena', 'Pripremamo', 'Spremna' ) : array( 'Primljena', 'Pripremamo', 'Na putu' );
 	echo '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="' . lm_em_font() . 'color:#7a6250">';
 	echo lm_em_hero( $ey, $c['h'] ? $c['h'] : ( isset( $vars['email_heading'] ) ? $vars['email_heading'] : '' ), $c['txt'] );
+	echo lm_em_akcije_dodataka( 'woocommerce_email_before_order_table', $o, $email, false ); // phpcs:ignore
 	switch ( $id ) {
 		case 'customer_processing_order':
 		case 'customer_on_hold_order':
@@ -224,6 +266,8 @@ function lm_em_body( $email, $vars = array() ) {
 			echo lm_em_red( '<div style="font-size:14px;line-height:1.6;color:#8a7565">Ako niste vi tražili novu lozinku, zanemarite ovaj email — lozinka ostaje ista.</div>', 22 );
 			break;
 	}
+	echo lm_em_akcije_dodataka( 'woocommerce_email_after_order_table', $o, $email, false ); // phpcs:ignore
+	echo lm_em_akcije_dodataka( 'woocommerce_email_order_meta', $o, $email, false ); // phpcs:ignore
 	echo '</table>';
 }
 
@@ -301,7 +345,10 @@ function lm_em_admin_body( $email, $o ) {
 	if ( $note ) {
 		echo lm_em_red( lm_em_box( lm_em_label( 'NAPOMENA KUPCA', '#8a4b47' ) . '<div style="font-size:15px;line-height:1.6;color:#6d4e39">' . nl2br( esc_html( $note ) ) . '</div>', '#f6ded4' ), 12 );
 	}
+	echo lm_em_akcije_dodataka( 'woocommerce_email_before_order_table', $o, $email, true ); // phpcs:ignore
 	echo lm_em_items( $o, 'Artikli', true );
 	echo lm_em_totals( $o );
+	echo lm_em_akcije_dodataka( 'woocommerce_email_after_order_table', $o, $email, true ); // phpcs:ignore
+	echo lm_em_akcije_dodataka( 'woocommerce_email_order_meta', $o, $email, true ); // phpcs:ignore
 	echo '</table>';
 }

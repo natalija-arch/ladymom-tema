@@ -144,7 +144,15 @@ function lm_em_dovrsi( $html ) {
 		},
 		$tijelo
 	);
+	if ( ! is_string( $tijelo ) ) {
+		// Obrada nije uspjela (npr. PCRE ograničenje na velikom emailu): šalje se email bez
+		// dorade za tamni režim, umjesto praznog (24.10.2026).
+		return $html;
+	}
 	$tijelo = preg_replace( '/<body\b/i', '<body data-lm="lm-em-dovrseno"', $tijelo, 1 );
+	if ( ! is_string( $tijelo ) ) {
+		return $html;
+	}
 	if ( false !== stripos( $glava, '</head>' ) ) {
 		$glava = preg_replace( '/<\/head>/i', lm_em_css() . '</head>', $glava, 1 );
 	} else {

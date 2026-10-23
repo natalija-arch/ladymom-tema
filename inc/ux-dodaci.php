@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 // 1) Traka povjerenja na stranici proizvoda, ispod dugmeta "Dodaj u korpu".
 add_action( 'woocommerce_single_product_summary', function () {
 	$items = array(
-		array( 'M3 7h11v9H3zM14 10h4l3 3v3h-7', 'Besplatna dostava za porudžbine od 100 €' ),
+		array( 'M3 7h11v9H3zM14 10h4l3 3v3h-7', 'Besplatna dostava za porudžbine od ' . lm_dostava_tekst( lm_dostava_prag() ) ),
 		array( 'M12 7v5l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z', 'Dostavljamo samo na teritoriji Crne Gore, za 1–3 radna dana' ),
 		array( 'M4 12a8 8 0 0 1 14-5l2-2v6h-6l2-2a5 5 0 1 0 1 6', 'Povrat ili zamjena u roku od 14 dana' ),
 		array( 'M3 6h18v12H3zM3 10h18', 'Plaćanje pouzećem ili karticom (Visa, Mastercard)' ),
@@ -66,12 +66,7 @@ add_action( 'woocommerce_review_order_before_submit', function () {
 } );
 
 // 5) Preuzimanje u butiku: bez ulice i grada, podaci butika u korpi, na potvrdi i u emailu kupcu.
-function lm_je_preuzimanje( $metode ) {
-	foreach ( (array) $metode as $m ) {
-		if ( is_string( $m ) && 0 === strpos( $m, 'local_pickup' ) ) return true;
-	}
-	return false;
-}
+// Provjere lm_je_preuzimanje() i lm_porudzbina_preuzimanje() su u inc/zajednicko.php (24.10.2026).
 function lm_izabrano_preuzimanje() {
 	if ( isset( $_POST['shipping_method'] ) ) {
 		return lm_je_preuzimanje( wc_clean( wp_unslash( $_POST['shipping_method'] ) ) );
@@ -97,7 +92,7 @@ jQuery(function ($) {
 	var polja = '#billing_address_1_field, #billing_city_field';
 	function lmPreuzimanje() {
 		var m = $('input[name^="shipping_method"]:checked').val() || $('input[name^="shipping_method"][type="hidden"]').val() || $('select[name^="shipping_method"]').val() || '';
-		var p = m.indexOf('local_pickup') === 0;
+		var p = /^(local_pickup|pickup_location)/.test(m);
 		$(polja).toggle(!p).toggleClass('validate-required', !p);
 		if (p) { $(polja).removeClass('woocommerce-invalid woocommerce-invalid-required-field'); }
 	}
@@ -112,16 +107,9 @@ function lm_butik_mapa() {
 	return 'https://www.google.com/maps/search/?api=1&query=Lady+Mom+prodavnica+za+trudnice+i+mame&query_place_id=ChIJU0tXHcnrTRMRuXXUSvfb4b8';
 }
 add_action( 'woocommerce_after_shipping_rate', function ( $method ) {
-	if ( 0 !== strpos( $method->get_method_id(), 'local_pickup' ) ) return;
+	if ( ! lm_je_metoda_preuzimanja( $method->get_method_id() ) ) return;
 	echo '<div class="lm-pickup-info">Branka Deletića bb, Podgorica · pon–sub 9:30–21:00</div>';
 } );
-function lm_porudzbina_preuzimanje( $order ) {
-	if ( ! $order || ! is_a( $order, 'WC_Order' ) ) return false;
-	foreach ( $order->get_shipping_methods() as $s ) {
-		if ( 0 === strpos( $s->get_method_id(), 'local_pickup' ) ) return true;
-	}
-	return false;
-}
 function lm_butik_html( $email = false ) {
 	$box = $email
 		? 'background:#f6ded4;border-radius:10px;padding:16px 18px;margin:0 0 24px;color:#6d4e39;font-size:14px;line-height:1.6'

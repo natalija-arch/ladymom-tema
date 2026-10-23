@@ -535,12 +535,7 @@ if ( ! function_exists( 'lm_cg_prevodi' ) ) {
 		},
 		20
 	);
-	add_filter(
-		'wpseo_locale',
-		function () {
-			return 'sr_ME';
-		}
-	);
+	// wpseo_locale je u inc/telefon-i-seo.php (sr_RS; 24.10.2026 uklonjen dupli filter sa sr_ME).
 }
 
 /**

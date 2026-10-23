@@ -32,15 +32,12 @@ add_action( 'woocommerce_after_add_to_cart_form', function () {
 // ---------------------------------------------------------------------------
 // 3) Predlozi u korpi kad fali malo do besplatne dostave.
 // ---------------------------------------------------------------------------
-function lm_free_shipping_min() {
-	return 100;
-}
 add_action( 'woocommerce_after_cart_table', function () {
 	if ( ! function_exists( 'WC' ) || ! WC()->cart || WC()->cart->is_empty() ) {
 		return;
 	}
 	$total = (float) WC()->cart->get_displayed_subtotal();
-	$left  = lm_free_shipping_min() - $total;
+	$left  = lm_dostava_prag() - $total; // prag iz WooCommerce podešavanja (inc/zajednicko.php)
 	if ( $left <= 0 || $left > 30 ) {
 		return;
 	}
@@ -85,30 +82,11 @@ add_action( 'woocommerce_after_cart_table', function () {
 }, 20 );
 
 // ---------------------------------------------------------------------------
-// 4) Oznake "Najprodavanije" i "Jos samo X komada".
+// 4) Oznaka „Najprodavanije“ (bez oznake o količini na stanju).
 // ---------------------------------------------------------------------------
-function lm_low_stock_qty() {
-	return 3;
-}
 function lm_is_bestseller( $product ) {
 	$sales = (int) get_post_meta( $product->get_id(), 'total_sales', true );
 	return $sales >= 10;
-}
-function lm_stock_note( $product ) {
-	// Isključeno 20.10.2026 (Markova odluka: količina na stanju se ne prikazuje kupcima;
-	// end-to-end test je našao oznaku „Još samo 2 komada“ u katalogu i na artiklu).
-	if ( ! apply_filters( 'lm_prikazi_preostalo', false ) ) {
-		return '';
-	}
-	if ( ! $product->managing_stock() || ! $product->is_in_stock() ) {
-		return '';
-	}
-	$qty = $product->get_stock_quantity();
-	if ( null === $qty || $qty <= 0 || $qty > lm_low_stock_qty() ) {
-		return '';
-	}
-	$word = ( 1 === (int) $qty ) ? 'komad' : 'komada';
-	return 'Još samo ' . (int) $qty . ' ' . $word;
 }
 // U katalogu: oznaka preko slike.
 add_action( 'woocommerce_before_shop_loop_item_title', function () {
@@ -116,10 +94,8 @@ add_action( 'woocommerce_before_shop_loop_item_title', function () {
 	if ( ! $product ) {
 		return;
 	}
-	$stock = lm_stock_note( $product );
-	if ( $stock ) {
-		echo '<span class="lm-badge lm-badge-stock">' . esc_html( $stock ) . '</span>';
-	} elseif ( lm_is_bestseller( $product ) ) {
+	// Količina na stanju se kupcu ne prikazuje (Markova odluka 20.10.2026; oznaka „Još samo N“ uklonjena 24.10.).
+	if ( lm_is_bestseller( $product ) ) {
 		echo '<span class="lm-badge lm-badge-top">Najprodavanije</span>';
 	}
 }, 11 );
@@ -132,10 +108,6 @@ add_action( 'woocommerce_single_product_summary', function () {
 	$out = array();
 	if ( lm_is_bestseller( $product ) ) {
 		$out[] = '<span class="lm-flag lm-flag-top">Najprodavanije</span>';
-	}
-	$stock = lm_stock_note( $product );
-	if ( $stock ) {
-		$out[] = '<span class="lm-flag lm-flag-stock">' . esc_html( $stock ) . '</span>';
 	}
 	if ( $out ) {
 		echo '<p class="lm-flags">' . implode( ' ', $out ) . '</p>';

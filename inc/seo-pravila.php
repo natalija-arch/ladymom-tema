@@ -209,7 +209,7 @@ add_filter( 'wpseo_title', function ( $naslov ) {
 /** Rečenice o kupovini koje se dodaju dok ima mjesta. */
 function lm_seo_dodaci_kupovina() {
 	return array(
-		'Besplatna dostava po Crnoj Gori od 100 €.',
+		'Besplatna dostava po Crnoj Gori od ' . lm_dostava_tekst( lm_dostava_prag() ) . '.',
 		'Plaćanje pouzećem ili karticom.',
 		'Besplatno preuzimanje u butiku u Podgorici.',
 	);

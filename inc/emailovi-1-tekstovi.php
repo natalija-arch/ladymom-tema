@@ -33,11 +33,7 @@ function lm_em_order( $email ) {
 	return ( $email && isset( $email->object ) && is_a( $email->object, 'WC_Order' ) ) ? $email->object : null;
 }
 function lm_em_pickup( $order ) {
-	if ( ! $order ) return false;
-	foreach ( $order->get_shipping_methods() as $s ) {
-		if ( 0 === strpos( $s->get_method_id(), 'local_pickup' ) ) return true;
-	}
-	return false;
+	return lm_porudzbina_preuzimanje( $order ); // inc/zajednicko.php
 }
 /** Porudžbina bez dostave (samo virtuelni artikli, npr. Ready Mom). */
 function lm_em_bez_dostave( $order ) {
@@ -173,8 +169,11 @@ add_filter( 'woocommerce_email_headers', function ( $headers, $id = '', $object 
 }, 20, 4 );
 
 // Naši emailovi nose stil u samom kodu – WooCommerce CSS (npr. margin na slikama) se ne primjenjuje na njih.
+// Važi i za dodatne emailove (inc/emailovi-4-dodatni.php, lm_em_je_dodatni); ranije je isti filter bio i tamo.
 add_filter( 'woocommerce_email_styles', function ( $css, $email = null ) {
-	if ( $email && lm_em_handles( $email ) ) return 'img{border:0;outline:none;text-decoration:none}a{color:#a05c57}';
+	if ( $email && ( lm_em_handles( $email ) || ( function_exists( 'lm_em_je_dodatni' ) && lm_em_je_dodatni( $email ) ) ) ) {
+		return 'img{border:0;outline:none;text-decoration:none}a{color:#a05c57}';
+	}
 	return $css;
 }, 99, 2 );
 

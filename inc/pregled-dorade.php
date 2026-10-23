@@ -281,15 +281,15 @@ add_filter(
 
 /* ---------- r26: dostava i povrat u podacima artikla ---------- */
 
-/** Dostava i povrat kao u kutiji na artiklu i na stranici Dostava (4,50 €, besplatno od 100 €, 1–3 radna dana, povrat 14 dana). */
+/** Dostava i povrat kao u kutiji na artiklu i na stranici Dostava (cijena i prag iz WooCommerce podešavanja, 1–3 radna dana, povrat 14 dana). */
 function lm_schema_dostava_povrat( $cijena ) {
-	$besplatno = (float) $cijena >= 100;
+	$besplatno = (float) $cijena >= lm_dostava_prag();
 	return array(
 		'shippingDetails'         => array(
 			'@type'               => 'OfferShippingDetails',
 			'shippingRate'        => array(
 				'@type'    => 'MonetaryAmount',
-				'value'    => $besplatno ? '0' : '4.50',
+				'value'    => $besplatno ? '0' : number_format( lm_dostava_cijena(), 2, '.', '' ),
 				'currency' => 'EUR',
 			),
 			'shippingDestination' => array(

@@ -13,7 +13,7 @@ add_action( 'wp_head', function () {
 .lm-toast.lm-show{opacity:1;visibility:visible;transform:translate(-50%,0)}
 .lm-toast svg{flex:0 0 22px;width:22px;height:22px;fill:#C01157}
 .lm-toast span{flex:1}
-.lm-toast button{flex:0 0 auto;background:none;border:0;padding:0 2px;font-size:22px;line-height:1;color:#8A7A80;cursor:pointer;min-height:0}
+.lm-toast button{flex:0 0 auto;background:none;border:0;padding:0 2px;font-size:22px;line-height:1;color:#5e4f55;cursor:pointer;min-height:0}
 @media (max-width:768px){.lm-toast{top:auto;bottom:80px;transform:translate(-50%,12px)}.lm-toast.lm-show{transform:translate(-50%,0)}}
 .variations .lm-req{margin:8px 0 0;color:#C01157;font-style:italic;font-size:13px;line-height:1.3}
 .variations td.lm-need .wd-swatch:not(.wd-active),.variations td.lm-need select{border-color:#C01157!important}
