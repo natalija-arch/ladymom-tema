@@ -74,7 +74,13 @@ add_action(
 #woodmart-woocommerce-layered-nav-8 .wd-swatch{display:flex!important;align-items:center;justify-content:center;width:100%!important;max-width:none!important;min-width:0!important;height:58px!important;margin:0!important;padding:8px 10px;background:#fff;border:1px solid var(--lm-linija,#e7d7cc);border-radius:10px;transition:border-color .2s ease,box-shadow .2s ease}
 #woodmart-woocommerce-layered-nav-8 .wd-swatch img{width:auto!important;height:auto!important;max-width:100%!important;max-height:40px!important;object-fit:contain}
 #woodmart-woocommerce-layered-nav-8 .layered-nav-link:hover .wd-swatch{border-color:var(--lm-roze,#db9e99)}
-#woodmart-woocommerce-layered-nav-8 li.chosen .wd-swatch,#woodmart-woocommerce-layered-nav-8 li.wd-active .wd-swatch{border-color:var(--lm-roze-jaka,#a05c57);box-shadow:0 0 0 1px var(--lm-roze-jaka,#a05c57)}
+/* Izabrani brend (23.10.): WoodMart je izabranu karticu blijedio (opacity .5) i dodavao dvostruki prsten; sada tanak okvir, puna boja logotipa i „×“ za uklanjanje */
+#woodmart-woocommerce-layered-nav-8 li.chosen .wd-swatch,#woodmart-woocommerce-layered-nav-8 li.wd-active .wd-swatch{border:1px solid var(--lm-roze-jaka,#a05c57)!important;background:#fff!important;box-shadow:none!important;outline:0!important;opacity:1!important}
+#woodmart-woocommerce-layered-nav-8 li.chosen .wd-swatch:before,#woodmart-woocommerce-layered-nav-8 li.wd-active .wd-swatch:before{display:none!important}
+#woodmart-woocommerce-layered-nav-8 li.chosen .wd-swatch:after,#woodmart-woocommerce-layered-nav-8 li.wd-active .wd-swatch:after{content:"\00d7"!important;display:flex!important;align-items:center;justify-content:center;position:absolute;top:5px;right:5px;left:auto;bottom:auto;width:18px;height:18px;border-radius:50%;background:var(--lm-roze-jaka,#a05c57);color:#fff;font-size:14px;line-height:1;font-family:inherit;opacity:1!important;transform:none!important;box-shadow:none!important;border:0!important}
+#woodmart-woocommerce-layered-nav-8 li.chosen .wd-swatch-bg,#woodmart-woocommerce-layered-nav-8 li.wd-active .wd-swatch-bg{background:transparent!important;box-shadow:none!important}
+#woodmart-woocommerce-layered-nav-8 .wd-swatch{position:relative}
+#woodmart-woocommerce-layered-nav-8 li.chosen .count,#woodmart-woocommerce-layered-nav-8 li.wd-active .count{display:none!important}
 #woodmart-woocommerce-layered-nav-8 .count{position:absolute;top:4px;right:6px;font-size:11px}
 
 /* Na telefonu (panel filtera) malo veći razmaci za prst */
