@@ -1,0 +1,569 @@
+# Generisano iz prevodi/ti_prevodi.py (bin/prevodi.py). Ne mijenjati ručno ovdje.
+msgid ""
+msgstr ""
+"Project-Id-Version: Lady Mom – prevodi na ti\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Domain: woocommerce\n"
+
+msgid "You haven't signed up for any back-in-stock notifications yet."
+msgstr "Još nema prijava za obavještenja o ponovnoj dostupnosti."
+
+msgid "Please wait a moment before signing up again."
+msgstr "Sačekaj trenutak prije nove prijave."
+
+msgid "You have already joined the waitlist!"
+msgstr "Već si na listi čekanja!"
+
+msgid "We could not cancel that back in stock notification. Please try again."
+msgstr "Nijesmo uspjeli da otkažemo to obavještenje. Pokušaj ponovo."
+
+msgid "Verification email sent to \"%s\". Please check your inbox!"
+msgstr "Email za potvrdu je poslat na „%s“. Provjeri poštu!"
+
+msgid "We were unable to process your request. Notification not found."
+msgstr "Zahtjev nije obrađen: obavještenje nije pronađeno."
+
+msgid "This link has expired. Please reload the page and try again."
+msgstr "Link je istekao. Osvježi stranicu i pokušaj ponovo."
+
+msgid "Please wait a moment before requesting another verification email."
+msgstr "Sačekaj trenutak prije nego što zatražiš novi email za potvrdu."
+
+msgid "Want to be notified when this product is back in stock?"
+msgstr "Želiš obavještenje kad artikal ponovo bude na stanju?"
+
+msgctxt "back in stock form"
+msgid "Enter your e-mail"
+msgstr "Upiši email"
+
+msgid "You have already joined this waitlist. Please complete the sign-up process by following the verification link sent to your e-mail."
+msgstr "Već si na ovoj listi čekanja. Prijavu završi preko linka za potvrdu koji smo poslali na tvoj email."
+
+msgid "You have already joined this waitlist."
+msgstr "Već si na ovoj listi čekanja."
+
+msgid "Thanks for signing up! An account has been created for you. Please complete the sign-up process by following the verification link sent to your e-mail."
+msgstr "Hvala na prijavi! Napravili smo ti nalog. Prijavu završi preko linka za potvrdu koji smo poslali na tvoj email."
+
+msgid "You have successfully signed up and will be notified when \"%s\" is back in stock! Note that a new account has been created for you; please check your e-mail for details."
+msgstr "Prijava je uspjela: javićemo ti kad „%s“ ponovo bude na stanju! Napravili smo ti i nalog, detalji su u emailu."
+
+msgid "Thanks for signing up! Please complete the sign-up process by following the verification link sent to your e-mail."
+msgstr "Hvala na prijavi! Prijavu završi preko linka za potvrdu koji smo poslali na tvoj email."
+
+msgid "You have successfully signed up! You will be notified when \"%s\" is back in stock."
+msgstr "Prijava je uspjela! Javićemo ti kad „%s“ ponovo bude na stanju."
+
+msgid "Failed to sign up. Please try again."
+msgstr "Prijava nije uspjela. Pokušaj ponovo."
+
+msgid "To proceed, please consent to the creation of a new account with your e-mail."
+msgstr "Za nastavak potvrdi da pravimo nalog sa tvojim emailom."
+
+msgid "You have already joined the waitlist! Click {manage_account_link} to manage your notifications."
+msgstr "Već si na listi čekanja! Obavještenjima upravljaš ovdje: {manage_account_link}."
+
+msgid "Invalid request. Please try again."
+msgstr "Neispravan zahtjev. Pokušaj ponovo."
+
+msgid "Unable to confirm this email while you are logged in to a different account. Please log out and open the link again."
+msgstr "Ovaj email ne može da se potvrdi dok je otvoren drugi nalog. Odjavi se i ponovo otvori link."
+
+msgid "This confirmation link is invalid or has expired. Please request a new one."
+msgstr "Link za potvrdu nije ispravan ili je istekao. Zatraži novi."
+
+msgid "Your email address has been confirmed."
+msgstr "Email adresa je potvrđena."
+
+msgid "A confirmation link was sent recently. Please check your inbox, or wait a moment before requesting a new one."
+msgstr "Link za potvrdu je nedavno poslat. Provjeri poštu ili sačekaj trenutak prije nego što zatražiš novi."
+
+msgid "A confirmation link has been sent to your email address. Please check your inbox."
+msgstr "Link za potvrdu je poslat na tvoj email. Provjeri poštu."
+
+msgid "Confirm your email address to check for past orders and link them to your account."
+msgstr "Potvrdi email adresu, pa ćemo ranije porudžbine povezati sa tvojim nalogom."
+
+msgid "Confirm your email address to check for past orders. A confirmation link was sent recently — please check your inbox."
+msgstr "Potvrdi email adresu da bismo našli ranije porudžbine. Link za potvrdu je nedavno poslat, provjeri poštu."
+
+msgid "You need to be logged in to confirm your email address."
+msgstr "Za potvrdu email adrese prijavi se na nalog."
+
+msgid "Confirm your email address"
+msgstr "Potvrdi email adresu"
+
+msgid "Confirm your email address for {site_title}"
+msgstr "Potvrdi email adresu za {site_title}"
+
+msgid "Confirm email address"
+msgstr "Potvrdi email adresu"
+
+msgid "This will be how your name will be displayed in the account section"
+msgstr "Ovako će se ime prikazivati na nalogu"
+
+msgid "This will be how your name will be displayed in the account section and in reviews"
+msgstr "Ovako će se ime prikazivati na nalogu i uz recenzije"
+
+msgid "We have emailed you a new link to change your password."
+msgstr "Poslali smo ti na email novi link za promjenu lozinke."
+
+msgid "Sorry, we were unable to resend the link. Please try again."
+msgstr "Link nije ponovo poslat. Pokušaj još jednom."
+
+msgid "Please wait a moment before requesting another link to change your password."
+msgstr "Sačekaj trenutak prije nego što zatražiš novi link za lozinku."
+
+msgid "Your account is using a temporary password. We emailed you a link to change your password."
+msgstr "Nalog ima privremenu lozinku. Poslali smo ti na email link za promjenu lozinke."
+
+msgid "An account is already registered with %s. Please log in or use a different email address."
+msgstr "Nalog sa adresom %s već postoji. Prijavi se ili upiši drugu email adresu."
+
+msgid "Please create a password for your account."
+msgstr "Napravi lozinku za nalog."
+
+msgid "A link to set a new password will be sent to your email address."
+msgstr "Link za novu lozinku stiže ti na email."
+
+msgid "This password reset key is for a different user account. Please log out and try again."
+msgstr "Ovaj link za lozinku važi za drugi nalog. Odjavi se i pokušaj ponovo."
+
+msgid "An account is already registered with your email address. <a href=\"#\" class=\"showlogin\">Please log in.</a>"
+msgstr "Nalog sa ovom email adresom već postoji. <a href=\"#\" class=\"showlogin\">Prijavi se.</a>"
+
+msgid "From your account dashboard you can view your <a href=\"%1$s\">recent orders</a>, manage your <a href=\"%2$s\">billing address</a>, and <a href=\"%3$s\">edit your password and account details</a>."
+msgstr "Ovdje vidiš <a href=\"%1$s\">posljednje porudžbine</a>, uređuješ <a href=\"%2$s\">adresu</a> i mijenjaš <a href=\"%3$s\">lozinku i podatke naloga</a>."
+
+msgid "From your account dashboard you can view your <a href=\"%1$s\">recent orders</a>, manage your <a href=\"%2$s\">shipping and billing addresses</a>, and <a href=\"%3$s\">edit your password and account details</a>."
+msgstr "Ovdje vidiš <a href=\"%1$s\">posljednje porudžbine</a>, uređuješ <a href=\"%2$s\">adrese za dostavu i naplatu</a> i mijenjaš <a href=\"%3$s\">lozinku i podatke naloga</a>."
+
+msgid "Your account was created successfully. Your login details have been sent to your email address."
+msgstr "Nalog je napravljen. Podaci za prijavu su ti poslati na email."
+
+msgid "Your account was created successfully and a password has been sent to your email address."
+msgstr "Nalog je napravljen, a lozinka ti je poslata na email."
+
+msgid "This key is invalid or has already been used. Please reset your password again if needed."
+msgstr "Link nije ispravan ili je već iskorišćen. Po potrebi ponovo zatraži novu lozinku."
+
+msgid "Are you sure you want to log out? <a href=\"%s\">Confirm and log out</a>"
+msgstr "Da li sigurno želiš da se odjaviš? <a href=\"%s\">Odjavi se</a>"
+
+msgid "Your password has been reset successfully."
+msgstr "Nova lozinka je sačuvana."
+
+msgid "A password reset email has been sent to the email address on file for your account, but may take several minutes to show up in your inbox. Please wait at least 10 minutes before attempting another reset."
+msgstr "Email za novu lozinku je poslat na adresu naloga. Može da stigne za nekoliko minuta, pa sačekaj bar 10 minuta prije novog pokušaja."
+
+msgid "Enter a username or email address."
+msgstr "Upiši korisničko ime ili email adresu."
+
+msgid "Re-enter new password"
+msgstr "Ponovi novu lozinku"
+
+msgid "Enter a new password below."
+msgstr "Upiši novu lozinku."
+
+msgid "Confirm new password"
+msgstr "Potvrdi novu lozinku"
+
+msgid "Lost your password?"
+msgstr "Zaboravljena lozinka?"
+
+msgid "Lost your password? Please enter your username or email address. You will receive a link to create a new password via email."
+msgstr "Zaboravljena lozinka? Upiši korisničko ime ili email adresu i poslaćemo ti link za novu lozinku."
+
+msgid "New password (leave blank to leave unchanged)"
+msgstr "Nova lozinka (ostavi prazno ako je ne mijenjaš)"
+
+msgid "Current password (leave blank to leave unchanged)"
+msgstr "Trenutna lozinka (ostavi prazno ako je ne mijenjaš)"
+
+msgid "Your current password is incorrect."
+msgstr "Trenutna lozinka nije tačna."
+
+msgid "Please fill out all password fields."
+msgstr "Popuni sva polja za lozinku."
+
+msgid "Please enter your password."
+msgstr "Upiši lozinku."
+
+msgid "Please re-enter your password."
+msgstr "Ponovo upiši lozinku."
+
+msgid "Please enter your current password."
+msgstr "Upiši trenutnu lozinku."
+
+msgid "Please enter a stronger password."
+msgstr "Upiši jaču lozinku."
+
+msgid "Please provide a valid account username."
+msgstr "Upiši ispravno korisničko ime."
+
+msgid "An account is already registered with that username. Please choose another."
+msgstr "Nalog sa tim korisničkim imenom već postoji. Izaberi drugo."
+
+msgid "Please provide a valid email address."
+msgstr "Upiši ispravnu email adresu."
+
+msgid "Unable to add payment method to your account."
+msgstr "Način plaćanja nije dodat na nalog."
+
+msgid "You have not set up this type of address yet."
+msgstr "Ova adresa još nije upisana."
+
+msgid "New payment methods can only be added during checkout. Please contact us if you require assistance."
+msgstr "Novi način plaćanja dodaje se pri plaćanju porudžbine. Ako ti treba pomoć, javi nam se."
+
+msgid "You cannot add a new payment method so soon after the previous one. Please wait for %d second."
+msgid_plural "You cannot add a new payment method so soon after the previous one. Please wait for %d seconds."
+msgstr[0] "Novi način plaćanja možeš dodati malo kasnije. Sačekaj %d sekundu."
+msgstr[1] "Novi način plaćanja možeš dodati malo kasnije. Sačekaj %d sekunde."
+msgstr[2] "Novi način plaćanja možeš dodati malo kasnije. Sačekaj %d sekundi."
+
+msgid "Cancel order %s"
+msgstr "Otkaži porudžbinu %s"
+
+msgid "Pay for order %s"
+msgstr "Plati porudžbinu %s"
+
+msgid "View order %s"
+msgstr "Pogledaj porudžbinu %s"
+
+msgid "View order number %s"
+msgstr "Pogledaj porudžbinu broj %s"
+
+msgid "Your order was cancelled."
+msgstr "Porudžbina je otkazana."
+
+msgid "Your order can no longer be cancelled. Please contact us if you need assistance."
+msgstr "Porudžbina se više ne može otkazati. Ako ti treba pomoć, javi nam se."
+
+msgid "Please log in to your account to view this order."
+msgstr "Prijavi se na nalog da vidiš ovu porudžbinu."
+
+msgid "To view this page, you must either %1$slogin%2$s or verify the email address associated with the order."
+msgstr "Za ovu stranicu %1$sprijavi se%2$s ili potvrdi email adresu iz porudžbine."
+
+msgid "You are paying for a guest order. Please continue with payment only if you recognize this order."
+msgstr "Plaćaš porudžbinu napravljenu bez naloga. Nastavi samo ako je porudžbina tvoja."
+
+msgid "This order cannot be paid for. Please contact us if you need assistance."
+msgstr "Ova porudžbina ne može da se plati. Ako ti treba pomoć, javi nam se."
+
+msgid "Please log in to your account below to continue to the payment form."
+msgstr "Prijavi se na nalog ispod, pa nastavi na plaćanje."
+
+msgid "This order&rsquo;s status is &ldquo;%s&rdquo;&mdash;it cannot be paid for. Please contact us if you need assistance."
+msgstr "Porudžbina je u statusu „%s“ i ne može da se plati. Ako ti treba pomoć, javi nam se."
+
+msgid "Pay for order"
+msgstr "Plaćanje porudžbine"
+
+msgid "The cart has been filled with the items from your previous order."
+msgstr "U korpu su dodati artikli iz prethodne porudžbine."
+
+msgid "%d item from your previous order is currently unavailable and could not be added to your cart."
+msgid_plural "%d items from your previous order are currently unavailable and could not be added to your cart."
+msgstr[0] "%d artikal iz prethodne porudžbine trenutno nije dostupan, pa nije dodat u korpu."
+msgstr[1] "%d artikla iz prethodne porudžbine trenutno nijesu dostupna, pa nijesu dodata u korpu."
+msgstr[2] "%d artikala iz prethodne porudžbine trenutno nije dostupno, pa nijesu dodati u korpu."
+
+msgid "Please choose product options for %1$s."
+msgstr "Izaberi veličinu ili boju za %1$s."
+
+msgid "Your selection has been reset. Please select some product options before adding this product to your cart."
+msgstr "Izbor je poništen. Izaberi veličinu ili boju prije dodavanja u korpu."
+
+msgid "Please select some product options before adding this product to your cart."
+msgstr "Izaberi veličinu ili boju prije dodavanja u korpu."
+
+msgid "&ldquo;%s&rdquo; has been removed from your cart"
+msgstr "„%s“ je uklonjen iz korpe"
+
+msgid "The selected product isn't a variation of %2$s, please choose product options by visiting <a href=\"%1$s\" title=\"%2$s\">%2$s</a>."
+msgstr "Izabrani artikal nije varijanta artikla %2$s. Veličinu ili boju izaberi na stranici <a href=\"%1$s\" title=\"%2$s\">%2$s</a>."
+
+msgid "Please choose product options by visiting <a href=\"%1$s\" title=\"%2$s\">%2$s</a>."
+msgstr "Veličinu ili boju izaberi na stranici <a href=\"%1$s\" title=\"%2$s\">%2$s</a>."
+
+msgid "Sorry, we do not have enough \"%1$s\" in stock to fulfill your order (%2$s available). We apologize for any inconvenience caused."
+msgstr "Nažalost, artikla „%1$s“ nema dovoljno na stanju za ovu porudžbinu (dostupno: %2$s). Izvini zbog neprijatnosti."
+
+msgid "%1$s has been removed from your cart because it has since been modified. You can add it back to your cart <a href=\"%2$s\">here</a>."
+msgstr "%1$s je uklonjen iz korpe jer je artikal u međuvremenu izmijenjen. Ponovo ga možeš dodati <a href=\"%2$s\">ovdje</a>."
+
+msgid "%s has been removed from your cart because it can no longer be purchased. Please contact us if you need assistance."
+msgstr "%s je uklonjen iz korpe jer više nije u prodaji. Ako ti treba pomoć, javi nam se."
+
+msgid "An item which is no longer available was removed from your cart."
+msgstr "Iz korpe je uklonjen artikal koji više nije dostupan."
+
+msgid "You cannot add &quot;%s&quot; to the cart because the product is out of stock."
+msgstr "„%s“ ne može da se doda u korpu jer nije na stanju."
+
+msgid "You can only have 1 %s in your cart."
+msgstr "U korpi može biti samo jedan artikal %s."
+
+msgid "You cannot add another \"%s\" to your cart."
+msgstr "Još jedan „%s“ ne može da se doda u korpu."
+
+msgid "Please choose the quantity of items you wish to add to your cart&hellip;"
+msgstr "Izaberi količinu za korpu&hellip;"
+
+msgid "Please choose a product to add to your cart&hellip;"
+msgstr "Izaberi artikal za korpu&hellip;"
+
+msgid "Please choose product options&hellip;"
+msgstr "Izaberi veličinu ili boju&hellip;"
+
+msgid "You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart."
+msgstr "Ta količina ne može u korpu &mdash; na stanju je %1$s, a u korpi već imaš %2$s."
+
+msgid "Sorry, \"%s\" is not in stock. Please edit your cart and try again. We apologize for any inconvenience caused."
+msgstr "Nažalost, „%s“ nije na stanju. Izmijeni korpu i pokušaj ponovo. Izvini zbog neprijatnosti."
+
+msgid "You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining)."
+msgstr "Ta količina artikla „%1$s“ ne može u korpu jer ga nema dovoljno na stanju (ostalo: %2$s)."
+
+msgid "Sorry, no products matched your selection. Please choose a different combination."
+msgstr "Nema artikla za taj izbor. Izaberi drugu kombinaciju."
+
+msgid "Sorry, this product is unavailable. Please choose a different combination."
+msgstr "Ova kombinacija nije dostupna. Izaberi drugu."
+
+msgid "%s has been added to your cart."
+msgid_plural "%s have been added to your cart."
+msgstr[0] "%s je dodat u korpu."
+msgstr[1] "%s su dodati u korpu."
+msgstr[2] "%s su dodati u korpu."
+
+msgid "Your cart is currently empty."
+msgstr "Korpa je prazna."
+
+msgid "Continue shopping"
+msgstr "Nastavi kupovinu"
+
+msgid "You may also like&hellip;"
+msgstr "Možda će ti se svidjeti&hellip;"
+
+msgid "No products were found matching your selection."
+msgstr "Nema artikala za izabrane filtere."
+
+msgid "Visit product category %1$s"
+msgstr "Pogledaj kategoriju %1$s"
+
+msgid "Your review is awaiting approval"
+msgstr "Recenzija čeka odobrenje"
+
+msgid "Your rating"
+msgstr "Ocjena"
+
+msgid "Your review"
+msgstr "Recenzija"
+
+msgid "Please select a rating"
+msgstr "Izaberi ocjenu"
+
+msgid "Please rate the product."
+msgstr "Ocijeni artikal."
+
+msgid "You must be %1$slogged in%2$s to post a review."
+msgstr "Za recenziju se %1$sprijavi%2$s."
+
+msgid "Be the first to review &ldquo;%s&rdquo;"
+msgstr "Napiši prvu recenziju za &ldquo;%s&rdquo;"
+
+msgid "Order items could not be saved. Please try again."
+msgstr "Artikli porudžbine nijesu sačuvani. Pokušaj ponovo."
+
+msgid "Usage limit for coupon \"%s\" has been reached. Please try again after some time, or contact us for help."
+msgstr "Kupon „%s“ je iskorišćen do granice. Pokušaj kasnije ili nam se javi."
+
+msgid "Usage limit for coupon \"%1$s\" has been reached. If you were using this coupon just now but your order was not complete, you can retry or cancel the order by going to the <a href=\"%2$s\">my account page</a>."
+msgstr "Kupon „%1$s“ je iskorišćen do granice. Ako je upravo korišćen u porudžbini koja nije završena, ponovi ili otkaži tu porudžbinu na <a href=\"%2$s\">svom nalogu</a>."
+
+msgid "Enter your coupon code"
+msgstr "Upiši kod kupona"
+
+msgid "There was an error processing your order. Please check for any charges in your payment method and review your <a href=\"%s\">order history</a> before placing the order again."
+msgstr "Greška pri obradi porudžbine. Prije nove porudžbine provjeri da li je iznos skinut sa kartice i pogledaj <a href=\"%s\">svoje porudžbine</a>."
+
+msgid "Please enter a valid email to use coupon code \"%s\"."
+msgstr "Za kupon „%s“ upiši ispravnu email adresu."
+
+msgid "Please enter a valid email at checkout to use coupon code \"%s\"."
+msgstr "Za kupon „%s“ upiši ispravnu email adresu pri plaćanju."
+
+msgid "You have used this coupon %s in another transaction during this checkout, and coupon usage limit is reached. Please remove the coupon and try again."
+msgstr "Kupon %s je već iskorišćen u drugom plaćanju i dostigao je granicu. Ukloni kupon i pokušaj ponovo."
+
+msgid "Coupon %s was used in another transaction during this checkout, and coupon usage limit is reached. Please remove the coupon and try again."
+msgstr "Kupon %s je već iskorišćen u drugom plaćanju i dostigao je granicu. Ukloni kupon i pokušaj ponovo."
+
+msgid "Enter a different address"
+msgstr "Upiši drugu adresu"
+
+msgid "Enter your address to view shipping options."
+msgstr "Upiši adresu da vidiš načine dostave."
+
+msgid "Please read and accept the terms and conditions to proceed with your order."
+msgstr "Za poručivanje potvrdi da prihvataš uslove korišćenja."
+
+msgid "There are no shipping options available. Please ensure that your address has been entered correctly, or contact us if you need any help."
+msgstr "Nema dostupne dostave. Provjeri da li je adresa dobro upisana ili nam se javi."
+
+msgid "Unfortunately your order cannot be processed as the originating bank/merchant has declined your transaction. Please attempt your purchase again."
+msgstr "Porudžbina nije obrađena jer je banka odbila plaćanje. Pokušaj ponovo."
+
+msgid "Thank you. Your order has been received."
+msgstr "Hvala! Porudžbina je primljena."
+
+msgid "Your order"
+msgstr "Porudžbina"
+
+msgid "Have a coupon?"
+msgstr "Imaš kupon?"
+
+msgid "Click here to enter your code"
+msgstr "Upiši kod"
+
+msgid "Please fill in your details above to see available payment methods."
+msgstr "Upiši podatke iznad da vidiš načine plaćanja."
+
+msgid "Update totals"
+msgstr "Osvježi iznos"
+
+msgid "Since your browser does not support JavaScript, or it is disabled, please ensure you click the %1$sUpdate Totals%2$s button before placing your order. You may be charged more than the amount stated above if you fail to do so."
+msgstr "Pregledač nema uključen JavaScript, pa prije poručivanja klikni %1$sOsvježi iznos%2$s. Bez toga iznos može biti veći od navedenog."
+
+msgid "If you have shopped with us before, please enter your details below. If you are a new customer, please proceed to the Billing section."
+msgstr "Ako već imaš nalog, prijavi se ispod. Ako prvi put kupuješ, nastavi na podatke za dostavu."
+
+msgid "Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements."
+msgstr "Za tvoju lokaciju nema dostupnog načina plaćanja. Javi nam se i dogovorićemo se."
+
+msgid "Sorry, it seems that there are no available payment methods. Please contact us if you require assistance or wish to make alternate arrangements."
+msgstr "Trenutno nema dostupnog načina plaćanja. Javi nam se i dogovorićemo se."
+
+msgid "Click here to login"
+msgstr "Prijavi se"
+
+msgid "There are some issues with the items in your cart. Please go back to the cart page and resolve these issues before checking out."
+msgstr "Neki artikli u korpi imaju problem. Vrati se u korpu i riješi ga prije plaćanja."
+
+msgid "The order totals have been updated. Please confirm your order by pressing the \"Place order\" button at the bottom of the page."
+msgstr "Iznos porudžbine je izmijenjen. Potvrdi porudžbinu dugmetom na dnu stranice."
+
+msgid "We were unable to process your order, please try again."
+msgstr "Porudžbina nije obrađena. Pokušaj ponovo."
+
+msgid "Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return to shop</a>"
+msgstr "Sesija je istekla. <a href=\"%s\" class=\"wc-backward\">Nazad u prodavnicu</a>"
+
+msgid "Sorry, your session has expired."
+msgstr "Sesija je istekla."
+
+msgid "Please enter a valid postcode / ZIP."
+msgstr "Upiši ispravan poštanski broj."
+
+msgid "%1$s is not valid. Please enter one of the following: %2$s"
+msgstr "%1$s nije ispravno. Upiši jedno od ovoga: %2$s"
+
+msgid "Sorry, coupon \"%s\" is not applicable to your cart contents."
+msgstr "Kupon „%s“ ne važi za artikle u korpi."
+
+msgid "Notes about your order, e.g. special notes for delivery."
+msgstr "Napomena uz porudžbinu, npr. za dostavu."
+
+msgid "Sorry, it seems the coupon \"%s\" is invalid - it has now been removed from your order."
+msgstr "Kupon „%s“ ne važi, pa je uklonjen iz porudžbine."
+
+msgid "Please enter a coupon code."
+msgstr "Upiši kod kupona."
+
+msgid "Unfortunately, <strong>we do not ship %1$s %2$s</strong>. Please enter an alternative shipping address."
+msgstr "Nažalost, <strong>ne šaljemo %1$s %2$s</strong>. Upiši drugu adresu za dostavu."
+
+msgid "Please enter an address to continue."
+msgstr "Za nastavak upiši adresu."
+
+msgid "No shipping method has been selected. Please double check your address, or contact us if you need any help."
+msgstr "Dostava nije izabrana. Provjeri adresu ili nam se javi."
+
+msgid "Your order is on hold"
+msgstr "Porudžbina čeka potvrdu"
+
+msgid "Your order from {site_title} is on hold"
+msgstr "Porudžbina sa {site_title} čeka potvrdu"
+
+msgid "[{site_title}]: Your order #{order_number} has been cancelled"
+msgstr "[{site_title}]: Porudžbina #{order_number} je otkazana"
+
+msgid "Reset your password"
+msgstr "Postavi novu lozinku"
+
+msgid "Reset your password for {site_title}"
+msgstr "Postavi novu lozinku za {site_title}"
+
+msgid "A note has been added to your order from {site_title}"
+msgstr "Nova napomena uz porudžbinu sa {site_title}"
+
+msgid "A note has been added to your order"
+msgstr "Nova napomena uz porudžbinu"
+
+msgid "Thanks again! If you need any help with your order, please contact us at {store_email}."
+msgstr "Hvala još jednom! Ako ti treba pomoć oko porudžbine, piši nam na {store_email}."
+
+msgid "If you need any help with your order, please contact us at {store_email}."
+msgstr "Ako ti treba pomoć oko porudžbine, piši nam na {store_email}."
+
+msgid "Your order from {site_title} is on its way!"
+msgstr "Porudžbina sa {site_title} je na putu!"
+
+msgid "Sorry, your order was unsuccessful"
+msgstr "Nažalost, porudžbina nije uspjela"
+
+msgid "Your order at {site_title} was unsuccessful"
+msgstr "Porudžbina na {site_title} nije uspjela"
+
+msgid "Thanks for using {site_url}!"
+msgstr "Hvala što kupuješ na {site_url}!"
+
+msgid "We look forward to fulfilling your order soon."
+msgstr "Radujemo se što ćemo uskoro poslati porudžbinu."
+
+msgid "We hope to see you again soon."
+msgstr "Nadamo se da se vidimo uskoro."
+
+msgid "We look forward to seeing you soon."
+msgstr "Radujemo se tvojoj sljedećoj posjeti."
+
+msgid "Thanks for shopping with us."
+msgstr "Hvala što kupuješ kod nas."
+
+msgid "Thanks for shopping with us"
+msgstr "Hvala što kupuješ kod nas"
+
+msgid "Your {site_title} account has been created!"
+msgstr "Tvoj {site_title} nalog je spreman!"
+
+msgid "Your {site_title} order has been received!"
+msgstr "Porudžbina na {site_title} je primljena!"
+
+msgid "Your {site_title} order is now complete"
+msgstr "Porudžbina na {site_title} je završena"
+
+msgid "Thank you for your order"
+msgstr "Hvala na porudžbini"
+
+msgid "Your {site_title} order #{order_number} has been refunded"
+msgstr "Novac za porudžbinu #{order_number} na {site_title} je vraćen"
+
+msgid "Your {site_title} order #{order_number} has been partially refunded"
+msgstr "Dio novca za porudžbinu #{order_number} na {site_title} je vraćen"

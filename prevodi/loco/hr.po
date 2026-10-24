@@ -1,0 +1,142 @@
+# Generisano iz prevodi/ti_prevodi.py (bin/prevodi.py). Ne mijenjati ručno ovdje.
+msgid ""
+msgstr ""
+"Project-Id-Version: Lady Mom – prevodi na ti\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Domain: default\n"
+
+msgid "Logged in as %1$s. <a href=\"%2$s\">Edit your profile</a>. <a href=\"%3$s\">Log out?</a>"
+msgstr "Prijavljen nalog: %1$s. <a href=\"%2$s\">Uredi profil</a>. <a href=\"%3$s\">Odjava</a>"
+
+msgid "<strong>Error:</strong> Please fill the required fields."
+msgstr "<strong>Greška:</strong> popuni obavezna polja."
+
+msgid "<strong>Error:</strong> Unknown username. Check again or try your email address."
+msgstr "<strong>Greška:</strong> nepoznato korisničko ime. Provjeri ga ili upiši email adresu."
+
+msgid "<strong>Error:</strong> Unknown email address. Check again or try your username."
+msgstr "<strong>Greška:</strong> nepoznata email adresa. Provjeri je ili upiši korisničko ime."
+
+msgid "<strong>Error:</strong> The username <strong>%s</strong> is not registered on this site. If you are unsure of your username, try your email address instead."
+msgstr "<strong>Greška:</strong> korisničko ime <strong>%s</strong> ne postoji. Ako ne znaš korisničko ime, upiši email adresu."
+
+msgid "Unknown email address. Check again or try your username."
+msgstr "Nepoznata email adresa. Provjeri je ili upiši korisničko ime."
+
+msgid "Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved."
+msgstr "Komentar čeka odobrenje. Ovo je pregled; komentar će se vidjeti kad bude odobren."
+
+msgid "The link you followed has expired."
+msgstr "Link je istekao."
+
+msgid "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email."
+msgstr "Email adresa još nije promijenjena. Potvrdu smo poslali na %s, provjeri poštu."
+
+msgid "<strong>Error:</strong> The password you entered for the email address %s is incorrect."
+msgstr "<strong>Greška:</strong> lozinka za email adresu %s nije tačna."
+
+msgid "<strong>Error:</strong> The password you entered for the username %s is incorrect."
+msgstr "<strong>Greška:</strong> lozinka za korisničko ime %s nije tačna."
+
+msgid "<strong>Error:</strong> Your comment is too long."
+msgstr "<strong>Greška:</strong> komentar je predug."
+
+msgid "<strong>Error:</strong> Your URL is too long."
+msgstr "<strong>Greška:</strong> adresa sajta je preduga."
+
+msgid "<strong>Error:</strong> Your email address is too long."
+msgstr "<strong>Greška:</strong> email adresa je preduga."
+
+msgid "<strong>Error:</strong> Your name is too long."
+msgstr "<strong>Greška:</strong> ime je predugo."
+
+msgid "<strong>Error:</strong> The comment could not be saved. Please try again later."
+msgstr "<strong>Greška:</strong> komentar nije sačuvan. Pokušaj kasnije."
+
+msgid "Hint: The password should be at least twelve characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! \" ? $ % ^ &amp; )."
+msgstr "Savjet: lozinka treba da ima bar dvanaest znakova. Jača je uz velika i mala slova, brojeve i znakove kao što su ! \" ? $ % ^ &amp; )."
+
+msgid "<strong>Error:</strong> Could not register you&hellip; please contact the <a href=\"mailto:%s\">site admin</a>!"
+msgstr "<strong>Greška:</strong> registracija nije uspjela&hellip; piši nam na <a href=\"mailto:%s\">email</a>!"
+
+msgid "<strong>Error:</strong> This username is already registered. Please choose another one."
+msgstr "<strong>Greška:</strong> to korisničko ime je zauzeto. Izaberi drugo."
+
+msgid "You are posting comments too quickly. Slow down."
+msgstr "Komentari stižu prebrzo. Sačekaj malo."
+
+msgid "<strong>Error:</strong> Please type your comment text."
+msgstr "<strong>Greška:</strong> upiši tekst komentara."
+
+msgid "<strong>Error:</strong> Please enter a valid email address."
+msgstr "<strong>Greška:</strong> upiši ispravnu email adresu."
+
+msgid "To reset your password, visit the following address:"
+msgstr "Za novu lozinku otvori ovaj link:"
+
+msgid "If this was a mistake, ignore this email and nothing will happen."
+msgstr "Ako zahtjev nije tvoj, zanemari ovaj email i ništa se neće promijeniti."
+
+msgid "<strong>Error:</strong> This username is invalid because it uses illegal characters. Please enter a valid username."
+msgstr "<strong>Greška:</strong> korisničko ime ima nedozvoljene znakove. Upiši drugo."
+
+msgid "The email address entered did not appear to be a valid email address. Please enter a valid email address."
+msgstr "Email adresa nije ispravna. Upiši ispravnu adresu."
+
+msgid "Your email address will not be published."
+msgstr "Email adresa se ne objavljuje."
+
+msgid "Lost your password?"
+msgstr "Zaboravljena lozinka?"
+
+msgid "<strong>Error:</strong> Please type your email address."
+msgstr "<strong>Greška:</strong> upiši email adresu."
+
+msgid "<strong>Error:</strong> Please enter a username or email address."
+msgstr "<strong>Greška:</strong> upiši korisničko ime ili email adresu."
+
+msgid "Please log in again."
+msgstr "Prijavi se ponovo."
+
+msgid "Please try again."
+msgstr "Pokušaj ponovo."
+
+msgid "Do you really want to <a href=\"%s\">log out</a>?"
+msgstr "Da li sigurno želiš da se <a href=\"%s\">odjaviš</a>?"
+
+msgid "You are attempting to log out of %s"
+msgstr "Odjavljuješ se sa %s"
+
+msgid "Duplicate comment detected; it looks as though you&#8217;ve already said that!"
+msgstr "Isti komentar je već poslat!"
+
+msgid "Click here to cancel reply."
+msgstr "Otkaži odgovor."
+
+msgid "Log in to leave a Comment"
+msgstr "Prijavi se za komentar"
+
+msgid "Log in to Reply"
+msgstr "Prijavi se za odgovor"
+
+msgid "Your comment is awaiting moderation."
+msgstr "Komentar čeka odobrenje."
+
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr "Za komentar se <a href=\"%s\">prijavi</a>."
+
+msgid "<strong>Error:</strong> Please enter a username."
+msgstr "<strong>Greška:</strong> upiši korisničko ime."
+
+msgid "Hi ###USERNAME###,\n\nThis notice confirms that your password was changed on ###SITENAME###.\n\nIf you did not change your password, please contact the Site Administrator at\n###ADMIN_EMAIL###\n\nThis email has been sent to ###EMAIL###\n\nRegards,\nAll at ###SITENAME###\n###SITEURL###"
+msgstr "Zdravo ###USERNAME###,\n\nlozinka za nalog na ###SITENAME### je promijenjena.\n\nAko promjena nije tvoja, odmah nam piši na\n###ADMIN_EMAIL###\n\nOvaj email je poslat na ###EMAIL###\n\nPozdrav,\n###SITENAME###\n###SITEURL###"
+
+msgid "Hi ###USERNAME###,\n\nThis notice confirms that your email address on ###SITENAME### was changed to ###NEW_EMAIL###.\n\nIf you did not change your email, please contact the Site Administrator at\n###ADMIN_EMAIL###\n\nThis email has been sent to ###EMAIL###\n\nRegards,\nAll at ###SITENAME###\n###SITEURL###"
+msgstr "Zdravo ###USERNAME###,\n\nemail adresa naloga na ###SITENAME### je promijenjena u ###NEW_EMAIL###.\n\nAko promjena nije tvoja, odmah nam piši na\n###ADMIN_EMAIL###\n\nOvaj email je poslat na ###EMAIL###\n\nPozdrav,\n###SITENAME###\n###SITEURL###"
+
+msgid "Howdy ###USERNAME###,\n\nYou recently requested to have the email address on your account changed.\n\nIf this is correct, please click on the following link to change it:\n###ADMIN_URL###\n\nYou can safely ignore and delete this email if you do not want to\ntake this action.\n\nThis email has been sent to ###EMAIL###\n\nRegards,\nAll at ###SITENAME###\n###SITEURL###"
+msgstr "Zdravo ###USERNAME###,\n\nstigao je zahtjev za promjenu email adrese naloga.\n\nAko je zahtjev tvoj, adresu promijeni preko ovog linka:\n###ADMIN_URL###\n\nAko zahtjev nije tvoj, samo zanemari ovaj email.\n\nOvaj email je poslat na ###EMAIL###\n\nPozdrav,\n###SITENAME###\n###SITEURL###"
