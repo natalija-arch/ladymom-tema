@@ -26,3 +26,11 @@ msgstr "Podešavanja kolačića"
 
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr "Više piše u %s%s Politici privatnosti%s."
+
+msgctxt "cookie policy"
+msgid "You have loaded the Cookie Policy without javascript support."
+msgstr "Stranica je otvorena bez JavaScript-a."
+
+msgctxt "cookie policy"
+msgid "On AMP, you can use the manage consent button on the bottom of the page."
+msgstr "Na AMP stranicama podešavanja kolačića su na dugmetu na dnu stranice."

@@ -205,3 +205,31 @@ Z = [
 ("Za pravu veličinu grudnjaka pogledajte vodič", "Za pravu veličinu grudnjaka pogledaj vodič"),
 ("komade ćete rado nositi", "komade ćeš rado nositi"),
 ]
+# Druga runda (sirovi HTML, 24.10.)
+Z += [
+("Ako vam nešto nije jasno, pišite nam preko", "Ako ti nešto nije jasno, piši nam preko"),
+("<p>Možete platiti <strong>pouzećem</strong>", "<p>Možeš platiti <strong>pouzećem</strong>"),
+("Broj rata birate na stranici plaćanja.", "Broj rata biraš na stranici plaćanja."),
+("Ako plaćate <strong>NLB platnom karticom</strong>, kupovinu možete podijeliti", "Ako plaćaš <strong>NLB platnom karticom</strong>, kupovinu možeš podijeliti"),
+("<p>Izaberite opciju <strong>Plaćanje pouzećem</strong> i porudžbinu platite gotovinom", "<p>Izaberi opciju <strong>Plaćanje pouzećem</strong> i porudžbinu plati gotovinom"),
+("Imate pitanje u vezi sa plaćanjem? Pozovite nas na", "Imaš pitanje u vezi sa plaćanjem? Pozovi nas na"),
+("</a>, pišite na <a href=\"mailto:natalija@ladymom.me\">", "</a>, piši na <a href=\"mailto:natalija@ladymom.me\">"),
+("ili nam se javite preko <a", "ili nam se javi preko <a"),
+("Da biste ostvarili pravo na vraćanje kupljenog proizvoda, <strong>vraćena roba", "Za pravo na vraćanje kupljenog proizvoda <strong>vraćena roba"),
+("pravo na zamjenu možete preuzeti <a", "pravo na zamjenu možeš preuzeti <a"),
+("Ukoliko želite da zamijenite model naručen putem LADY MOM&nbsp; online prodavnice, zamjenski proizvod će Vam biti poslat", "Ako želiš da zamijeniš model poručen putem LADY MOM online prodavnice, zamjenski proizvod će ti biti poslat"),
+("i opišete nastalu situaciju", "i opišeš nastalu situaciju"),
+("kontaktirate putem email adrese", "kontaktiraš putem email adrese"),
+("Kod za popust dobijate odmah nakon prijave.", "Kod za popust dobijaš odmah nakon prijave."),
+("<p>Svratite, pozovite nas na <a", "<p>Svrati, pozovi nas na <a"),
+("</a> ili nam pišite na <a href=\"https://www.instagram.com", "</a> ili nam piši na <a href=\"https://www.instagram.com"),
+("<span class=\"lm-k-t\">Pozovite</span>", "<span class=\"lm-k-t\">Pozovi</span>"),
+("Imate pitanje?", "Imaš pitanje?"),
+("<p>Prijavite se online na stranici <a", "<p>Prijavi se online na stranici <a"),
+("ako sami preuzimate u butiku", "ako porudžbinu preuzimaš u butiku"),
+("Preporučujemo da ih sačuvate ili odštampate.", "Preporučujemo da ih sačuvaš ili odštampaš."),
+("Vaša lista želja je još prazna. Sačuvajte omiljene proizvode klikom na srce i lako ih pronađite kasnije.", "Lista želja je još prazna. Sačuvaj omiljene proizvode klikom na srce i lako ih pronađi kasnije."),
+("<p>Dodajte još [remainder] u korpu i dostava je besplatna!</p>", "<p>Dodaj još [remainder] u korpu i dostava je besplatna!</p>"),
+("<p>Vaša porudžbina ima besplatnu dostavu!</p>", "<p>Porudžbina ima besplatnu dostavu!</p>"),
+]
+# Naslovi članaka u meniju: #35910 „Kalendar trudnoće: šta ti treba u kojem trimestru“, #35906 „Šta spakovati u porodilište: lista koja ti zaista treba“.

@@ -265,6 +265,8 @@ t(C, 'Read more about these purposes', 'Više o ovim svrhama')
 t(C, 'Manage options', 'Podešavanja')
 t(C, 'Manage consent', 'Podešavanja kolačića')
 t(C, 'For more information, please read the %s%s Privacy Statement%s.', 'Više piše u %s%s Politici privatnosti%s.')
+t(C, 'You have loaded the Cookie Policy without javascript support.', 'Stranica je otvorena bez JavaScript-a.', ctx='cookie policy')
+t(C, 'On AMP, you can use the manage consent button on the bottom of the page.', 'Na AMP stranicama podešavanja kolačića su na dugmetu na dnu stranice.', ctx='cookie policy')
 
 F = 'contact-form-7'
 t(F, '&#8212;Please choose an option&#8212;', '&#8212;Izaberi&#8212;')
