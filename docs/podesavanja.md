@@ -474,3 +474,5 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - **n16**: `inc/kes.php` – zagrijavanje keša poslije brisanja (WP-Cron, 2 s razmaka, najviše 15 adresa po prolazu, stop na 429). Imunify blokira IP servera (162.55.0.170) kad server prečesto otvara sam sebe: treba whitelist u cPanel → Imunify (čeka Marka). Zadnji prolaz: opcija `lm_kes_zagrij_zadnje`.
 - **r8**: `inc/tabele-velicina.php` + tabele (post `woodmart_size_guide`) #51643 Mamalicious, #51644 Seraphine, #51645 Cache Cœur, meta `lm_brend`. Prikaz po brendu samo za artikle sa atributom veličine; uključuje se opcijom `lm_tabele_brend` = 1 (čeka Marka), dotle admin vidi uz `?lm_tabela=1`. Primjer #838 (namještaj) u otpadu.
 - **n25**: pokretač (snippet 14) je poslije svakog poziva prazan i isključen.
+
+- 24.10. 12:34 (Marko u chatu): uključeno `lm_tabele_brend` = 1 (r8) i `lm_molba_ocjena` = 1 (n2).
