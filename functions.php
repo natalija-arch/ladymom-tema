@@ -55,6 +55,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
 } else {
 	foreach ( array(
 		'zajednicko.php',
+		'cron.php',
 		'jezik.php',
 		'besplatna-dostava.php',
 		'h1-naslovi.php',
