@@ -14,7 +14,7 @@
  * 4) Zagrijavanje (n16, 24.10.2026): poslije brisanja keša sajt u pozadini (WP-Cron, minut kasnije)
  *    sam otvori obrisane stranice kao gost, za računar i telefon, pa prvi kupac dobija keširanu
  *    stranicu (~60 ms) umjesto 1,1–1,2 s. Artikal poslije ERP izmjene; poslije brisanja cijelog
- *    keša početna, prodavnica, glavne kategorije, škola i kontakt. LiteSpeed-ov crawler hosting ne dozvoljava.
+ *    keša početna, prodavnica, 12 kategorija sa najviše artikala, škola i kontakt. LiteSpeed-ov crawler hosting ne dozvoljava.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,7 +87,7 @@ add_action( 'litespeed_purged_all', function () {
 		'k'    => get_current_user_id(),
 	) );
 	$adrese = array( home_url( '/' ), get_permalink( wc_get_page_id( 'shop' ) ), home_url( '/skola-za-trudnice/' ), home_url( '/kontakt/' ) );
-	$kat    = get_terms( array( 'taxonomy' => 'product_cat', 'parent' => 0, 'hide_empty' => true, 'orderby' => 'count', 'order' => 'DESC', 'number' => 10 ) );
+	$kat    = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => true, 'orderby' => 'count', 'order' => 'DESC', 'number' => 12, 'exclude' => array( (int) get_option( 'default_product_cat' ) ) ) );
 	foreach ( is_array( $kat ) ? $kat : array() as $k ) {
 		$l = get_term_link( $k );
 		if ( is_string( $l ) ) {
