@@ -467,3 +467,10 @@ Marko (23.10., poslije Natalijinog maila „SKOLICA – SVI MATERIJALI ZA SAJT�
 - **Baza** (zamjene u `prevodi/n4_sadrzaj.py`, originali u opcijama `lm_backup_n4_*`): stranice Početna, Kontakt, O nama, Dostava, Česta pitanja, Načini plaćanja, Uslovi korišćenja, Politika privatnosti, Povrat, Vodič kroz veličine, Lista želja, 404, Yoast opisi, blok novosti #35764, CF7 forme #1572 i #35763 (poruke, mail kupcu), WoodMart opcije (traka kolačića, prazna lista želja, prazna korpa, poređenje, traka za besplatnu dostavu), Bankart opisi rata, tekstovi privatnosti na plaćanju i registraciji, emailovi liste čekanja, Complianz traka #1 (ponovo sačuvana), opisi kategorija 105 i 110 i brenda 516, naslovi članaka #35910 i #35906 (stoje u meniju).
 - Ostaje na „vi“: pitanja kupca butiku u Čestim pitanjima („Da li šaljete…“, „Kako da vas kontaktiram?“), tekstovi čekboksa u kojima kupac govori butiku, članci na blogu (nijesu bili u pregledu; predlog je u listi).
 - Probni emailovi „[PROBA n4] …“ na natalija+test-n4@ladymom.me (#51610: primljena, na putu, napomena).
+
+### 24.10.2026 (podne) – r20, n16, r8, n25
+
+- **r20**: u `public_html/.htaccess` na vrhu `Options -Indexes` (stari fajl: `.htaccess.lm-prije-r20-20261024`). Folderi bez index fajla vraćaju 403.
+- **n16**: `inc/kes.php` – zagrijavanje keša poslije brisanja (WP-Cron, 2 s razmaka, najviše 15 adresa po prolazu, stop na 429). Imunify blokira IP servera (162.55.0.170) kad server prečesto otvara sam sebe: treba whitelist u cPanel → Imunify (čeka Marka). Zadnji prolaz: opcija `lm_kes_zagrij_zadnje`.
+- **r8**: `inc/tabele-velicina.php` + tabele (post `woodmart_size_guide`) #51643 Mamalicious, #51644 Seraphine, #51645 Cache Cœur, meta `lm_brend`. Prikaz po brendu samo za artikle sa atributom veličine; uključuje se opcijom `lm_tabele_brend` = 1 (čeka Marka), dotle admin vidi uz `?lm_tabela=1`. Primjer #838 (namještaj) u otpadu.
+- **n25**: pokretač (snippet 14) je poslije svakog poziva prazan i isključen.
