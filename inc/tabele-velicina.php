@@ -60,6 +60,13 @@ add_filter( 'wpml_object_id', function ( $id, $tip = '', $original = false ) {
 	if ( ! $pid || 'product' !== get_post_type( $pid ) ) {
 		return $id;
 	}
+	// Samo artikli sa izborom veličine (ulošci, pumpice i sl. istog brenda ne dobijaju tabelu).
+	$p = wc_get_product( $pid );
+	if ( ! $p || ! array_filter( array_keys( $p->get_attributes() ), function ( $k ) {
+		return (bool) preg_match( '/veli|size|korp|kup/i', $k );
+	} ) ) {
+		return $id;
+	}
 	$t = lm_tabela_za_artikal( $pid );
 	return $t ? $t : $id;
 }, 10, 3 );
