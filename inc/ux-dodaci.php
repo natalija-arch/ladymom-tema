@@ -38,7 +38,7 @@ add_filter( 'woocommerce_default_address_fields', function ( $f ) {
 add_filter( 'woocommerce_billing_fields', function ( $f ) {
 	unset( $f['billing_postcode'], $f['billing_state'] );
 	if ( isset( $f['billing_phone'] ) ) {
-		$f['billing_phone']['description'] = 'Kurir će vas pozvati prije isporuke.';
+		$f['billing_phone']['description'] = 'Kurir će te pozvati prije isporuke.';
 		$f['billing_phone']['priority']    = 25;
 	}
 	return $f;

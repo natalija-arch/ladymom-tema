@@ -33,12 +33,12 @@ add_filter( 'gettext', function ( $t, $text, $domain ) {
 		case 'Add %s':
 			return 'Dodaj adresu';
 		case 'The following addresses will be used on the checkout page by default.':
-			return 'Ova adresa se automatski upisuje kad poručujete.';
+			return 'Ova adresa se automatski upisuje kad poručuješ.';
 		case 'From your account dashboard you can view your <a href="%1$s">recent orders</a>, manage your <a href="%2$s">shipping and billing addresses</a>, and <a href="%3$s">edit your password and account details</a>.':
 		case 'From your account dashboard you can view your <a href="%1$s">recent orders</a>, manage your <a href="%2$s">billing address</a>, and <a href="%3$s">edit your password and account details</a>.':
-			return 'Ovdje možete pregledati svoje <a href="%1$s">posljednje porudžbine</a>, promijeniti <a href="%2$s">adresu za dostavu</a> i urediti <a href="%3$s">lozinku i podatke naloga</a>.';
+			return 'Ovdje možeš pregledati svoje <a href="%1$s">posljednje porudžbine</a>, promijeniti <a href="%2$s">adresu za dostavu</a> i urediti <a href="%3$s">lozinku i podatke naloga</a>.';
 		case 'You have not set up this type of address yet.':
-			return 'Još niste sačuvali adresu za dostavu.';
+			return 'Adresa za dostavu još nije sačuvana.';
 	}
 	return $t;
 }, 30, 3 );

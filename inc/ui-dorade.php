@@ -25,7 +25,7 @@ add_action( 'woocommerce_cart_is_empty', function () {
 	}
 	echo '<div class="lm-pk">';
 	echo '<p class="lm-pk-dugme"><a class="button wc-backward" href="' . esc_url( wc_get_page_permalink( 'shop' ) ) . '">Nazad u prodavnicu</a></p>';
-	echo '<h3 class="lm-pk-naslov">Pogledajte police</h3><div class="lm-pk-kat">';
+	echo '<h3 class="lm-pk-naslov">Pogledaj police</h3><div class="lm-pk-kat">';
 	foreach ( lm_pk_kategorije() as $slug => $naziv ) {
 		$term = get_term_by( 'slug', $slug, 'product_cat' );
 		$url  = ( $term && ! is_wp_error( $term ) ) ? get_term_link( $term ) : home_url( '/?product_cat=' . $slug );
@@ -41,7 +41,7 @@ add_action( 'woocommerce_cart_is_empty', function () {
 
 // 3) Pretraga u mobilnom meniju: kratak placeholder da se ne siječe.
 add_action( 'wp_footer', function () {
-	echo '<script id="lm-ui-js">document.querySelectorAll(".mobile-nav input.s").forEach(function(i){i.placeholder="Šta tražite?";});</script>';
+	echo '<script id="lm-ui-js">document.querySelectorAll(".mobile-nav input.s").forEach(function(i){i.placeholder="Šta tražiš?";});</script>';
 }, 99 );
 
 // 4) Stilovi.

@@ -225,7 +225,7 @@ function lm_em_footer( $email = null, $opcije = array() ) {
 	if ( $email && ! $admin && in_array( $email->id, array( 'customer_processing_order', 'customer_new_account' ), true ) && ! ( function_exists( 'lm_em_ima_rm' ) && lm_em_ima_rm( $o ) ) ) {
 		echo lm_em_red( '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#d6ede9;border-radius:16px"><tr>'
 			. '<td class="lm-box-td" style="padding:20px 24px;' . $f . '"><div style="font-size:12px;font-weight:700;letter-spacing:.12em;color:#3f6265">ŠKOLA ZA TRUDNICE</div><div style="font-size:16px;font-weight:700;color:#2f4a4c;margin:4px 0 10px">Ready Mom — prijave su otvorene</div>'
-			. '<a href="' . esc_url( function_exists( 'lm_skola_url' ) && lm_skola_url() ? lm_skola_url() : home_url( '/ready-mom/' ) ) . '" style="font-size:14px;font-weight:700;color:#2f4a4c;text-decoration:underline">Saznajte više →</a></td></tr></table>', 14 );
+			. '<a href="' . esc_url( function_exists( 'lm_skola_url' ) && lm_skola_url() ? lm_skola_url() : home_url( '/ready-mom/' ) ) . '" style="font-size:14px;font-weight:700;color:#2f4a4c;text-decoration:underline">Saznaj više →</a></td></tr></table>', 14 );
 	}
 	$logo  = wp_get_attachment_url( lm_em_media( 'logo_footer' ) );
 	$logo  = $logo ? $logo : wp_get_attachment_url( lm_em_media( 'logo_bijeli' ) );
@@ -238,7 +238,7 @@ function lm_em_footer( $email = null, $opcije = array() ) {
 	if ( $admin ) {
 		$why = 'Obavještenje za butik o porudžbini na ' . $host . '.';
 	} else {
-		$why = $o ? 'Ovaj email ste dobili jer ste poručili na ' . $host . '.' : 'Ovaj email ste dobili jer imate nalog na ' . $host . '.';
+		$why = $o ? 'Ovaj email ti šaljemo jer imaš porudžbinu na ' . $host . '.' : 'Ovaj email ti šaljemo jer imaš nalog na ' . $host . '.';
 	}
 	$odjava = '';
 	if ( ! empty( $GLOBALS['lm_em_razlog'] ) ) {
@@ -299,8 +299,8 @@ function lm_em_box( $html, $bg = '#fdf2ec' ) {
 function lm_em_kontakt_box( $naslov = 'Pitanje o porudžbini?' ) {
 	return lm_em_box(
 		'<div style="font-size:18px;font-weight:800;color:#6d4e39;margin:0 0 6px">' . esc_html( $naslov ) . '</div>'
-		. '<div style="font-size:15px;line-height:1.55;color:#6d4e39;margin:0 0 16px">Odgovorite na ovaj email ili nam pišite na WhatsApp ili Viber. Možete i da pozovete butik.</div>'
-		. lm_em_btns( array( array( 'https://wa.me/38267030655', 'PIŠITE NA WHATSAPP' ), array( 'tel:+38267030655', 'POZOVITE BUTIK', true ) ) )
+		. '<div style="font-size:15px;line-height:1.55;color:#6d4e39;margin:0 0 16px">Odgovori na ovaj email ili nam piši na WhatsApp ili Viber. Možeš i da pozoveš butik.</div>'
+		. lm_em_btns( array( array( 'https://wa.me/38267030655', 'PIŠI NA WHATSAPP' ), array( 'tel:+38267030655', 'POZOVI BUTIK', true ) ) )
 		. '<div style="font-size:14px;line-height:1.5;color:#6d4e39;margin:14px 0 0">Viber i telefon: <a href="tel:+38267030655" style="font-weight:700;color:#8a4b47;text-decoration:underline;white-space:nowrap">067 030 655</a></div>',
 		'#f6ded4'
 	);

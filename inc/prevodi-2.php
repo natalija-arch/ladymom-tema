@@ -44,8 +44,8 @@ function lm_prevodi2() {
 		'days'                                 => 'dana',
 		'min'                                  => 'min',
 		'Some files are too large. Allowed file size is 1 MB.' => 'Neke slike su prevelike. Najveća dozvoljena veličina je 1 MB.',
-		'You can upload up to 3 images to your review.'        => 'Uz recenziju možete priložiti do 3 slike.',
-		'You are allowed to upload images only in png, jpeg formats.' => 'Možete priložiti samo slike u PNG ili JPEG formatu.',
+		'You can upload up to 3 images to your review.'        => 'Uz recenziju možeš priložiti do 3 slike.',
+		'You are allowed to upload images only in png, jpeg formats.' => 'Možeš priložiti samo slike u PNG ili JPEG formatu.',
 	);
 }
 

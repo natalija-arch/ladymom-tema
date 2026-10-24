@@ -20,7 +20,7 @@ add_action( 'woocommerce_after_add_to_cart_form', function () {
 	$ima_velicinu = '' !== trim( (string) $product->get_attribute( 'pa_velicina' ) );
 	$msg  = 'Zdravo! Zanima me proizvod „' . wp_strip_all_tags( $product->get_name() ) . '“ – ' . get_permalink( $product->get_id() ) . ( $ima_velicinu ? ' Možete li mi pomoći sa veličinom?' : ' Imam pitanje.' );
 	$link = 'https://wa.me/38267030655?text=' . rawurlencode( $msg );
-	echo '<div class="lm-ask-box"><p class="lm-ask-t">' . ( $ima_velicinu ? 'Pitajte nas za veličinu ili savjet' : 'Pitajte nas za savjet' ) . '</p><div class="lm-ask-row">'
+	echo '<div class="lm-ask-box"><p class="lm-ask-t">' . ( $ima_velicinu ? 'Pitaj nas za veličinu ili savjet' : 'Pitaj nas za savjet' ) . '</p><div class="lm-ask-row">'
 		. '<a class="lm-ask lm-ask-wa" href="' . esc_url( $link ) . '" target="_blank" rel="noopener nofollow">'
 		. '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg>'
 		. '<span>WhatsApp</span></a>'
@@ -72,7 +72,7 @@ add_action( 'woocommerce_after_cart_table', function () {
 		return;
 	}
 	echo '<section class="lm-nudge"><h2>Još ' . wp_kses_post( wc_price( $left ) ) . ' do besplatne dostave</h2>';
-	echo '<p>Dodajte nešto od ovoga i dostava je na nas:</p><ul class="products lm-nudge-list">';
+	echo '<p>Dodaj nešto od ovoga i dostava je na nas:</p><ul class="products lm-nudge-list">';
 	while ( $q->have_posts() ) {
 		$q->the_post();
 		wc_get_template_part( 'content', 'product' );
@@ -147,7 +147,7 @@ add_action( 'wp_head', function () {
 // ---------------------------------------------------------------------------
 function lm_wl_map() {
 	return array(
-		'Your wishlists'        => 'Vaše liste želja',
+		'Your wishlists'        => 'Tvoje liste želja',
 		'Create wishlist'       => 'Napravi listu',
 		'Edit name'             => 'Preimenuj',
 		'Wishlist name'         => 'Naziv liste',
@@ -159,7 +159,7 @@ function lm_wl_map() {
 		'Copy link'             => 'Kopiraj link',
 		'Link copied'           => 'Link je kopiran',
 		'Move to wishlist'      => 'Premjesti u listu',
-		'Select wishlist'       => 'Izaberite listu',
+		'Select wishlist'       => 'Izaberi listu',
 	);
 }
 add_filter( 'gettext', function ( $t, $text, $domain ) {
@@ -176,7 +176,7 @@ add_action( 'wp_head', function () {
 
 // 10) Zatamnjenje iza panela pretrage i poruke o obaveznim poljima na crnogorskom.
 add_action( 'wp_footer', function () {
-	echo '<script id="lm-search-ux">(function(){var W=1025;function box(){return document.querySelector(\'.whb-header .wd-header-search.wd-display-dropdown\');}function veil(on){var v=document.querySelector(\'.lm-veil\');if(on){if(!v){v=document.createElement(\'div\');v.className=\'lm-veil\';document.body.appendChild(v);}}else if(v){v.remove();}}function sync(){var h=box();if(!h)return;var on=h.classList.contains(\'lm-open\')&&window.innerWidth>=W;document.body.classList.toggle(\'lm-search-on\',on);veil(on);}function start(){var h=box();if(!h){return;}new MutationObserver(sync).observe(h,{attributes:true,attributeFilter:[\'class\']});sync();document.addEventListener(\'click\',function(e){if(document.body.classList.contains(\'lm-search-on\')&&!e.target.closest(\'.wd-search-dropdown\')&&!e.target.closest(\'.wd-header-search\')){document.body.classList.remove(\'lm-search-on\');veil(false);}},true);}function poruke(){document.querySelectorAll(\'input[name="s"]\').forEach(function(i){if(i.lmV)return;i.lmV=1;i.addEventListener(\'invalid\',function(){i.setCustomValidity(\'Upišite šta tražite.\');});i.addEventListener(\'input\',function(){i.setCustomValidity(\'\');});});document.querySelectorAll(\'input[required]:not([name="s"]),select[required],textarea[required]\').forEach(function(i){if(i.lmV2)return;i.lmV2=1;i.addEventListener(\'invalid\',function(){i.setCustomValidity(i.value?\'Unesite podatak u traženom formatu.\':\'Ovo polje je obavezno.\');});i.addEventListener(\'input\',function(){i.setCustomValidity(\'\');});i.addEventListener(\'change\',function(){i.setCustomValidity(\'\');});});}function init(){start();poruke();}if(document.readyState!==\'loading\')init();else document.addEventListener(\'DOMContentLoaded\',init);document.addEventListener(\'click\',poruke,true);})();</script>';
+	echo '<script id="lm-search-ux">(function(){var W=1025;function box(){return document.querySelector(\'.whb-header .wd-header-search.wd-display-dropdown\');}function veil(on){var v=document.querySelector(\'.lm-veil\');if(on){if(!v){v=document.createElement(\'div\');v.className=\'lm-veil\';document.body.appendChild(v);}}else if(v){v.remove();}}function sync(){var h=box();if(!h)return;var on=h.classList.contains(\'lm-open\')&&window.innerWidth>=W;document.body.classList.toggle(\'lm-search-on\',on);veil(on);}function start(){var h=box();if(!h){return;}new MutationObserver(sync).observe(h,{attributes:true,attributeFilter:[\'class\']});sync();document.addEventListener(\'click\',function(e){if(document.body.classList.contains(\'lm-search-on\')&&!e.target.closest(\'.wd-search-dropdown\')&&!e.target.closest(\'.wd-header-search\')){document.body.classList.remove(\'lm-search-on\');veil(false);}},true);}function poruke(){document.querySelectorAll(\'input[name="s"]\').forEach(function(i){if(i.lmV)return;i.lmV=1;i.addEventListener(\'invalid\',function(){i.setCustomValidity(\'Upiši šta tražiš.\');});i.addEventListener(\'input\',function(){i.setCustomValidity(\'\');});});document.querySelectorAll(\'input[required]:not([name="s"]),select[required],textarea[required]\').forEach(function(i){if(i.lmV2)return;i.lmV2=1;i.addEventListener(\'invalid\',function(){i.setCustomValidity(i.value?\'Unesi podatak u traženom formatu.\':\'Ovo polje je obavezno.\');});i.addEventListener(\'input\',function(){i.setCustomValidity(\'\');});i.addEventListener(\'change\',function(){i.setCustomValidity(\'\');});});}function init(){start();poruke();}if(document.readyState!==\'loading\')init();else document.addEventListener(\'DOMContentLoaded\',init);document.addEventListener(\'click\',poruke,true);})();</script>';
 }, 99 );
 add_action( 'wp_head', function () {
 	echo '<style id="lm-search-veil">@media (min-width:1025px){.lm-veil{position:fixed;inset:0;background:rgba(42,34,38,.38);z-index:360;animation:lmVeil .2s ease}@keyframes lmVeil{from{opacity:0}to{opacity:1}}.whb-header .wd-header-search .wd-search-dropdown{max-height:calc(100vh - 150px);overflow-y:auto;overscroll-behavior:contain}}</style>';
@@ -249,9 +249,9 @@ add_filter( 'the_content', function ( $content ) {
 	foreach ( $proizvodi as $p ) { $ids[] = $p->get_id(); }
 	$blok  = '<section class="lm-clanak-proizvodi">';
 	$blok .= '<h2>' . esc_html( $cfg['naslov'] ) . '</h2>';
-	$blok .= '<p class="lm-cp-lead">Sve iz teksta imate kod nas — online ili u butiku u Podgorici.</p>';
+	$blok .= '<p class="lm-cp-lead">Sve iz teksta imaš kod nas — online ili u butiku u Podgorici.</p>';
 	$blok .= do_shortcode( '[products ids="' . implode( ',', $ids ) . '" columns="4" limit="4"]' );
-	$blok .= '<p class="lm-cp-vise"><a href="' . esc_url( wc_get_page_permalink( 'shop' ) ) . '">Pogledajte cijelu ponudu →</a></p>';
+	$blok .= '<p class="lm-cp-vise"><a href="' . esc_url( wc_get_page_permalink( 'shop' ) ) . '">Pogledaj cijelu ponudu →</a></p>';
 	$blok .= '</section>';
 	return $content . $blok;
 }, 20 );
@@ -316,7 +316,7 @@ add_action( 'wp_head', function () {
 
 // 23) NLB rate: napomena na proizvodu, u korpi i na placanju.
 function lm_nlb_rate_html() {
-	return '<div class="lm-nlb-rate"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg><span><strong>Plaćanje NLB karticom na rate do 12 mjeseci.</strong> Broj rata birate prilikom plaćanja.</span></div>';
+	return '<div class="lm-nlb-rate"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg><span><strong>Plaćanje NLB karticom na rate do 12 mjeseci.</strong> Broj rata biraš prilikom plaćanja.</span></div>';
 }
 // Rate se pominju tek od 30 € (20.10.2026): kod jeftinih artikala napomena samo zauzima prostor.
 function lm_nlb_prag() {
@@ -379,7 +379,7 @@ add_filter( 'gettext', function ( $t, $text, $domain ) {
 	if ( is_admin() && ! wp_doing_ajax() ) return $t;
 	static $m = array(
 		'Billing %s'                       => '%s',
-		'Please read and accept the terms and conditions to proceed with your order.' => 'Da biste poručili, potvrdite da prihvatate Uslove korišćenja.',
+		'Please read and accept the terms and conditions to proceed with your order.' => 'Za poručivanje potvrdi da prihvataš Uslove korišćenja.',
 		'terms and conditions'             => 'Uslove korišćenja',
 		'Note:'                            => 'Napomena:',
 		'Shipping'                         => 'Dostava',

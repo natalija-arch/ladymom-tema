@@ -31,7 +31,7 @@ add_filter( 'woocommerce_checkout_fields', function ( $f ) {
 	foreach ( array( 'billing', 'shipping' ) as $g ) {
 		if ( isset( $f[ $g ][ $g . '_city' ] ) ) {
 			$f[ $g ][ $g . '_city' ]['custom_attributes']['list'] = 'lm-gradovi';
-			$f[ $g ][ $g . '_city' ]['placeholder']                = 'Počnite da kucate, npr. Podgorica';
+			$f[ $g ][ $g . '_city' ]['placeholder']                = 'Počni da kucaš, npr. Podgorica';
 		}
 	}
 	return $f;
@@ -68,9 +68,9 @@ add_filter( 'woocommerce_localisation_address_formats', function ( $f ) {
 // 2) Tekstovi: nalog na plaćanju, pretraga, donja traka.
 add_filter( 'gettext', function ( $t, $text, $domain ) {
 	static $m = array(
-		'Create an account?'  => 'Napravite nalog — sljedeći put su adresa i telefon već upisani',
-		'Returning customer?' => 'Već imate nalog?',
-		'Click here to login' => 'Prijavite se',
+		'Create an account?'  => 'Napravi nalog — sljedeći put su adresa i telefon već upisani',
+		'Returning customer?' => 'Već imaš nalog?',
+		'Click here to login' => 'Prijavi se',
 		'Results from blog'   => 'Iz bloga',
 	);
 	if ( isset( $m[ $text ] ) ) {
@@ -87,7 +87,7 @@ add_action( 'woocommerce_no_products_found', function () {
 	$pop = function_exists( 'woodmart_get_opt' ) ? array_filter( array_map( 'trim', explode( "\n", (string) woodmart_get_opt( 'popular_requests' ) ) ) ) : array();
 	echo '<div class="lm-nema">';
 	if ( is_search() ) {
-		echo '<p class="lm-nema-uvod">Probajte kraću riječ ili naziv brenda, ili izaberite nešto od ponuđenog.</p>';
+		echo '<p class="lm-nema-uvod">Probaj kraću riječ ili naziv brenda, ili izaberi nešto od ponuđenog.</p>';
 	}
 	if ( $pop ) {
 		echo '<h3 class="lm-pk-naslov">Najčešće se traži</h3><div class="lm-pk-kat">';
@@ -107,7 +107,7 @@ add_action( 'woocommerce_no_products_found', function () {
 	}
 	$q   = is_search() ? get_search_query() : '';
 	$txt = 'Zdravo, tražim' . ( $q ? ': ' . $q : ' ' );
-	echo '<div class="lm-nema-wa"><p><strong>Niste našli?</strong> Pišite nam na WhatsApp ili Viber i provjerićemo da li imamo u butiku.</p>'
+	echo '<div class="lm-nema-wa"><p><strong>Ne vidiš šta tražiš?</strong> Piši nam na WhatsApp ili Viber i provjerićemo da li imamo u butiku.</p>'
 		. '<div class="lm-nema-btns"><a class="button lm-nema-btn" href="' . esc_url( 'https://wa.me/38267030655?text=' . rawurlencode( $txt ) ) . '" target="_blank" rel="noopener">WhatsApp</a>'
 			. '<a class="button lm-nema-btn lm-nema-vb" href="viber://chat?number=%2B38267030655">Viber</a></div></div>';
 	echo '</div>';
@@ -126,11 +126,11 @@ add_action( 'wp_footer', function () {
 	<div class="lm-pitaj-bg" data-lm-zatvori></div>
 	<div class="lm-pitaj-panel" role="dialog" aria-modal="true" aria-labelledby="lm-pitaj-t">
 		<button type="button" class="lm-pitaj-x" data-lm-zatvori aria-label="Zatvori">&times;</button>
-		<p class="lm-pitaj-t" id="lm-pitaj-t">Pitajte nas</p>
+		<p class="lm-pitaj-t" id="lm-pitaj-t">Pitaj nas</p>
 		<p class="lm-pitaj-s">Za veličinu, porudžbinu ili savjet. Butik radi pon–sub 9:30–21:00.</p>
 		<a class="lm-pitaj-b lm-pitaj-wa" href="https://wa.me/38267030655" target="_blank" rel="noopener">WhatsApp</a>
 		<a class="lm-pitaj-b lm-pitaj-vb" href="viber://chat?number=%2B38267030655">Viber</a>
-		<a class="lm-pitaj-b lm-pitaj-tel" href="tel:+38267030655">Pozovite 067 030 655</a>
+		<a class="lm-pitaj-b lm-pitaj-tel" href="tel:+38267030655">Pozovi 067 030 655</a>
 	</div>
 </div>
 <script id="lm-pitaj-js">

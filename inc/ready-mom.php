@@ -53,8 +53,8 @@ add_action( 'template_redirect', function () {
  */
 function lm_rm_predavanja() {
 	return array(
-		array( 'Spremna za porođaj: šta se dešava?', 'Prim. dr Gordana Globarević Vukćević', 'specijalista ginekologije i akušerstva', 'Ginekolog', array( 'Da li trudnoća teče kako treba i kada treba da se zabrinete?', 'Kako prepoznati početak porođaja?', 'Prirodni porođaj, carski rez i epidural: kada i kako?', 'Kako donositi informisane odluke sa ljekarima?' ) , 51549 ),
-		array( 'Od prvog bola do bebe u naručju', 'Tanja Lazarević', 'ginekološko-akušerska sestra, babica', 'Babica', array( 'Kada je porođaj zaista počeo i kada krenuti u porodilište?', 'Šta se dešava kad uđete u porodilište, korak po korak?', 'Kako babica vodi porođaj i pomaže bebi da dođe na svijet?', 'Šta očekivati u prvim satima nakon rođenja?' ) , 51550 ),
+		array( 'Spremna za porođaj: šta se dešava?', 'Prim. dr Gordana Globarević Vukćević', 'specijalista ginekologije i akušerstva', 'Ginekolog', array( 'Da li trudnoća teče kako treba i kada treba da se zabrineš?', 'Kako prepoznati početak porođaja?', 'Prirodni porođaj, carski rez i epidural: kada i kako?', 'Kako donositi informisane odluke sa ljekarima?' ) , 51549 ),
+		array( 'Od prvog bola do bebe u naručju', 'Tanja Lazarević', 'ginekološko-akušerska sestra, babica', 'Babica', array( 'Kada je porođaj zaista počeo i kada krenuti u porodilište?', 'Šta se dešava kad uđeš u porodilište, korak po korak?', 'Kako babica vodi porođaj i pomaže bebi da dođe na svijet?', 'Šta očekivati u prvim satima nakon rođenja?' ) , 51550 ),
 		array( 'Zlatni sat i dojenje bez mitova', 'Milica Đoković Vojinović', 'pedijatrijska sestra', 'Pedijatrijska sestra', array( 'Zašto je „zlatni sat“ važan za bebu i mamu?', 'Pravilan hvat: kako znati da beba dobro sisa?', 'Kako prepoznati da beba dobija dovoljno mlijeka?', 'Šta raditi kod bola, ragada ili zastoja mlijeka?' ) , 51551 ),
 		array( 'Novorođenče okom pedijatra: šta je normalno?', 'Slađana Račić', 'specijalista pedijatrije', 'Pedijatar', array( 'Koji su obavezni pregledi i vakcine u prvim mjesecima?', 'Kako izgleda normalan rast, san i ishrana bebe?', 'Koji znaci traže hitnu pedijatrijsku pomoć?' ) , 51552 ),
 		array( 'Prvi dani sa bebom kod kuće', 'Dragana Marković', 'patronažna sestra', 'Patronažna sestra', array( 'Kako uspostaviti rutinu u prvim nedjeljama?', 'Šta patronažna sestra provjerava u kućnim posjetama?', 'Kako pronaći mir i sigurnost u novoj svakodnevici?', 'Šta je zaista važno u njezi bebe i mame?' ) , 51553 ),
@@ -92,10 +92,10 @@ function lm_rm_pitanja() {
 		array( 'Šta polaznice dobijaju od partnera programa?', 'Poklone i popuste partnera: 20 % popusta u Lady Mom prodavnici, besplatan prvi pedijatrijski pregled bebe u MediKid-u, 500 € popusta na čuvanje matičnih ćelija u Bio Save-u, popuste Uniqa osiguranja, Viva Walk-a, Oblaka i sunca, Origa i fotografkinje Anastasije Milić, savjete farmaceuta Vegapharma i poklon predavanje NLB banke „Medena štednja“.' ),
 		array( 'Kada je najbolje upisati školu za trudnice?', 'U drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje.' ),
 		array( 'Može li partner da dođe na predavanja?', 'Da, partneri su dobrodošli.' ),
-		array( 'Mogu li pratiti školu ako nisam iz Podgorice?', 'Da. Program možete pratiti online, iz bilo kog grada.' ),
+		array( 'Mogu li pratiti školu ako nisam iz Podgorice?', 'Da. Program možeš pratiti online, iz bilo kog grada.' ),
 		array( 'Gdje se održavaju predavanja uživo?', 'U prostoru Family Nest – Centar za trudnoću i roditeljstvo, Branka Deletića bb (naselje New City), Podgorica.' ),
-		array( 'Koliko košta i kako se plaća?', 'Cijena programa je ' . $cijena . '. Možete platiti karticom pri prijavi na sajtu ili gotovinom.' ),
-		array( 'Kada počinje naredna grupa?', 'Poslije prijave vas zovemo sa terminom naredne grupe. Za termine možete nas pozvati ili pisati na WhatsApp i Viber: ' . LM_RM_TEL_TXT . '.' ),
+		array( 'Koliko košta i kako se plaća?', 'Cijena programa je ' . $cijena . '. Možeš platiti karticom pri prijavi na sajtu ili gotovinom.' ),
+		array( 'Kada počinje naredna grupa?', 'Poslije prijave te zovemo sa terminom naredne grupe. Za termine možeš nas pozvati ili pisati na WhatsApp i Viber: ' . LM_RM_TEL_TXT . '.' ),
 	);
 }
 
@@ -134,7 +134,7 @@ add_shortcode( 'lm_ready_mom', function () {
 				<span class="lm-rm-cijena"><?php echo wp_kses_post( $cijena ); ?></span>
 				<a class="lm-rm-dugme" href="<?php echo $prijava; // phpcs:ignore ?>">Prijavi se i plati</a>
 			</div>
-			<p class="lm-rm-mala">Plaćanje karticom ili gotovinom. Poslije prijave vas zovemo sa terminom naredne grupe.</p>
+			<p class="lm-rm-mala">Plaćanje karticom ili gotovinom. Poslije prijave te zovemo sa terminom naredne grupe.</p>
 			<?php echo $kontakt; // phpcs:ignore ?>
 		</div>
 		<div class="lm-rm-hero-slika"><?php echo $slika; // phpcs:ignore ?></div>
@@ -142,9 +142,9 @@ add_shortcode( 'lm_ready_mom', function () {
 
 	<section class="lm-rm-blok">
 		<h2>Šta je Ready Mom?</h2>
-		<p class="lm-rm-uvod">Ready Mom je škola za trudnice u Podgorici koja vas priprema za porođaj i prve mjesece sa bebom: dvije nedjelje, šest predavanja i šest stručnjaka, uživo ili online.</p>
+		<p class="lm-rm-uvod">Ready Mom je škola za trudnice u Podgorici koja te priprema za porođaj i prve mjesece sa bebom: dvije nedjelje, šest predavanja i šest stručnjaka, uživo ili online.</p>
 		<p>Trudnoća donosi mnogo pitanja. Kako da znam da je porođaj počeo? Šta da ponesem u porodilište? Kako da podojim bebu i šta da radim kad beba plače, a ne znam zašto? U Ready Mom školi za trudnice na ta pitanja odgovaraju stručnjaci koji se time bave svaki dan.</p>
-		<p>Program vas vodi redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za vaša pitanja.</p>
+		<p>Program te vodi redom: od posljednjih nedjelja trudnoće, preko porođaja, do prvih dana i nedjelja kod kuće sa bebom. Puno je praktičnih savjeta, primjera iz prakse i vremena za tvoja pitanja.</p>
 	</section>
 
 	<section class="lm-rm-blok lm-rm-sir">
@@ -163,7 +163,7 @@ add_shortcode( 'lm_ready_mom', function () {
 			</li>
 			<?php endforeach; ?>
 		</ol>
-		<p class="lm-rm-napomena">Svako predavanje traje sat i po, od 18:30 do 20:00, a na kraju je vrijeme za vaša pitanja.</p>
+		<p class="lm-rm-napomena">Svako predavanje traje sat i po, od 18:30 do 20:00, a na kraju je vrijeme za tvoja pitanja.</p>
 	</section>
 
 	<section class="lm-rm-blok lm-rm-sir lm-rm-pokloni">
@@ -179,11 +179,11 @@ add_shortcode( 'lm_ready_mom', function () {
 	<section class="lm-rm-dvije">
 		<div class="lm-rm-kartica">
 			<h2>Uživo u Podgorici ili online</h2>
-			<p>Predavanja se održavaju uživo u prostoru Family Nest – Centar za trudnoću i roditeljstvo, Branka Deletića bb (naselje New City), Podgorica. Ako ste iz drugog grada, imate obaveze ili vam je lakše od kuće, program možete pratiti online. Partneri su dobrodošli: porođaj i prvi dani sa bebom su timski posao, pa je dobro da oboje znate šta vas čeka.</p>
+			<p>Predavanja se održavaju uživo u prostoru Family Nest – Centar za trudnoću i roditeljstvo, Branka Deletića bb (naselje New City), Podgorica. Ako si iz drugog grada, imaš obaveze ili ti je lakše od kuće, program možeš pratiti online. Partneri su dobrodošli: porođaj i prvi dani sa bebom su timski posao, pa je dobro da oboje znate šta vas čeka.</p>
 		</div>
 		<div class="lm-rm-kartica">
 			<h2>Kada upisati školu za trudnice</h2>
-			<p>Školu za trudnice najbolje je upisati u drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje. Tada vam je sve aktuelno, a imate vremena da naučeno primijenite: da <a href="<?php echo esc_url( home_url( '/sta-spakovati-u-porodiliste/' ) ); ?>">spakujete torbu za porodilište</a>, nabavite <a href="<?php echo esc_url( home_url( '/kategorija/prodavnica/mame/oprema/dojenje/' ) ); ?>">opremu za dojenje</a> i pripremite dom za bebu. Grupe se popunjavaju, pa se prijavite na vrijeme.</p>
+			<p>Školu za trudnice najbolje je upisati u drugoj polovini trudnoće, otprilike od 25. do 36. nedjelje. Tada ti je sve aktuelno, a imaš vremena da naučeno primijeniš: da <a href="<?php echo esc_url( home_url( '/sta-spakovati-u-porodiliste/' ) ); ?>">spakuješ torbu za porodilište</a>, nabaviš <a href="<?php echo esc_url( home_url( '/kategorija/prodavnica/mame/oprema/dojenje/' ) ); ?>">opremu za dojenje</a> i pripremiš dom za bebu. Grupe se popunjavaju, pa se prijavi na vrijeme.</p>
 		</div>
 	</section>
 
@@ -199,13 +199,13 @@ add_shortcode( 'lm_ready_mom', function () {
 	</section>
 
 	<section class="lm-rm-kraj">
-		<h2>Prijavite se za narednu grupu</h2>
-		<p class="lm-rm-uvod">Prijava za školu Ready Mom košta <?php echo wp_kses_post( wp_strip_all_tags( $cijena ) ); ?> i plaća se karticom na sajtu ili gotovinom, a poslije prijave vas zovemo sa terminom naredne grupe.</p>
+		<h2>Prijavi se za narednu grupu</h2>
+		<p class="lm-rm-uvod">Prijava za školu Ready Mom košta <?php echo wp_kses_post( wp_strip_all_tags( $cijena ) ); ?> i plaća se karticom na sajtu ili gotovinom, a poslije prijave te zovemo sa terminom naredne grupe.</p>
 		<div class="lm-rm-kupi lm-rm-kupi-centar">
 			<span class="lm-rm-cijena"><?php echo wp_kses_post( $cijena ); ?></span>
 			<a class="lm-rm-dugme" href="<?php echo $prijava; // phpcs:ignore ?>">Prijavi se i plati</a>
 		</div>
-		<p class="lm-rm-mala">Imate pitanje o terminima ili programu? Pišite nam ili nas pozovite.</p>
+		<p class="lm-rm-mala">Imaš pitanje o terminima ili programu? Piši nam ili nas pozovi.</p>
 		<?php echo $kontakt; // phpcs:ignore ?>
 	</section>
 </div>

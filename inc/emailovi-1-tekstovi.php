@@ -79,33 +79,33 @@ function lm_em_copy( $email ) {
 	// Bez dostave (Ready Mom, 20.10.2026): bez teksta o paketu i kuriru.
 	if ( $b && 'customer_processing_order' === $id ) {
 		return $rm
-			? array( 's' => 'Hvala' . $iz . '! Prijava za Ready Mom je primljena', 'h' => 'Hvala' . $iz . '! Prijava je primljena.', 'pre' => 'Javićemo vam se sa terminom i detaljima programa.', 'txt' => 'Hvala na prijavi za Ready Mom. Javićemo vam se telefonom ili emailom sa terminom prvog predavanja i detaljima.' )
-			: array( 's' => 'Hvala' . $iz . '! Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.', 'pre' => 'Javićemo vam se sa detaljima.', 'txt' => 'Javićemo vam se telefonom ili emailom sa detaljima.' );
+			? array( 's' => 'Hvala' . $iz . '! Prijava za Ready Mom je primljena', 'h' => 'Hvala' . $iz . '! Prijava je primljena.', 'pre' => 'Javićemo ti se sa terminom i detaljima programa.', 'txt' => 'Hvala na prijavi za Ready Mom. Javićemo ti se telefonom ili emailom sa terminom prvog predavanja i detaljima.' )
+			: array( 's' => 'Hvala' . $iz . '! Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.', 'pre' => 'Javićemo ti se sa detaljima.', 'txt' => 'Javićemo ti se telefonom ili emailom sa detaljima.' );
 	}
 	if ( $b && 'customer_completed_order' === $id ) {
-		return array( 's' => 'Porudžbina #' . $n . ' je završena', 'h' => 'Hvala' . $iz . '!', 'pre' => 'Porudžbina je završena.', 'txt' => 'Porudžbina #' . $n . ' je završena. Hvala što ste izabrali Lady Mom.' );
+		return array( 's' => 'Porudžbina #' . $n . ' je završena', 'h' => 'Hvala' . $iz . '!', 'pre' => 'Porudžbina je završena.', 'txt' => 'Porudžbina #' . $n . ' je završena. Hvala što kupuješ u Lady Mom.' );
 	}
 	switch ( $id ) {
 		case 'customer_processing_order':
 			$c = array( 's' => 'Hvala' . $iz . '! Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.',
 				'pre' => $p ? 'Pripremamo je u butiku. Ovdje je pregled porudžbine.' : 'Pripremamo je za slanje. Ovdje je pregled porudžbine.',
-				'txt' => $p ? 'Pripremamo je u butiku. Kad bude spremna za preuzimanje, stiže vam još jedan email.' : 'Pripremamo je za slanje. Kad paket predamo kuriru, stiže vam još jedan email.' );
+				'txt' => $p ? 'Pripremamo je u butiku. Kad bude spremna za preuzimanje, stiže ti još jedan email.' : 'Pripremamo je za slanje. Kad paket predamo kuriru, stiže ti još jedan email.' );
 			break;
 		case 'customer_on_hold_order':
-			$c = array( 's' => 'Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.', 'pre' => 'Javićemo vam čim je potvrdimo.', 'txt' => 'Porudžbina čeka potvrdu. Javićemo vam čim je potvrdimo.' );
+			$c = array( 's' => 'Porudžbina #' . $n . ' je primljena', 'h' => 'Hvala' . $iz . '! Porudžbina je primljena.', 'pre' => 'Javićemo ti čim je potvrdimo.', 'txt' => 'Porudžbina čeka potvrdu. Javićemo ti čim je potvrdimo.' );
 			break;
 		case 'customer_completed_order':
 			$c = $p
-				? array( 's' => 'Porudžbina #' . $n . ' je spremna za preuzimanje', 'h' => 'Porudžbina je spremna' . $iz . '.', 'pre' => 'Čeka vas u butiku, Branka Deletića bb.', 'txt' => 'Čeka vas u butiku Lady Mom, Branka Deletića bb, Podgorica.' )
+				? array( 's' => 'Porudžbina #' . $n . ' je spremna za preuzimanje', 'h' => 'Porudžbina je spremna' . $iz . '.', 'pre' => 'Čeka te u butiku, Branka Deletića bb.', 'txt' => 'Čeka te u butiku Lady Mom, Branka Deletića bb, Podgorica.' )
 				: array( 's' => 'Paket #' . $n . ' je na putu', 'h' => 'Paket je na putu' . $iz . '.', 'pre' => 'Kurir The Vault d.o.o., dostava 1–3 radna dana.', 'txt' => 'Predali smo ga kurirskoj službi The Vault d.o.o. Dostava traje 1–3 radna dana.' );
 			break;
 		case 'customer_failed_order':
-			$c = array( 's' => 'Plaćanje za porudžbinu #' . $n . ' nije prošlo', 'h' => 'Plaćanje nije prošlo.', 'pre' => 'Porudžbina je sačuvana i možete pokušati ponovo.', 'txt' => 'Banka nije odobrila plaćanje karticom. Porudžbina je sačuvana i možete pokušati ponovo, istom ili drugom karticom.' );
+			$c = array( 's' => 'Plaćanje za porudžbinu #' . $n . ' nije prošlo', 'h' => 'Plaćanje nije prošlo.', 'pre' => 'Porudžbina je sačuvana i možeš pokušati ponovo.', 'txt' => 'Banka nije odobrila plaćanje karticom. Porudžbina je sačuvana i možeš pokušati ponovo, istom ili drugom karticom.' );
 			break;
 		case 'customer_cancelled_order':
 			$c = array( 's' => 'Porudžbina #' . $n . ' je otkazana', 'h' => 'Porudžbina je otkazana.',
-				'pre' => $k ? 'Ako je iznos bio rezervisan na kartici, rezervacija se poništava.' : 'Ako imate pitanja, pišite nam.',
-				'txt' => 'Porudžbina #' . $n . ' je otkazana.' . ( $k ? ' Ako je iznos bio rezervisan na kartici, rezervacija se poništava; rok zavisi od vaše banke.' : '' ) );
+				'pre' => $k ? 'Ako je iznos bio rezervisan na kartici, rezervacija se poništava.' : 'Ako imaš pitanja, piši nam.',
+				'txt' => 'Porudžbina #' . $n . ' je otkazana.' . ( $k ? ' Ako je iznos bio rezervisan na kartici, rezervacija se poništava; rok zavisi od tvoje banke.' : '' ) );
 			break;
 		case 'customer_refunded_order':
 		case 'customer_partially_refunded_order':
@@ -116,19 +116,19 @@ function lm_em_copy( $email ) {
 			break;
 		case 'customer_note':
 			$nt = isset( $email->customer_note ) ? wp_strip_all_tags( $email->customer_note ) : '';
-			$c = array( 's' => 'Nova poruka o porudžbini #' . $n, 'h' => 'Imamo poruku za vas.', 'pre' => mb_substr( $nt, 0, 90 ), 'txt' => 'Dodali smo napomenu uz porudžbinu #' . $n . ':' );
+			$c = array( 's' => 'Nova poruka o porudžbini #' . $n, 'h' => 'Imamo poruku za tebe.', 'pre' => mb_substr( $nt, 0, 90 ), 'txt' => 'Dodali smo napomenu uz porudžbinu #' . $n . ':' );
 			break;
 		case 'customer_invoice':
 			$c = array( 's' => 'Detalji porudžbine #' . $n, 'h' => 'Detalji porudžbine #' . $n, 'pre' => 'Pregled porudžbine i način plaćanja.',
-				'txt' => ( $o && $o->needs_payment() ) ? 'Porudžbinu možete platiti putem dugmeta ispod.' : 'Ovdje je pregled vaše porudžbine.' );
+				'txt' => ( $o && $o->needs_payment() ) ? 'Porudžbinu možeš platiti putem dugmeta ispod.' : 'Ovdje je pregled tvoje porudžbine.' );
 			break;
 		case 'customer_new_account':
-			$c = array( 's' => 'Dobro došli u Lady Mom' . $iz, 'h' => 'Dobro došli u Lady Mom' . $iz . '.', 'pre' => 'Nalog je napravljen. Ovdje je šta vam donosi.',
-				'txt' => 'Nalog je napravljen.' . ( ! empty( $email->user_email ) ? ' Prijavljujete se adresom ' . $email->user_email . '.' : '' ) );
+			$c = array( 's' => 'Tvoj Lady Mom nalog je spreman', 'h' => 'Zdravo' . $iz . '! Nalog je spreman.', 'pre' => 'Nalog je napravljen. Ovdje je šta ti donosi.',
+				'txt' => 'Nalog je napravljen.' . ( ! empty( $email->user_email ) ? ' Prijavljuješ se adresom ' . $email->user_email . '.' : '' ) );
 			break;
 		case 'customer_reset_password':
-			$c = array( 's' => 'Postavite novu lozinku za Lady Mom', 'h' => 'Nova lozinka', 'pre' => 'Link važi 24 sata.',
-				'txt' => 'Zatražena je nova lozinka za nalog ' . ( isset( $email->user_login ) ? $email->user_login : '' ) . '. Ako ste to bili vi, kliknite na dugme ispod. Link važi 24 sata.' );
+			$c = array( 's' => 'Postavi novu lozinku za Lady Mom', 'h' => 'Nova lozinka', 'pre' => 'Link važi 24 sata.',
+				'txt' => 'Zatražena je nova lozinka za nalog ' . ( isset( $email->user_login ) ? $email->user_login : '' ) . '. Ako je zahtjev tvoj, klikni na dugme ispod. Link važi 24 sata.' );
 			break;
 	}
 	return $c;

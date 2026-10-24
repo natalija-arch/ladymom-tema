@@ -23,8 +23,8 @@ add_action( 'wp_head', function () {
 } );
 add_filter( 'woocommerce_get_script_data', function ( $data, $handle ) {
 	if ( 'wc-add-to-cart-variation' === $handle && is_array( $data ) ) {
-		$data['i18n_make_a_selection_text'] = 'Izaberite veličinu i boju prije dodavanja u korpu.';
-		$data['i18n_unavailable_text']      = 'Ova kombinacija trenutno nije dostupna. Izaberite drugu.';
+		$data['i18n_make_a_selection_text'] = 'Izaberi veličinu i boju prije dodavanja u korpu.';
+		$data['i18n_unavailable_text']      = 'Ova kombinacija trenutno nije dostupna. Izaberi drugu.';
 	}
 	return $data;
 }, 20, 2 );

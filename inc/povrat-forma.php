@@ -119,19 +119,19 @@ add_shortcode( 'lm_povrat_forma', function () {
 	$st  = isset( $_GET['zahtjev'] ) ? sanitize_key( $_GET['zahtjev'] ) : '';
 	$msg = '';
 	if ( 'poslat' === $st ) {
-		$msg = '<div class="lm-pf-ok" role="status"><strong>Zahtjev je poslat.</strong> Javićemo vam se sa uputstvom, najčešće istog ili sljedećeg radnog dana. Potvrdu smo poslali na email iz porudžbine.</div>';
+		$msg = '<div class="lm-pf-ok" role="status"><strong>Zahtjev je poslat.</strong> Javićemo ti se sa uputstvom, najčešće istog ili sljedećeg radnog dana. Potvrdu smo poslali na email iz porudžbine.</div>';
 	} elseif ( 'primljen' === $st ) {
-		$msg = '<div class="lm-pf-ok" role="status"><strong>Zahtjev je poslat.</strong> Javićemo vam se sa uputstvom, najčešće istog ili sljedećeg radnog dana.</div>';
+		$msg = '<div class="lm-pf-ok" role="status"><strong>Zahtjev je poslat.</strong> Javićemo ti se sa uputstvom, najčešće istog ili sljedećeg radnog dana.</div>';
 	} elseif ( 'greska' === $st ) {
 		$r    = isset( $_GET['r'] ) ? sanitize_key( $_GET['r'] ) : '';
 		$txt  = array(
-			'ime'      => 'Upišite ime i prezime.',
-			'email'    => 'Upišite ispravnu email adresu.',
+			'ime'      => 'Upiši ime i prezime.',
+			'email'    => 'Upiši ispravnu email adresu.',
 			'slika'    => 'Slike moraju biti JPG, PNG, WEBP ili HEIC, najviše 3 slike i do 8 MB po slici.',
-			'cesto'    => 'Poslali ste više zahtjeva za kratko vrijeme. Pokušajte ponovo za sat vremena ili nas pozovite.',
-			'brzo'     => 'Zahtjev je poslat prebrzo. Sačekajte par sekundi i pošaljite ga ponovo.',
-			'provjera' => 'Forma nije prošla provjeru. Osvježite stranicu i pošaljite zahtjev ponovo.',
-			'server'   => 'Zahtjev nije mogao biti sačuvan. Pozovite nas na 067 030 655 ili pišite na WhatsApp ili Viber.',
+			'cesto'    => 'Stiglo je više zahtjeva za kratko vrijeme. Pokušaj ponovo za sat vremena ili nas pozovi.',
+			'brzo'     => 'Zahtjev je poslat prebrzo. Sačekaj par sekundi i pošalji ga ponovo.',
+			'provjera' => 'Forma nije prošla provjeru. Osvježi stranicu i pošalji zahtjev ponovo.',
+			'server'   => 'Zahtjev nije mogao biti sačuvan. Pozovi nas na 067 030 655 ili piši na WhatsApp ili Viber.',
 		);
 		$msg = '<div class="lm-pf-err" role="alert">' . esc_html( isset( $txt[ $r ] ) ? $txt[ $r ] : $txt['server'] ) . '</div>';
 	}
@@ -151,9 +151,9 @@ add_shortcode( 'lm_povrat_forma', function () {
 </div>
 <div class="lm-pf-red">
 <label>Telefon <span class="lm-pf-opc">(nije obavezno)</span><input type="tel" name="telefon" autocomplete="tel" maxlength="30" value="<?php echo esc_attr( $tel ); ?>"></label>
-<label>Broj porudžbine <span class="lm-pf-opc">(ako ga imate)</span><input name="broj" inputmode="numeric" maxlength="10" placeholder="npr. 36012"></label>
+<label>Broj porudžbine <span class="lm-pf-opc">(ako ga imaš)</span><input name="broj" inputmode="numeric" maxlength="10" placeholder="npr. 36012"></label>
 </div>
-<fieldset class="lm-pf-izbor"><legend>Šta želite?</legend>
+<fieldset class="lm-pf-izbor"><legend>Šta želiš?</legend>
 <label><input type="radio" name="vrsta" value="zamjenu" checked> Zamjenu (druga veličina ili artikal)</label>
 <label><input type="radio" name="vrsta" value="povrat novca"> Povrat novca</label>
 </fieldset>
@@ -163,13 +163,13 @@ add_shortcode( 'lm_povrat_forma', function () {
 <span class="lm-pf-pom">Ako je artikal oštećen ili pogrešan, slika nam pomaže da brže riješimo zahtjev.</span></label>
 <div class="lm-pf-err lm-pf-js" role="alert" hidden></div>
 <button type="submit" class="button">Pošalji zahtjev</button>
-<p class="lm-pf-nap">Zahtjev stiže butiku. Ako upišete broj porudžbine i email sa kojim ste poručili, potvrda stiže i vama na email. Troškove slanja kod zamjene ili povrata snosi kupac.</p>
+<p class="lm-pf-nap">Zahtjev stiže butiku. Ako upišeš broj porudžbine i email iz porudžbine, potvrda stiže i tebi na email. Troškove slanja kod zamjene ili povrata snosi kupac.</p>
 </form>
 <script>
 (function(){var f=document.getElementById('lm-povrat-forma');if(!f)return;var b=f.querySelector('button[type=submit]'),g=f.querySelector('.lm-pf-js');
 function greska(t){g.textContent=t;g.hidden=false;g.scrollIntoView({block:'center',behavior:'smooth'});}
 try{fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>?action=lm_povrat_token',{credentials:'same-origin',cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.t&&d.s){f.elements.lm_t.value=d.t;f.elements.lm_s.value=d.s;}}).catch(function(){});}catch(e){}
-f.addEventListener('submit',function(e){g.hidden=true;var fi=f.querySelector('input[type=file]');if(fi&&fi.files.length>3){e.preventDefault();greska('Možete priložiti najviše 3 slike.');return;}
+f.addEventListener('submit',function(e){g.hidden=true;var fi=f.querySelector('input[type=file]');if(fi&&fi.files.length>3){e.preventDefault();greska('Možeš priložiti najviše 3 slike.');return;}
 for(var i=0;fi&&i<fi.files.length;i++){if(fi.files[i].size>8*1024*1024){e.preventDefault();greska('Slika „'+fi.files[i].name+'“ je veća od 8 MB.');return;}}
 b.disabled=true;b.textContent='Šaljemo…';});})();
 </script>
@@ -339,9 +339,9 @@ function lm_povrat_obradi() {
 			'slike'   => 0,
 			'admin'   => '',
 		);
-		$kupac = 'Poštovani/a ' . ( $k['ime'] ? $k['ime'] : 'kupče' ) . ",\n\nprimili smo vaš zahtjev za " . $vrsta . ' (porudžbina #' . $k['broj'] . "). Javićemo vam se sa uputstvom kako i gdje da pošaljete artikal. Molimo vas da robu ne šaljete prije dogovora.\n\nZa pitanja: 067 030 655 (telefon, WhatsApp, Viber).\n\nLady Mom\nBranka Deletića bb, Podgorica";
+		$kupac = 'Zdravo' . ( $k['ime'] ? ' ' . $k['ime'] : '' ) . ",\n\nprimili smo tvoj zahtjev za " . $vrsta . ' (porudžbina #' . $k['broj'] . "). Javićemo ti se sa uputstvom kako i gdje da pošalješ artikal. Molimo te da robu ne šalješ prije dogovora.\n\nZa pitanja: 067 030 655 (telefon, WhatsApp, Viber).\n\nLady Mom\nBranka Deletića bb, Podgorica";
 		$html  = lm_povrat_email_html( false, $k );
-		wp_mail( $k['email'], 'Primili smo vaš zahtjev za ' . $vrsta, $html ? $html : $kupac, array_merge( array( 'Reply-To: ' . implode( ', ', lm_povrat_primaoci() ) ), $html ? array( 'Content-Type: text/html; charset=UTF-8' ) : array() ) );
+		wp_mail( $k['email'], 'Primili smo tvoj zahtjev za ' . $vrsta, $html ? $html : $kupac, array_merge( array( 'Reply-To: ' . implode( ', ', lm_povrat_primaoci() ) ), $html ? array( 'Content-Type: text/html; charset=UTF-8' ) : array() ) );
 		update_post_meta( $pid, '_lm_potvrda', $k['email'] );
 	}
 
@@ -361,8 +361,8 @@ function lm_povrat_email_html( $za_butik, $d ) {
 	$host  = wp_parse_url( home_url(), PHP_URL_HOST );
 	$ime1  = trim( strtok( $d['ime'], ' ' ) );
 	$tel   = preg_replace( '/[^0-9+]/', '', (string) $d['tel'] );
-	$GLOBALS['lm_em_pre']    = $za_butik ? $d['ime'] . ' · ' . ( $d['broj'] ? 'porudžbina #' . $d['broj'] : 'bez broja porudžbine' ) : 'Javićemo vam se sa uputstvom. Robu ne šaljite prije dogovora.';
-	$GLOBALS['lm_em_razlog'] = array( $za_butik ? 'Zahtjev je poslat preko forme na ' . $host . '.' : 'Ovaj email ste dobili jer ste poslali zahtjev za ' . $d['vrsta'] . ' na ' . $host . '.', '' );
+	$GLOBALS['lm_em_pre']    = $za_butik ? $d['ime'] . ' · ' . ( $d['broj'] ? 'porudžbina #' . $d['broj'] : 'bez broja porudžbine' ) : 'Javićemo ti se sa uputstvom. Robu ne šalji prije dogovora.';
+	$GLOBALS['lm_em_razlog'] = array( $za_butik ? 'Zahtjev je poslat preko forme na ' . $host . '.' : 'Ovaj email ti šaljemo zbog zahtjeva za ' . $d['vrsta'] . ' na ' . $host . '.', '' );
 	$red = function ( $l, $v ) {
 		return '<tr><td valign="top" style="padding:7px 12px 7px 0;font-size:13px;line-height:1.5;color:#8a7565;white-space:nowrap">' . esc_html( $l ) . '</td><td valign="top" style="padding:7px 0;font-size:15px;line-height:1.5;color:#6d4e39">' . $v . '</td></tr>';
 	};
@@ -390,8 +390,8 @@ function lm_povrat_email_html( $za_butik, $d ) {
 		echo lm_em_red( lm_em_btns( array( array( $d['admin'], 'OTVORI ZAHTJEV' ), $tel ? array( 'tel:' . $tel, 'POZOVI KUPCA', true ) : null ) ), 20 );
 		echo lm_em_red( lm_em_box( lm_em_label( 'ZAHTJEV' ) . $t ), 26 );
 	} else {
-		echo lm_em_hero( 'ZAHTJEV ZA ' . mb_strtoupper( $d['vrsta'] ), 'Primili smo vaš zahtjev' . ( $ime1 ? ', ' . $ime1 : '' ) . '.', 'Javićemo vam se sa uputstvom kako i gdje da pošaljete artikal. Molimo vas da robu ne šaljete prije dogovora.' );
-		echo lm_em_red( lm_em_box( lm_em_label( 'VAŠ ZAHTJEV' ) . $t ), 26 );
+		echo lm_em_hero( 'ZAHTJEV ZA ' . mb_strtoupper( $d['vrsta'] ), 'Primili smo tvoj zahtjev' . ( $ime1 ? ', ' . $ime1 : '' ) . '.', 'Javićemo ti se sa uputstvom kako i gdje da pošalješ artikal. Molimo te da robu ne šalješ prije dogovora.' );
+		echo lm_em_red( lm_em_box( lm_em_label( 'TVOJ ZAHTJEV' ) . $t ), 26 );
 	}
 	echo '</table>';
 	lm_em_footer( null, array( 'kontakt' => $za_butik ? false : 'Pitanje o zahtjevu?' ) );

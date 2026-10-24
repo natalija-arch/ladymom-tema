@@ -20,7 +20,7 @@ function lm_je_placanje_forma() {
 
 add_filter( 'gettext_woocommerce', function ( $prevod, $tekst ) {
 	if ( 'Click here to enter your code' === $tekst ) {
-		return 'Unesite kod';
+		return 'Unesi kod';
 	}
 	return $prevod;
 }, 40, 2 );

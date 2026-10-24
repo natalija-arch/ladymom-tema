@@ -146,9 +146,9 @@ add_action( 'woocommerce_before_checkout_form', function () {
 	<div class="lm-brza-kupovina">
 		<?php if ( $google ) : ?>
 			<a class="lm-google-dugme" href="<?php echo esc_url( add_query_arg( 'social_auth', 'google', wc_get_page_permalink( 'myaccount' ) ) . '&is_checkout=1' ); ?>">Nastavi sa Google nalogom</a>
-			<p class="lm-brza-ili"><span>ili popunite podatke ispod</span></p>
+			<p class="lm-brza-ili"><span>ili popuni podatke ispod</span></p>
 		<?php endif; ?>
-		<p class="lm-nalog-napomena">Uz porudžbinu dobijate nalog za praćenje porudžbina. Link za lozinku stiže emailom.</p>
+		<p class="lm-nalog-napomena">Uz porudžbinu dobijaš nalog za praćenje porudžbina. Link za lozinku stiže emailom.</p>
 	</div>
 	<style id="lm-brza-kupovina">
 	.lm-brza-kupovina{max-width:560px;margin:0 auto 26px}

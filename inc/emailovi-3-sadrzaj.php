@@ -21,13 +21,13 @@ function lm_em_payment_html( $order, $stage ) {
 	} elseif ( 'cod' === $order->get_payment_method() ) {
 		if ( lm_em_bez_dostave( $order ) ) {
 			$h = 'Gotovinom';
-			$d = 'Plaćate gotovinom <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>';
+			$d = 'Plaćaš gotovinom <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>';
 		} elseif ( lm_em_pickup( $order ) ) {
 			$h = 'Prilikom preuzimanja';
-			$d = 'U butiku plaćate <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>';
+			$d = 'U butiku plaćaš <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>';
 		} else {
 			$h = 'Pouzećem';
-			$d = 'Kuriru plaćate gotovinom <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>';
+			$d = 'Kuriru plaćaš gotovinom <strong style="color:#6d4e39">' . esc_html( $t ) . '</strong>';
 		}
 	} else {
 		$h = $order->get_payment_method_title();
@@ -77,7 +77,7 @@ function lm_em_cards( $order, $stage ) {
 	return lm_em_red( lm_em_dvije_kolone( lm_em_box( lm_em_delivery_html( $order ) ), lm_em_box( lm_em_payment_html( $order, $stage ) ) ), 26 );
 }
 
-function lm_em_items( $order, $title = 'Šta ste poručili', $sifra = false ) {
+function lm_em_items( $order, $title = 'Šta je u porudžbini', $sifra = false ) {
 	$o = '<h2 style="margin:0 0 10px;font-size:19px;font-weight:800;color:#6d4e39">' . esc_html( $title ) . '</h2><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">';
 	foreach ( $order->get_items() as $item ) {
 		$p    = $item->get_product();
@@ -132,7 +132,7 @@ function lm_em_addresses( $order ) {
 		? lm_em_label( 'KUPAC' ) . '<div style="font-size:14px;line-height:1.6">' . esc_html( $order->get_formatted_billing_full_name() ) . '<br>' . esc_html( $order->get_billing_phone() ) . '<br>' . esc_html( $order->get_billing_email() ) . '</div>'
 		: lm_em_label( 'DOSTAVA NA ADRESU' ) . '<div style="font-size:14px;line-height:1.6">' . wp_kses_post( $order->get_formatted_shipping_address() ? $order->get_formatted_shipping_address() : $order->get_formatted_billing_address() ) . '<br>' . esc_html( $order->get_billing_phone() ) . '</div>';
 	$note  = $order->get_customer_note();
-	$right = $note ? lm_em_label( 'VAŠA NAPOMENA' ) . '<div style="font-size:14px;line-height:1.6">' . esc_html( $note ) . '</div>' : '';
+	$right = $note ? lm_em_label( 'TVOJA NAPOMENA' ) . '<div style="font-size:14px;line-height:1.6">' . esc_html( $note ) . '</div>' : '';
 	return '<tr><td class="lm-px" style="padding:28px 40px 0;' . lm_em_font() . 'color:#7a6250">' . lm_em_dvije_kolone( $left, $right, 12 ) . '</td></tr>';
 }
 
@@ -181,7 +181,7 @@ function lm_em_body( $email, $vars = array() ) {
 	$c      = lm_em_copy( $email );
 	$p      = lm_em_pickup( $o );
 	$b      = lm_em_bez_dostave( $o );
-	$ey     = $o ? 'PORUDŽBINA #' . $o->get_order_number() . ( $o->get_date_created() ? ' · ' . mb_strtoupper( wc_format_datetime( $o->get_date_created(), 'j. F Y.' ) ) : '' ) : 'VAŠ NALOG';
+	$ey     = $o ? 'PORUDŽBINA #' . $o->get_order_number() . ( $o->get_date_created() ? ' · ' . mb_strtoupper( wc_format_datetime( $o->get_date_created(), 'j. F Y.' ) ) : '' ) : 'TVOJ NALOG';
 	$labels = $p ? array( 'Primljena', 'Pripremamo', 'Spremna' ) : array( 'Primljena', 'Pripremamo', 'Na putu' );
 	echo '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="' . lm_em_font() . 'color:#7a6250">';
 	echo lm_em_hero( $ey, $c['h'] ? $c['h'] : ( isset( $vars['email_heading'] ) ? $vars['email_heading'] : '' ), $c['txt'] );
@@ -205,7 +205,7 @@ function lm_em_body( $email, $vars = array() ) {
 				echo lm_em_red( lm_em_pickup_box(), 26 );
 			}
 			echo lm_em_red( lm_em_box( lm_em_payment_html( $o, 'completed' ) ), $p ? 12 : 26 );
-			echo lm_em_items( $o, ( $p || $b ) ? 'Vaša porudžbina' : 'U paketu' );
+			echo lm_em_items( $o, ( $p || $b ) ? 'Tvoja porudžbina' : 'U paketu' );
 			echo lm_em_totals( $o );
 			if ( ! $b ) {
 				echo lm_em_red( '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1.5px solid #f6ded4;border-radius:16px"><tr><td class="lm-box-td" style="padding:20px 24px;' . lm_em_font() . '">'
@@ -216,9 +216,9 @@ function lm_em_body( $email, $vars = array() ) {
 			// Ocjena na Google-u (21.10.2026, SEO: više recenzija za Lady Mom profil).
 			$recenzija = (array) get_option( 'lm_google_recenzije', array() );
 			if ( ! $b && ! empty( $recenzija['lady_mom'] ) ) {
-				echo lm_em_red( lm_em_box( '<div style="font-size:17px;font-weight:800;color:#6d4e39;margin:0 0 6px">Zadovoljni ste kupovinom?</div>'
-					. '<div style="font-size:15px;line-height:1.55;color:#7a6250;margin:0 0 14px">Kad isprobate artikle, ostavite nam ocjenu na Google-u. Mnogo nam znači, a drugim mamama pomaže da nas pronađu.</div>'
-					. lm_em_btn( $recenzija['lady_mom'], 'OCIJENITE NAS NA GOOGLE-U', true ) ), 12 );
+				echo lm_em_red( lm_em_box( '<div style="font-size:17px;font-weight:800;color:#6d4e39;margin:0 0 6px">Sviđa ti se kupovina?</div>'
+					. '<div style="font-size:15px;line-height:1.55;color:#7a6250;margin:0 0 14px">Kad isprobaš artikle, ostavi nam ocjenu na Google-u. Mnogo nam znači, a drugim mamama pomaže da nas pronađu.</div>'
+					. lm_em_btn( $recenzija['lady_mom'], 'OCIJENI NAS NA GOOGLE-U', true ) ), 12 );
 			}
 			break;
 		case 'customer_failed_order':
@@ -254,8 +254,8 @@ function lm_em_body( $email, $vars = array() ) {
 		case 'customer_new_account':
 			$pw = ! empty( $vars['password_generated'] ) && ! empty( $vars['set_password_url'] );
 			echo lm_em_red( lm_em_btn( $pw ? $vars['set_password_url'] : wc_get_page_permalink( 'myaccount' ), $pw ? 'POSTAVI LOZINKU' : 'OTVORI MOJ NALOG' ), 20 );
-			$lista = '<h2 style="margin:0 0 12px;font-size:19px;font-weight:800;color:#6d4e39">Šta vam nalog donosi</h2>';
-			foreach ( array( array( 'Lista želja', 'Sačuvajte ono što vam se dopada i podijelite listu linkom.' ), array( 'Sve porudžbine na jednom mjestu', 'Status, detalji i ranije kupovine.' ), array( 'Brža kupovina', 'Adresa i telefon su već upisani pri sljedećoj porudžbini.' ) ) as $bb ) {
+			$lista = '<h2 style="margin:0 0 12px;font-size:19px;font-weight:800;color:#6d4e39">Šta ti nalog donosi</h2>';
+			foreach ( array( array( 'Lista želja', 'Sačuvaj ono što ti se dopada i podijeli listu linkom.' ), array( 'Sve porudžbine na jednom mjestu', 'Status, detalji i ranije kupovine.' ), array( 'Brža kupovina', 'Adresa i telefon su već upisani pri sljedećoj porudžbini.' ) ) as $bb ) {
 				$lista .= '<div style="margin:0 0 10px">' . lm_em_box( '<div style="font-size:15px;font-weight:700;color:#6d4e39;margin:0 0 4px">' . esc_html( $bb[0] ) . '</div><div style="font-size:14px;line-height:1.5">' . esc_html( $bb[1] ) . '</div>' ) . '</div>';
 			}
 			echo lm_em_red( $lista, 30 );
@@ -263,7 +263,7 @@ function lm_em_body( $email, $vars = array() ) {
 		case 'customer_reset_password':
 			$url = add_query_arg( array( 'key' => isset( $vars['reset_key'] ) ? $vars['reset_key'] : '', 'id' => isset( $vars['user_id'] ) ? $vars['user_id'] : '', 'login' => rawurlencode( isset( $vars['user_login'] ) ? $vars['user_login'] : '' ) ), wc_get_endpoint_url( 'lost-password', '', wc_get_page_permalink( 'myaccount' ) ) );
 			echo lm_em_red( lm_em_btn( $url, 'POSTAVI NOVU LOZINKU' ), 20 );
-			echo lm_em_red( '<div style="font-size:14px;line-height:1.6;color:#8a7565">Ako niste vi tražili novu lozinku, zanemarite ovaj email — lozinka ostaje ista.</div>', 22 );
+			echo lm_em_red( '<div style="font-size:14px;line-height:1.6;color:#8a7565">Ako zahtjev nije tvoj, zanemari ovaj email — lozinka ostaje ista.</div>', 22 );
 			break;
 	}
 	echo lm_em_akcije_dodataka( 'woocommerce_email_after_order_table', $o, $email, false ); // phpcs:ignore

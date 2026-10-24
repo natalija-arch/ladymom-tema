@@ -21,7 +21,7 @@ add_action( 'woocommerce_after_checkout_validation', function ( $podaci, $greske
 	}
 	$cifre = preg_replace( '/\D+/', '', $tel );
 	if ( strlen( $cifre ) < 8 || strlen( $cifre ) > 15 ) {
-		$greske->add( 'billing_phone_validation', 'Telefon nije ispravan. Upišite broj sa pozivnim brojem, npr. 067 123 456.', array( 'id' => 'billing_phone' ) );
+		$greske->add( 'billing_phone_validation', 'Telefon nije ispravan. Upiši broj sa pozivnim brojem, npr. 067 123 456.', array( 'id' => 'billing_phone' ) );
 	}
 }, 20, 2 );
 
@@ -67,10 +67,10 @@ add_filter( 'woocommerce_gateway_description', function ( $opis, $id ) {
 	}
 	$v = lm_cod_vrsta_korpe();
 	if ( 'butik' === $v ) {
-		return 'Plaćate prilikom preuzimanja u butiku, Branka Deletića bb.';
+		return 'Plaćaš prilikom preuzimanja u butiku, Branka Deletića bb.';
 	}
 	if ( 'bez_dostave' === $v ) {
-		return 'Plaćate gotovinom. Javićemo vam se sa detaljima.';
+		return 'Plaćaš gotovinom. Javićemo ti se sa detaljima.';
 	}
 	return $opis;
 }, 20, 2 );
@@ -84,8 +84,8 @@ add_action( 'woocommerce_thankyou_cod', function ( $order_id ) {
 	$gw = WC()->payment_gateways() ? WC()->payment_gateways()->payment_gateways() : array();
 	if ( isset( $gw['cod'] ) ) {
 		$gw['cod']->instructions = 'butik' === $v
-			? 'Porudžbinu plaćate prilikom preuzimanja u butiku, Branka Deletića bb. Javićemo vam kad bude spremna.'
-			: 'Plaćate gotovinom. Javićemo vam se telefonom ili emailom sa detaljima.';
+			? 'Porudžbinu plaćaš prilikom preuzimanja u butiku, Branka Deletića bb. Javićemo ti kad bude spremna.'
+			: 'Plaćaš gotovinom. Javićemo ti se telefonom ili emailom sa detaljima.';
 	}
 }, 1 );
 

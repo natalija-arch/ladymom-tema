@@ -46,7 +46,7 @@ add_action( 'wp_footer', function () {
 			if (!$red.length) { $red = $polje.closest('.woocommerce-terms-and-conditions-wrapper'); }
 			ocisti();
 			$red.addClass('lm-uslovi-greska');
-			$red.append('<span class="lm-uslovi-poruka" role="alert">Označite da ste pročitali i prihvatate uslove korišćenja, pa kliknite „Poruči“.</span>');
+			$red.append('<span class="lm-uslovi-poruka" role="alert">Potvrdi da prihvataš uslove korišćenja, pa klikni „Poruči“.</span>');
 			$('.woocommerce-NoticeGroup-checkout').hide();
 
 			// Zaustavi WooCommerce skrol na vrh i idi do polja (sa malo prostora iznad).

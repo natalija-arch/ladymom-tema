@@ -179,7 +179,7 @@ add_filter( 'wpseo_title', function ( $naslov ) {
 		$t = get_queried_object();
 		if ( $t && '' === lm_seo_term_yoast( $t, 'title' ) ) {
 			$o = lm_seo_kat_oznaka( $t ) . $strana;
-			return lm_seo_prvi_do( array( $o . ' – kupite online | Lady Mom Podgorica', $o . ' – kupite online | Lady Mom', $o . ' | Lady Mom' ), LM_SEO_MAX_NASLOV );
+			return lm_seo_prvi_do( array( $o . ' – kupi online | Lady Mom Podgorica', $o . ' – kupi online | Lady Mom', $o . ' | Lady Mom' ), LM_SEO_MAX_NASLOV );
 		}
 	}
 
