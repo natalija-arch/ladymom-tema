@@ -89,6 +89,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
 		'google-prijava.php',
 		'nalog-uz-porudzbinu.php',
 		'molba-za-ocjenu.php',
+		'tabele-velicina.php',
 		'naslov-traka.php',
 		'bez-default.php',
 		'jedna-opcija.php',
