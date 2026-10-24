@@ -19,7 +19,12 @@ add_filter( 'wpseo_schema_organization', function ( $data ) {
 	$data['priceRange'] = '€€';
 	$data['currenciesAccepted'] = 'EUR';
 	$data['paymentAccepted']    = 'Gotovina, Visa, Mastercard';
-	$data['image']      = home_url( '/wp-content/uploads/2026/09/lady-mom-butik-podgorica.jpg' );
+	// Slika butika (24.10.2026, c9): fotografija unutrašnjosti sa Google profila (objavio vlasnik), medij #51612.
+	// Ranije je ovdje bila fotografija sa slajdera (2026/09/lady-mom-butik-podgorica.jpg).
+	$data['image']      = array(
+		home_url( '/wp-content/uploads/2026/10/lady-mom-butik-podgorica-unutra.jpg' ),
+		home_url( '/wp-content/uploads/2026/09/lady-mom-butik-podgorica.jpg' ),
+	);
 	$data['address']    = array(
 		'@type'           => 'PostalAddress',
 		'streetAddress'   => 'Branka Deletića bb',
