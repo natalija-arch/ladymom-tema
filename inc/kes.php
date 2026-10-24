@@ -12,7 +12,7 @@
  * 3) Dnevnik brisanja keša (dok traje ERP log, do 30.11.): cijeli keš u lm_kes_puni_log, artikli u
  *    lm_kes_artikal_log (po 300 zapisa), da se vidi šta i koliko često ga pokreće.
  * 4) Zagrijavanje (n16, 24.10.2026): poslije brisanja keša sajt u pozadini (WP-Cron, minut kasnije)
- *    sam otvori obrisane stranice kao gost, za računar i telefon, pa prvi kupac dobija keširanu
+ *    sam otvori obrisane stranice kao gost, pa prvi kupac dobija keširanu
  *    stranicu (~60 ms) umjesto 1,1–1,2 s. Artikal poslije ERP izmjene; poslije brisanja cijelog
  *    keša početna, prodavnica, 12 kategorija sa najviše artikala, škola i kontakt. LiteSpeed-ov crawler hosting ne dozvoljava.
  */
@@ -97,7 +97,7 @@ add_action( 'litespeed_purged_all', function () {
 	lm_kes_zagrij_dodaj( $adrese );
 }, 10, 0 );
 
-/** 4) Zagrijavanje: adrese u red, obrada minut kasnije (WP-Cron), najviše 25 adresa po prolazu. */
+/** 4) Zagrijavanje: adrese u red, obrada minut kasnije (WP-Cron), najviše 15 adresa po prolazu, 2 s razmaka. */
 function lm_kes_zagrij_dodaj( $adrese ) {
 	$red = get_option( 'lm_kes_zagrij', array() );
 	$red = is_array( $red ) ? $red : array();
@@ -114,23 +114,28 @@ function lm_kes_zagrij_dodaj( $adrese ) {
 add_action( 'lm_kes_zagrij', function () {
 	$red = get_option( 'lm_kes_zagrij', array() );
 	$red = is_array( $red ) ? $red : array();
-	$sad = array_slice( $red, 0, 25 );
-	update_option( 'lm_kes_zagrij', array_slice( $red, 25 ), false );
-	$ua  = array(
-		'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 LadyMomZagrijavanje',
-		'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1 LadyMomZagrijavanje',
-	);
+	$sad = array_slice( $red, 0, 15 );
+	update_option( 'lm_kes_zagrij', array_slice( $red, 15 ), false );
+	// LiteSpeed ne pravi poseban keš za telefon (cache-mobile isključen), pa je dovoljan jedan zahtjev.
+	// Imunify vraća 429 na sat vremena kad server prečesto otvara sam sebe (vidi server-veza.php),
+	// zato pauza od 2 s između adresa; ako stigne 429, prolaz staje i red ostaje za kasnije.
 	$ok = 0;
-	foreach ( $sad as $u ) {
-		foreach ( $ua as $a ) {
-			$r = wp_remote_get( $u, array( 'timeout' => 20, 'redirection' => 2, 'user-agent' => $a, 'cookies' => array(), 'headers' => array( 'Accept' => 'text/html' ) ) );
-			if ( ! is_wp_error( $r ) && 200 === (int) wp_remote_retrieve_response_code( $r ) ) {
-				$ok++;
-			}
+	foreach ( $sad as $i => $u ) {
+		if ( $i ) {
+			sleep( 2 );
+		}
+		$r   = wp_remote_get( $u, array( 'timeout' => 20, 'redirection' => 2, 'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 LadyMomZagrijavanje', 'cookies' => array() ) );
+		$kod = is_wp_error( $r ) ? 0 : (int) wp_remote_retrieve_response_code( $r );
+		if ( 200 === $kod ) {
+			$ok++;
+		} elseif ( 429 === $kod ) {
+			update_option( 'lm_kes_zagrij', array_values( array_unique( array_merge( array_slice( $sad, $i ), get_option( 'lm_kes_zagrij', array() ) ) ) ), false );
+			update_option( 'lm_kes_zagrij_zadnje', array( 't' => wp_date( 'Y-m-d H:i:s' ), 'adresa' => $i, 'ok' => $ok, 'greska' => '429 Imunify' ), false );
+			return;
 		}
 	}
-	update_option( 'lm_kes_zagrij_zadnje', array( 't' => wp_date( 'Y-m-d H:i:s' ), 'adresa' => count( $sad ), 'ok' => $ok, 'ostalo' => max( 0, count( $red ) - 25 ) ), false );
-	if ( count( $red ) > 25 && ! wp_next_scheduled( 'lm_kes_zagrij' ) ) {
+	update_option( 'lm_kes_zagrij_zadnje', array( 't' => wp_date( 'Y-m-d H:i:s' ), 'adresa' => count( $sad ), 'ok' => $ok, 'ostalo' => max( 0, count( $red ) - 15 ) ), false );
+	if ( count( $red ) > 15 && ! wp_next_scheduled( 'lm_kes_zagrij' ) ) {
 		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'lm_kes_zagrij' );
 	}
 } );
