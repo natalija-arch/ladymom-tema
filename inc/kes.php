@@ -11,6 +11,10 @@
  *    najviše jednom u 30 minuta. Odmah se brišu samo stranice tih kategorija i brendova i početna.
  * 3) Dnevnik brisanja keša (dok traje ERP log, do 30.11.): cijeli keš u lm_kes_puni_log, artikli u
  *    lm_kes_artikal_log (po 300 zapisa), da se vidi šta i koliko često ga pokreće.
+ * 4) Zagrijavanje (n16, 24.10.2026): poslije brisanja keša sajt u pozadini (WP-Cron, minut kasnije)
+ *    sam otvori obrisane stranice kao gost, za računar i telefon, pa prvi kupac dobija keširanu
+ *    stranicu (~60 ms) umjesto 1,1–1,2 s. Artikal poslije ERP izmjene; poslije brisanja cijelog
+ *    keša početna, prodavnica, glavne kategorije, škola i kontakt. LiteSpeed-ov crawler hosting ne dozvoljava.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,6 +37,7 @@ add_action( 'woocommerce_product_object_updated_props', function ( $product, $pr
 	}
 	$obrisano[ $id ] = true;
 	do_action( 'litespeed_purge_post', $id );
+	lm_kes_zagrij_dodaj( array( get_permalink( $id ) ) );
 	lm_kes_zapisi( 'lm_kes_artikal_log', array( 'id' => $id, 'props' => implode( ',', array_values( array_intersect( (array) $props, $bitno ) ) ) ) );
 }, 10, 2 );
 
@@ -81,4 +86,51 @@ add_action( 'litespeed_purged_all', function () {
 		'uri'  => substr( (string) $uri, 0, 120 ),
 		'k'    => get_current_user_id(),
 	) );
+	$adrese = array( home_url( '/' ), get_permalink( wc_get_page_id( 'shop' ) ), home_url( '/skola-za-trudnice/' ), home_url( '/kontakt/' ) );
+	$kat    = get_terms( array( 'taxonomy' => 'product_cat', 'parent' => 0, 'hide_empty' => true, 'orderby' => 'count', 'order' => 'DESC', 'number' => 10 ) );
+	foreach ( is_array( $kat ) ? $kat : array() as $k ) {
+		$l = get_term_link( $k );
+		if ( is_string( $l ) ) {
+			$adrese[] = $l;
+		}
+	}
+	lm_kes_zagrij_dodaj( $adrese );
 }, 10, 0 );
+
+/** 4) Zagrijavanje: adrese u red, obrada minut kasnije (WP-Cron), najviše 25 adresa po prolazu. */
+function lm_kes_zagrij_dodaj( $adrese ) {
+	$red = get_option( 'lm_kes_zagrij', array() );
+	$red = is_array( $red ) ? $red : array();
+	foreach ( (array) $adrese as $u ) {
+		if ( is_string( $u ) && 0 === strpos( $u, home_url( '/' ) ) ) {
+			$red[] = strtok( $u, '#' );
+		}
+	}
+	update_option( 'lm_kes_zagrij', array_slice( array_values( array_unique( $red ) ), -60 ), false );
+	if ( ! wp_next_scheduled( 'lm_kes_zagrij' ) ) {
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'lm_kes_zagrij' );
+	}
+}
+add_action( 'lm_kes_zagrij', function () {
+	$red = get_option( 'lm_kes_zagrij', array() );
+	$red = is_array( $red ) ? $red : array();
+	$sad = array_slice( $red, 0, 25 );
+	update_option( 'lm_kes_zagrij', array_slice( $red, 25 ), false );
+	$ua  = array(
+		'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 LadyMomZagrijavanje',
+		'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1 LadyMomZagrijavanje',
+	);
+	$ok = 0;
+	foreach ( $sad as $u ) {
+		foreach ( $ua as $a ) {
+			$r = wp_remote_get( $u, array( 'timeout' => 20, 'redirection' => 2, 'user-agent' => $a, 'cookies' => array(), 'headers' => array( 'Accept' => 'text/html' ) ) );
+			if ( ! is_wp_error( $r ) && 200 === (int) wp_remote_retrieve_response_code( $r ) ) {
+				$ok++;
+			}
+		}
+	}
+	update_option( 'lm_kes_zagrij_zadnje', array( 't' => wp_date( 'Y-m-d H:i:s' ), 'adresa' => count( $sad ), 'ok' => $ok, 'ostalo' => max( 0, count( $red ) - 25 ) ), false );
+	if ( count( $red ) > 25 && ! wp_next_scheduled( 'lm_kes_zagrij' ) ) {
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'lm_kes_zagrij' );
+	}
+} );
